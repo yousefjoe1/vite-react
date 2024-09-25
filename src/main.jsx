@@ -13,6 +13,7 @@ import MainLayout from "./_components/MainLayout/MainLayout.jsx";
 import Home from "./Pages/Home/Home.jsx";
 import Cart from "./Pages/Cart/Cart.jsx";
 import Admin from "./Pages/admin/Admin.jsx";
+import Auth from "./Pages/Auth/Auth.jsx";
 
 
 const queryClient = new QueryClient();
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "admin",
         element: <Admin />,
+      },
+      {
+        path: "auth",
+        element: <Auth />,
       },
     ],
   },
