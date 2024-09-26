@@ -14,6 +14,7 @@ import Home from "./Pages/Home/Home.jsx";
 import Cart from "./Pages/Cart/Cart.jsx";
 import Admin from "./Pages/admin/Admin.jsx";
 import Auth from "./Pages/Auth/Auth.jsx";
+import CategoriesPage from "./Pages/CategoriesPage/CategoriesPage.jsx";
 
 
 const queryClient = new QueryClient();
@@ -31,6 +32,11 @@ const router = createBrowserRouter([
       {
         path: "cart",
         element: <Cart />,
+      },
+
+      {
+        path: "categories",
+        element: <CategoriesPage />,
       },
       {
         path: "admin",
