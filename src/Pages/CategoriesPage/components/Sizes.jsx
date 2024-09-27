@@ -7,29 +7,29 @@ import {
   AccordionPanel,
   Box,
 } from "@chakra-ui/react";
+import { sizes } from "../categoriesData";
 
-const Sizes = () => {
+const Sizes = ({selectSize,sizeValue}) => {
   return (
     <Accordion allowToggle>
       <AccordionItem className="border-none">
         <h2>
-          <AccordionButton>
+          <AccordionButton px={0}>
             <Box as="span" flex="1" textAlign="left">
               Size
             </Box>
             <AccordionIcon />
           </AccordionButton>
         </h2>
-        <AccordionPanel pb={4}>
-          {/* {sizes.map((el, id) => (
-            <Link
+        <AccordionPanel pb={4} px={0} className="flex flex-wrap gap-2">
+          {sizes.map((el, id) => (
+            <button
               key={id}
-              to={`/categories?category=${el}`}
-              className="mt-5 flex justify-between items-center"
+              className={`bg-[${el == sizeValue ? 'black': '#F0F0F0'}] p-2 rounded-2xl flex justify-between items-center`}
             >
               <span>{el}</span>
-            </Link>
-          ))} */}
+            </button>
+          ))}
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
