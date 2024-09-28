@@ -14,6 +14,8 @@ import useFetch from "../../_hooks/useFetch";
 import MySpinner from "../../_components/MainLayout/MySpinner";
 import Sizes from "./components/Sizes";
 import PriceRange from "./components/PriceRange";
+import Colors from "./components/Colors";
+import DressStyle from "./components/DressStyle";
 
 const CategoriesPage = () => {
   const { data, isLoading, isError } = useFetch("products");
@@ -67,17 +69,15 @@ const CategoriesPage = () => {
 
           <hr className="my-3" />
 
-          <div className="grid grid-cols-4 gap-5 ">
-            {
-              colors.map(((el,id)=>(
-                <button onClick={()=> {}} style={{background: el.name}} key={id} className={`w-8 h-8 rounded-full `} />
-              )))
-            }
-          </div>
+          <Colors />
 
           <hr className="my-3" />
 
           <Sizes />
+
+          <hr className="my-3" />
+
+          <DressStyle />
 
         </div>
 

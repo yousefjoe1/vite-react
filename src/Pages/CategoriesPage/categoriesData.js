@@ -17,3 +17,5 @@ export const colors = [
 ];
 
 export const sizes = ["Small", "Medium", "Large", "X-Large"];
+
+export const dress_style = ["Casual", "Formal", "Party", "Gym"];
