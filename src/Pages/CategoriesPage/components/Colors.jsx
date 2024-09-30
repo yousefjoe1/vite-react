@@ -9,7 +9,7 @@ const Colors = () => {
           onClick={() => {}}
           style={{ background: el.name }}
           key={id}
-          className={`w-8 h-8 rounded-full `}
+          className={`w-8 h-8 rounded-full border-[1px] `}
         />
       ))}
     </div>

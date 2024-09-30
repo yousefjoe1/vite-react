@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useSearchParams } from "react-router-dom";
 
 import {
   Breadcrumb,
@@ -6,22 +7,27 @@ import {
   BreadcrumbLink,
 } from "@chakra-ui/react";
 
+import { categories } from "./categoriesData";
+
 import { ChevronRightIcon } from "lucide-react";
 import { MdFilterList } from "react-icons/md";
-import { Link, useSearchParams } from "react-router-dom";
-import { colors, categories } from "./categoriesData";
+
 import useFetch from "../../_hooks/useFetch";
 import MySpinner from "../../_components/MainLayout/MySpinner";
+
 import Sizes from "./components/Sizes";
 import PriceRange from "./components/PriceRange";
 import Colors from "./components/Colors";
 import DressStyle from "./components/DressStyle";
 
+import FilterMobile from "./components/FilterMobile";
+
 const CategoriesPage = () => {
   const { data, isLoading, isError } = useFetch("products");
   const [searchParams] = useSearchParams();
   let categoryName = searchParams.get("category");
-  //   console.log();
+
+
 
   return (
     <div className="max-w-7xl pb-16 mx-auto px-4 sm:px-6 lg:px-8">
@@ -38,7 +44,10 @@ const CategoriesPage = () => {
         </BreadcrumbItem>
       </Breadcrumb>
 
-      <div className="flex gap-5 mt-4">
+      <div className="flex lg:flex-row flex-row-reverse justify-between gap-5 mt-4">
+
+
+        {/* filter in web */}
         <div className="filters lg:block hidden p-4 w-[295px] border-2 rounded-2xl border-gray-400">
           <h3 className="flex justify-between items-center">
             <span>Filters</span>
@@ -79,13 +88,26 @@ const CategoriesPage = () => {
 
           <DressStyle />
 
+          <button className="bg-black rounded-3xl mt-3 text-white p-2 w-[99%] mx-auto ">
+            Applay Filter
+          </button>
+
         </div>
+
+        {/* filter in mobile */}
+        <FilterMobile />
+
 
         {isError || isLoading ? (
           <MySpinner />
         ) : (
-          <div className="products">
-            <h3 className="font-bold"> {categoryName} </h3>
+          <div className="products w-full">
+            <h3 className="flex gap-3 items-center lg:justify-between"> 
+              <span className="lg:text-2xl text-lg font-bold">
+              {categoryName} 
+              </span>
+              <span className="text-sm">Showing 1-10 of 100 Products</span>
+              </h3>
           </div>
         )}
       </div>
