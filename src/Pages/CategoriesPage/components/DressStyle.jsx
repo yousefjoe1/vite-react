@@ -27,7 +27,7 @@ const DressStyle = () => {
         {dress_style.map((el, id) => (
       <Link
         key={id}
-        to={`/categories?category=${el}`}
+        to={`/categories?category=${el.toLowerCase()}`}
         className="mt-5 flex justify-between items-center"
       >
         <span>{el}</span>

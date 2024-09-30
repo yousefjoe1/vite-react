@@ -1,13 +1,7 @@
-import React from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import React, { useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-} from "@chakra-ui/react";
-
-import { categories } from "./categoriesData";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 
 import { ChevronRightIcon } from "lucide-react";
 import { MdFilterList } from "react-icons/md";
@@ -19,15 +13,40 @@ import Sizes from "./components/Sizes";
 import PriceRange from "./components/PriceRange";
 import Colors from "./components/Colors";
 import DressStyle from "./components/DressStyle";
+import Categories from "./components/Categories";
 
 import FilterMobile from "./components/FilterMobile";
 
 const CategoriesPage = () => {
-  const { data, isLoading, isError } = useFetch("products");
-  const [searchParams] = useSearchParams();
-  let categoryName = searchParams.get("category");
+  const [searchParams, setSearchParams] = useSearchParams();
 
+  let category = useRef()
+  let minPrice = useRef();
+  let maxPrice = useRef();
+  let color = useRef();
+  let size = useRef();
 
+  let categoryName = searchParams.get("dress_style");
+
+  const { data, isLoading, isError } = useFetch(`products?${categoryName}`);
+
+  // const setFilter = (name, value) => {
+  //   const newSearchParams = new URLSearchParams(searchParams);
+  //   newSearchParams.set(name, value);
+  //   setSearchParams(newSearchParams);
+  // };
+
+  const applayFilter = (second) => {
+    
+  };
+
+  const handlePrice = (name, value) => {
+    if(name == 'min'){
+      minPrice.current = value
+    }else {
+      maxPrice.current = value
+    }
+  };
 
   return (
     <div className="max-w-7xl pb-16 mx-auto px-4 sm:px-6 lg:px-8">
@@ -45,8 +64,6 @@ const CategoriesPage = () => {
       </Breadcrumb>
 
       <div className="flex lg:flex-row flex-row-reverse justify-between gap-5 mt-4">
-
-
         {/* filter in web */}
         <div className="filters lg:block hidden p-4 w-[295px] border-2 rounded-2xl border-gray-400">
           <h3 className="flex justify-between items-center">
@@ -57,62 +74,51 @@ const CategoriesPage = () => {
           </h3>
 
           <hr className="mt-3" />
-
-          <div className="categories mt-3">
-            {categories.map((el, id) => (
-              <Link
-                key={id}
-                to={`/categories?category=${el.link}`}
-                className="mt-5 flex justify-between items-center"
-              >
-                <span>{el.name}</span>
-                <ChevronRightIcon size={20} color="gray" />
-              </Link>
-            ))}
-          </div>
+          {/* sub categoreis */}
+          <Categories selectSubCategory={(c)=> category.current = c} />
 
           <hr className="my-3" />
 
           <h3 className="font-bold">Price</h3>
-            <PriceRange />
+          <PriceRange handlePrice={handlePrice} />
 
           <hr className="my-3" />
 
-          <Colors />
+          <Colors setFilter={(c)=> color.current = c} />
 
           <hr className="my-3" />
 
-          <Sizes />
+          <Sizes  selectSize={(s)=> size.current = s}/>
 
           <hr className="my-3" />
 
+          {/* main categoreis */}
           <DressStyle />
 
-          <button className="bg-black rounded-3xl mt-3 text-white p-2 w-[99%] mx-auto ">
+          <button
+            onClick={applayFilter}
+            className="bg-black rounded-3xl mt-3 text-white p-2 w-[99%] mx-auto "
+          >
             Applay Filter
           </button>
-
         </div>
 
         {/* filter in mobile */}
         <FilterMobile />
 
-
         {isError || isLoading ? (
           <MySpinner />
         ) : (
           <div className="products w-full">
-            <h3 className="flex gap-3 items-center lg:justify-between"> 
+            <h3 className="flex gap-3 items-center lg:justify-between">
               <span className="lg:text-2xl text-lg font-bold">
-              {categoryName} 
+                {categoryName}
               </span>
               <span className="text-sm">Showing 1-10 of 100 Products</span>
-              </h3>
+            </h3>
           </div>
         )}
       </div>
-
-
     </div>
   );
 };
