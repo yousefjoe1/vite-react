@@ -31,7 +31,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#F0F0F0] text-black relative pt-32 mt-16">
+    <footer className="bg-[#F0F0F0] text-black relative pt-32 mt-24 sm:mt-32 md:mt-40">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Newsletter Section */}
         <div className="bg-black text-white rounded-2xl p-8 sm:p-10 mb-8 absolute top-0 left-4 right-4 sm:left-6 sm:right-6 lg:left-8 lg:right-8 -translate-y-1/2 max-w-[360px] sm:max-w-[1240px] mx-auto">
@@ -45,7 +45,7 @@ const Footer = () => {
                 placeholder="Enter your email address"
                 className="bg-white text-black w-full p-2 rounded-full text-sm"
               />
-              <button className="bg-white text-black hover:bg-gray-200 py-2 px-6 rounded-full w-full text-base font-bold">
+              <button className="bg-white text-black hover:bg-gray-200 py-2 px-6 rounded-full w-full text-sm font-bold">
                 Subscribe to Newsletter
               </button>
             </div>
