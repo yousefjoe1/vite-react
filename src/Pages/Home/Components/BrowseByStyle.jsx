@@ -51,21 +51,13 @@ const BrowseByStyle = () => {
               isMobile ? "grid-cols-1" : "grid-cols-3"
             }`}
           >
-            {isMobile ? (
-              styleCategories.map((category) => (
-                <StyleCard key={category.name} category={category} />
-              ))
-            ) : (
-              <>
-                <StyleCard category={styleCategories[0]} />
-
-                <StyleCard category={styleCategories[1]} />
-
-                <StyleCard category={styleCategories[2]} />
-
-                <StyleCard category={styleCategories[3]} />
-              </>
-            )}
+            {styleCategories.map((category) => (
+              <StyleCard
+                key={category.name}
+                category={category}
+                isMobile={isMobile}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -73,12 +65,12 @@ const BrowseByStyle = () => {
   );
 };
 
-function StyleCard({ category }) {
+function StyleCard({ category, isMobile }) {
   return (
     <Link
       to={`/categories?dress_style=${category.name.toLowerCase()}`}
       className={`block overflow-hidden h-full rounded-lg shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
-        category.size === "large" ? "col-span-2" : ""
+        !isMobile && category.size === "large" ? "col-span-2" : ""
       }`}
     >
       <div className="p-0 h-full">
@@ -104,6 +96,7 @@ StyleCard.propTypes = {
     imageUrl: PropTypes.string.isRequired,
     size: PropTypes.oneOf(["normal", "large"]).isRequired,
   }).isRequired,
+  isMobile: PropTypes.bool.isRequired,
 };
 
 export default BrowseByStyle;
