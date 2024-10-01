@@ -8,6 +8,7 @@ import {
   X,
   LogIn,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -78,9 +79,9 @@ const Navbar = () => {
               <button className="lg:hidden p-2" onClick={toggleMenu}>
                 <Menu className="h-6 w-6" />
               </button>
-              <a href="/" className="font-cairo font-bold text-xl">
+              <Link to="/" className="font-cairo font-bold text-xl">
                 SHOP.CO
-              </a>
+              </Link>
               <div className="hidden lg:ml-6 lg:flex lg:space-x-8">
                 <div className="relative group" ref={shopMenuRef}>
                   <button
@@ -92,51 +93,51 @@ const Navbar = () => {
                   </button>
                   {isShopMenuOpen && (
                     <div className="absolute z-10 left-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <a
-                        href="/shop/mens"
+                      <Link 
+                        to="/shop/mens"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                       >
                         Men&apos;s Clothing
-                      </a>
-                      <a
-                        href="/shop/womens"
+                      </Link>
+                      <Link 
+                        to="/shop/womens"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                       >
                         Women&apos;s Clothing
-                      </a>
-                      <a
-                        href="/shop/accessories"
+                      </Link>
+                      <Link 
+                        to="/shop/accessories"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                       >
                         Accessories
-                      </a>
-                      <a
-                        href="/shop/shoes"
+                      </Link>
+                      <Link 
+                        to="/shop/shoes"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                       >
                         Shoes
-                      </a>
+                      </Link>
                     </div>
                   )}
                 </div>
-                <a
-                  href="/on-sale"
+                <Link
+                  to="/on-sale"
                   className="text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium hover:text-indigo-600 transition duration-150 ease-in-out"
                 >
                   On Sale
-                </a>
-                <a
-                  href="/new-arrivals"
+                </Link>
+                <Link
+                  to="/new-arrivals"
                   className="text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium hover:text-indigo-600 transition duration-150 ease-in-out"
                 >
                   New Arrivals
-                </a>
-                <a
-                  href="/brands"
+                </Link>
+                <Link
+                  to="/brands"
                   className="text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium hover:text-indigo-600 transition duration-150 ease-in-out"
                 >
                   Brands
-                </a>
+                </Link>
               </div>
             </div>
             <div className="hidden lg:flex flex-1 justify-center px-2">
@@ -206,24 +207,24 @@ const Navbar = () => {
                   <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                     {isLoggedIn ? (
                       <>
-                        <a
-                          href="/account"
+                        <Link
+                          to="/account"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                         >
                           Account
-                        </a>
-                        <a
-                          href="/orders"
+                        </Link>
+                        <Link
+                          to="/orders"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                         >
                           Orders
-                        </a>
-                        <a
-                          href="/address"
+                        </Link>
+                        <Link
+                          to="/address"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                         >
                           Address
-                        </a>
+                        </Link>
                         <button
                           onClick={handleLogout}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
@@ -233,18 +234,16 @@ const Navbar = () => {
                       </>
                     ) : (
                       <>
-                        <button
-                          onClick={handleLogin}
+                        <Link to={'auth?mode=login'}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                         >
                           Login
-                        </button>
-                        <button
-                          onClick={handleRegister}
+                        </Link>
+                        <Link to={`auth?mode=register`}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                         >
                           Register
-                        </button>
+                        </Link>
                       </>
                     )}
                   </div>
@@ -270,51 +269,51 @@ const Navbar = () => {
                 </button>
                 {isShopMenuOpen && (
                   <div className="pl-4">
-                    <a
-                      href="/shop/mens"
+                    <Link
+                      to="/shop/mens"
                       className="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 transition duration-150 ease-in-out"
                     >
                       Men&apos;s Clothing
-                    </a>
-                    <a
-                      href="/shop/womens"
+                    </Link>
+                    <Link
+                      to="/shop/womens"
                       className="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 transition duration-150 ease-in-out"
                     >
                       Women&apos;s Clothing
-                    </a>
-                    <a
-                      href="/shop/accessories"
+                    </Link>
+                    <Link
+                      to="/shop/accessories"
                       className="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 transition duration-150 ease-in-out"
                     >
                       Accessories
-                    </a>
-                    <a
-                      href="/shop/shoes"
+                    </Link>
+                    <Link
+                      to="/shop/shoes"
                       className="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 transition duration-150 ease-in-out"
                     >
                       Shoes
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>
-              <a
-                href="/on-sale"
+              <Link
+                to="/on-sale"
                 className="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 transition duration-150 ease-in-out"
               >
                 On Sale
-              </a>
-              <a
-                href="/new-arrivals"
+              </Link>
+              <Link
+                to="/new-arrivals"
                 className="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 transition duration-150 ease-in-out"
               >
                 New Arrivals
-              </a>
-              <a
-                href="/brands"
+              </Link>
+              <Link
+                to="/brands"
                 className="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 transition duration-150 ease-in-out"
               >
                 Brands
-              </a>
+              </Link>
             </div>
           </div>
         )}

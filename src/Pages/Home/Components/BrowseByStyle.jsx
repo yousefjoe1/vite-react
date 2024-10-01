@@ -4,6 +4,7 @@ import Casual from "/images/casual.png";
 import Formal from "/images/formal.png";
 import Party from "/images/party.png";
 import Gym from "/images/gym.png";
+import { Link } from "react-router-dom";
 
 const styleCategories = [
   {
@@ -38,9 +39,6 @@ const BrowseByStyle = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const handleCardClick = (category) => {
-    console.log(`Clicked on ${category.name}`);
-  };
 
   return (
     <div className="w-full flex justify-center bg-white p-4 md:p-8 font-inter">
@@ -59,30 +57,25 @@ const BrowseByStyle = () => {
                 <StyleCard
                   key={category.name}
                   category={category}
-                  onClick={() => handleCardClick(category)}
                 />
               ))
             ) : (
               <>
                 <StyleCard
                   category={styleCategories[0]}
-                  onClick={() => handleCardClick(styleCategories[0])}
                 />
                 <div className="col-span-2">
                   <StyleCard
                     category={styleCategories[1]}
-                    onClick={() => handleCardClick(styleCategories[1])}
                   />
                 </div>
                 <div className="col-span-2">
                   <StyleCard
                     category={styleCategories[2]}
-                    onClick={() => handleCardClick(styleCategories[2])}
                   />
                 </div>
                 <StyleCard
                   category={styleCategories[3]}
-                  onClick={() => handleCardClick(styleCategories[3])}
                 />
               </>
             )}
@@ -93,11 +86,10 @@ const BrowseByStyle = () => {
   );
 };
 
-function StyleCard({ category, onClick }) {
+function StyleCard({ category }) {
   return (
-    <div
+    <Link to={`/categories?dress_style=${category.name.toLowerCase()}`}
       className="overflow-hidden h-full rounded-lg shadow-md cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
-      onClick={onClick}
     >
       <div className="p-0 h-full">
         <div className="relative aspect-[3/2] h-full">
@@ -112,7 +104,7 @@ function StyleCard({ category, onClick }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
