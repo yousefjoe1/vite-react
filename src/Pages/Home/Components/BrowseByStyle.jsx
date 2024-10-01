@@ -39,7 +39,6 @@ const BrowseByStyle = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-
   return (
     <div className="w-full flex justify-center bg-white p-4 md:p-8 font-inter">
       <div className="w-full md:w-4/5 bg-[#F0F0F0] rounded-lg shadow-md overflow-hidden">
@@ -52,33 +51,13 @@ const BrowseByStyle = () => {
               isMobile ? "grid-cols-1" : "grid-cols-3"
             }`}
           >
-            {isMobile ? (
-              styleCategories.map((category) => (
-                <StyleCard
-                  key={category.name}
-                  category={category}
-                />
-              ))
-            ) : (
-              <>
-                <StyleCard
-                  category={styleCategories[0]}
-                />
-                <div className="col-span-2">
-                  <StyleCard
-                    category={styleCategories[1]}
-                  />
-                </div>
-                <div className="col-span-2">
-                  <StyleCard
-                    category={styleCategories[2]}
-                  />
-                </div>
-                <StyleCard
-                  category={styleCategories[3]}
-                />
-              </>
-            )}
+            {styleCategories.map((category) => (
+              <StyleCard
+                key={category.name}
+                category={category}
+                isMobile={isMobile}
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -86,10 +65,13 @@ const BrowseByStyle = () => {
   );
 };
 
-function StyleCard({ category }) {
+function StyleCard({ category, isMobile }) {
   return (
-    <Link to={`/categories?dress_style=${category.name.toLowerCase()}`}
-      className="overflow-hidden h-full rounded-lg shadow-md cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
+    <Link
+      to={`/categories?dress_style=${category.name.toLowerCase()}`}
+      className={`block overflow-hidden h-full rounded-lg shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
+        !isMobile && category.size === "large" ? "col-span-2" : ""
+      }`}
     >
       <div className="p-0 h-full">
         <div className="relative aspect-[3/2] h-full">
@@ -99,7 +81,7 @@ function StyleCard({ category }) {
             className="object-cover w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-110"
             style={{ objectPosition: "center" }}
           />
-          <div className="absolute top-0 left-0 p-4">
+          <div className="absolute top-0 left-0 p-4 bg-white bg-opacity-75 transition-opacity duration-300 ease-in-out opacity-100 hover:opacity-0">
             <h3 className="text-black text-2xl font-bold">{category.name}</h3>
           </div>
         </div>
@@ -114,6 +96,7 @@ StyleCard.propTypes = {
     imageUrl: PropTypes.string.isRequired,
     size: PropTypes.oneOf(["normal", "large"]).isRequired,
   }).isRequired,
+  isMobile: PropTypes.bool.isRequired,
 };
 
 export default BrowseByStyle;
