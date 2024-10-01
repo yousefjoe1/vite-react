@@ -98,7 +98,7 @@ export default function CustomerReviews() {
     <div className="w-full bg-white py-16 font-inter">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 font-cairo">
             OUR HAPPY CUSTOMERS
           </h2>
           <div className="flex gap-2">
