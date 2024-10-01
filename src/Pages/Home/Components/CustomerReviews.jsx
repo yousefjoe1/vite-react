@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-// Sample review data
 const reviews = [
   {
     id: 1,
@@ -41,38 +40,29 @@ const reviews = [
 ];
 
 export default function CustomerReviews() {
-  // State to keep track of the current review index and mobile view
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const carouselRef = useRef(null);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
 
-  // Effect to handle responsive behavior
   useEffect(() => {
-    // Function to update mobile state based on window width
     const handleResize = () => setIsMobile(window.innerWidth < 768);
-
-    // Initial call to set the initial state
     handleResize();
-
-    // Add event listener for window resize
     window.addEventListener("resize", handleResize);
-
-    // Cleanup function to remove event listener
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Function to move to the next review
   const nextReview = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % reviews.length);
   };
 
-  // Function to move to the previous review
   const prevReview = () => {
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length
     );
   };
 
-  // Function to get the currently visible reviews
   const getVisibleReviews = () => {
     const visibleCount = isMobile ? 1 : 3;
     return [...Array(visibleCount)].map((_, index) => {
@@ -81,20 +71,37 @@ export default function CustomerReviews() {
     });
   };
 
-  // Get the reviews that should be visible
   const visibleReviews = getVisibleReviews();
 
+  const handleTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+    if (isLeftSwipe) {
+      nextReview();
+    } else if (isRightSwipe) {
+      prevReview();
+    }
+  };
+
   return (
-    // Main container with white background and Inter font
     <div className="w-full bg-white py-16 font-inter">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Header section with title and navigation buttons */}
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 font-cairo">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
             OUR HAPPY CUSTOMERS
           </h2>
           <div className="flex gap-2">
-            {/* Previous review button */}
             <button
               onClick={prevReview}
               className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors border border-gray-200"
@@ -102,7 +109,6 @@ export default function CustomerReviews() {
             >
               <ChevronLeft className="w-6 h-6 text-gray-600" />
             </button>
-            {/* Next review button */}
             <button
               onClick={nextReview}
               className="bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition-colors border border-gray-200"
@@ -113,9 +119,13 @@ export default function CustomerReviews() {
           </div>
         </div>
 
-        {/* Reviews carousel */}
-        <div className="relative overflow-hidden">
-          {/* Inner container for sliding effect */}
+        <div
+          className="relative overflow-hidden"
+          ref={carouselRef}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
           <div
             className="flex transition-all duration-300 ease-in-out"
             style={{
@@ -124,15 +134,12 @@ export default function CustomerReviews() {
               }%)`,
             }}
           >
-            {/* Map through reviews, duplicating the array for infinite loop effect */}
             {reviews.concat(reviews).map((review, index) => (
               <div
                 key={`${review.id}-${index}`}
                 className={`w-full md:w-1/3 px-2 transition-all duration-300 flex-shrink-0`}
               >
-                {/* Individual review card */}
                 <div className="bg-white p-4 rounded-lg shadow-md h-[220px] flex flex-col border border-gray-200 overflow-hidden mx-auto max-w-[360px] md:max-w-[400px]">
-                  {/* Star rating */}
                   <div className="flex items-center mb-2">
                     {[...Array(5)].map((_, i) => (
                       <svg
@@ -149,7 +156,6 @@ export default function CustomerReviews() {
                       </svg>
                     ))}
                   </div>
-                  {/* Customer name and verification badge */}
                   <div className="flex items-center mb-2">
                     <h3 className="text-sm font-semibold mr-2 text-gray-900">
                       {review.name}
@@ -170,7 +176,6 @@ export default function CustomerReviews() {
                       </svg>
                     )}
                   </div>
-                  {/* Review text */}
                   <p className="text-xs text-gray-600 flex-grow overflow-hidden">
                     {review.text}
                   </p>
