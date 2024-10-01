@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Spinner } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -10,11 +12,13 @@ const Auth = () => {
   });
   const [errors, setErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const mode = searchParams.get("mode");
     setIsLogin(mode !== "register");
+    setIsForgotPassword(mode === "forgot-password");
   }, []);
 
   const handleInputChange = (e) => {
@@ -27,7 +31,7 @@ const Auth = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!isLogin && !formData.name) {
+    if (!isLogin && !isForgotPassword && !formData.name) {
       newErrors.name = "Name is required";
     }
     if (!formData.email) {
@@ -35,9 +39,9 @@ const Auth = () => {
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email is invalid";
     }
-    if (!formData.password) {
+    if (!isForgotPassword && !formData.password) {
       newErrors.password = "Password is required";
-    } else if (formData.password.length < 6) {
+    } else if (!isForgotPassword && formData.password.length < 6) {
       newErrors.password = "Password must be at least 6 characters";
     }
     setErrors(newErrors);
@@ -49,10 +53,18 @@ const Auth = () => {
     if (!validateForm()) return;
 
     setIsSubmit(true);
+    setMessage("");
     try {
-      const url = isLogin
-        ? "https://e-commerce-depi-node.vercel.app/api/users/login"
-        : "https://e-commerce-depi-node.vercel.app/api/users/register";
+      let url;
+      if (isLogin) {
+        url = "https://e-commerce-depi-node.vercel.app/api/users/login";
+      } else if (isForgotPassword) {
+        url =
+          "https://e-commerce-depi-node.vercel.app/api/users/forgot-password";
+      } else {
+        url = "https://e-commerce-depi-node.vercel.app/api/users/register";
+      }
+
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -62,12 +74,17 @@ const Auth = () => {
       });
       const result = await response.json();
       if (response.ok) {
-        localStorage.setItem("userToken", result.token);
-        window.location.href = "/";
+        if (isLogin) {
+          localStorage.setItem("userToken", result.token);
+          window.location.href = "/";
+        } else if (isForgotPassword) {
+          setMessage("Password reset instructions sent to your email.");
+        } else {
+          setMessage("Registration successful. Please log in.");
+          setIsLogin(true);
+        }
       } else {
-        throw new Error(
-          result.message || (isLogin ? "Login failed" : "Registration failed")
-        );
+        throw new Error(result.message || "An error occurred");
       }
     } catch (error) {
       console.error(error);
@@ -77,24 +94,41 @@ const Auth = () => {
     }
   };
 
-  const toggleAuthMode = () => {
-    setIsLogin(!isLogin);
+  const toggleAuthMode = (mode) => {
+    setIsLogin(mode === "login");
+    setIsForgotPassword(mode === "forgot-password");
     setFormData({ name: "", email: "", password: "" });
     setErrors({});
-    const newMode = isLogin ? "register" : "login";
-    window.history.pushState({}, "", `/auth?mode=${newMode}`);
+    setMessage("");
+    window.history.pushState({}, "", `/auth?mode=${mode}`);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-2xl"
+      >
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {isLogin ? "Sign in to your account" : "Create a new account"}
+            {isForgotPassword
+              ? "Reset your password"
+              : isLogin
+              ? "Welcome back"
+              : "Create your account"}
           </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            {isForgotPassword
+              ? "Enter your email to receive reset instructions"
+              : isLogin
+              ? "Sign in to access your account"
+              : "Join us and start shopping"}
+          </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {!isLogin && (
+          {!isLogin && !isForgotPassword && (
             <div>
               <label htmlFor="name" className="sr-only">
                 Name
@@ -105,7 +139,7 @@ const Auth = () => {
                 type="text"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm transition duration-300 ease-in-out"
                 placeholder="Name"
               />
               {errors.name && (
@@ -123,65 +157,116 @@ const Auth = () => {
               type="email"
               value={formData.email}
               onChange={handleInputChange}
-              className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 ${
-                isLogin ? "rounded-t-md" : ""
-              } focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm`}
+              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm transition duration-300 ease-in-out"
               placeholder="Email address"
             />
             {errors.email && (
               <p className="text-red-500 text-xs mt-1">{errors.email}</p>
             )}
           </div>
-          <div>
-            <label htmlFor="password" className="sr-only">
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-black focus:border-black focus:z-10 sm:text-sm"
-              placeholder="Password"
-            />
-            {errors.password && (
-              <p className="text-red-500 text-xs mt-1">{errors.password}</p>
-            )}
-          </div>
+          {!isForgotPassword && (
+            <div>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm transition duration-300 ease-in-out"
+                placeholder="Password"
+              />
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+              )}
+            </div>
+          )}
 
           <div>
-            <button
+            <motion.button
               type="submit"
               disabled={isSubmit}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300 ease-in-out"
             >
               {isSubmit ? (
                 <Spinner size="sm" color="white" />
               ) : (
-                <span>{isLogin ? "Sign in" : "Sign up"}</span>
+                <span>
+                  {isForgotPassword
+                    ? "Reset Password"
+                    : isLogin
+                    ? "Sign in"
+                    : "Sign up"}
+                </span>
               )}
-            </button>
+            </motion.button>
           </div>
         </form>
 
-        <div className="text-sm text-center">
-          <button
-            onClick={toggleAuthMode}
-            className="font-medium text-black hover:text-gray-800"
-          >
-            {isLogin
-              ? "Don't have an account? Sign up"
-              : "Already have an account? Sign in"}
-          </button>
+        <div className="flex items-center justify-between">
+          <div className="text-sm">
+            <motion.button
+              onClick={() => toggleAuthMode(isLogin ? "register" : "login")}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="font-medium text-gray-600 hover:text-gray-500 transition duration-300 ease-in-out"
+            >
+              {isLogin
+                ? "Don't have an account? Sign up"
+                : "Already have an account? Sign in"}
+            </motion.button>
+          </div>
+          {isLogin && (
+            <div className="text-sm">
+              <motion.button
+                onClick={() => toggleAuthMode("forgot-password")}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="font-medium text-gray-600 hover:text-gray-500 transition duration-300 ease-in-out"
+              >
+                Forgot your password?
+              </motion.button>
+            </div>
+          )}
         </div>
 
-        {errors.submit && (
-          <div className="mt-4 text-red-500 text-sm text-center">
-            {errors.submit}
+        {isForgotPassword && (
+          <div className="text-sm text-center">
+            <motion.button
+              onClick={() => toggleAuthMode("login")}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="font-medium text-gray-600 hover:text-gray-500 transition duration-300 ease-in-out"
+            >
+              Back to login
+            </motion.button>
           </div>
         )}
-      </div>
+
+        {message && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-4 text-gray-700 text-sm text-center bg-gray-100 p-2 rounded-md"
+          >
+            {message}
+          </motion.div>
+        )}
+
+        {errors.submit && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-4 text-red-500 text-sm text-center bg-red-100 p-2 rounded-md"
+          >
+            {errors.submit}
+          </motion.div>
+        )}
+      </motion.div>
     </div>
   );
 };
