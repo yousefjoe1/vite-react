@@ -25,31 +25,36 @@ const CategoriesPage = () => {
   }, []);
   
 
-  let category = useRef()
-  let minPrice = useRef();
-  let maxPrice = useRef();
-  let color = useRef();
-  let size = useRef();
+  let {current: category} = useRef()
+  let {current: minPrice} = useRef();
+  let {current: maxPrice} = useRef();
+  let {current: color} = useRef();
+  let {current: size} = useRef();
 
   let categoryName = searchParams.get("dress_style");
 
   const { data, isLoading, isError } = useFetch(`products?${categoryName}`);
 
-  // const setFilter = (name, value) => {
-  //   const newSearchParams = new URLSearchParams(searchParams);
-  //   newSearchParams.set(name, value);
-  //   setSearchParams(newSearchParams);
-  // };
+  const setFilter = (name, value) => {
+    let u = `category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&color=${color}&size=${size}`
+    console.log(u,'categ');
+    
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set(name, value);
+    console.log(newSearchParams);
+    
+    // setSearchParams(newSearchParams);
+  };
 
   const applayFilter = (second) => {
-    
+    setFilter()
   };
 
   const handlePrice = (name, value) => {
     if(name == 'min'){
-      minPrice.current = value
+      minPrice = value
     }else {
-      maxPrice.current = value
+      maxPrice = value
     }
   };
 
@@ -80,7 +85,7 @@ const CategoriesPage = () => {
 
           <hr className="mt-3" />
           {/* sub categoreis */}
-          <Categories selectSubCategory={(c)=> category.current = c} />
+          <Categories selectSubCategory={(c)=> category = c} />
 
           <hr className="my-3" />
 
@@ -89,11 +94,11 @@ const CategoriesPage = () => {
 
           <hr className="my-3" />
 
-          <Colors setFilter={(c)=> color.current = c} />
+          <Colors setFilter={(c)=> color = c} />
 
           <hr className="my-3" />
 
-          <Sizes  selectSize={(s)=> size.current = s}/>
+          <Sizes  selectSize={(s)=> size = s}/>
 
           <hr className="my-3" />
 
