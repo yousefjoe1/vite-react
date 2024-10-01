@@ -5,9 +5,8 @@ import UpdateProduct from './components/UpdateProduct';
 
 const Admin = () => {
   const { data, isLoading, isError } = useFetch(`products`);
-console.log(data?.data);
 
-  if(isLoading){
+  if(isLoading || isError){
 
     return <><MySpinner /></>
   }

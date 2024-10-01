@@ -13,6 +13,8 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { basUrl } from "../../../_functions/getData";
 
 const UpdateProduct = ({product}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,6 +28,28 @@ const UpdateProduct = ({product}) => {
   const [colors, setColors] = useState([product.colors[0],product.colors[1],product.colors[2]])
   const [sizes, setSizes] = useState([product.sizes[0],product.sizes[1],product.sizes[2]])
   const [images, setimages] = useState([product.images[0],product.images[1],product.images[2]])
+
+  const update = async (second) => {
+    let h = {
+      headers: {
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYWRtaW4xMjN5b3Vzc2VmQGdtYWlsLmNvbSIsImlhdCI6MTcyNzgxMTIzN30.SuRjNdjjGmjPKLq_4bdwOHouPw59xzFAqLnBy8wu2WM`
+      }
+    }
+    let d = {
+      name: req.body.name,
+      price: req.body.price,
+      details: req.body.details,
+      images: req.body.images,
+      discount: req.body.discount,
+      main_category:req.body.main_category,
+      sub_category:req.body.sub_category,
+      colors:req.body.colors,
+      sizes: req.body.sizes,
+    }
+    let res = await axios.post(`${basUrl}/api/products`,d,h)
+    console.log(res);
+    
+   }
   
   return (
     <div>
