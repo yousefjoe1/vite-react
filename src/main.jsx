@@ -16,6 +16,7 @@ import Auth from "./Pages/Auth/Auth.jsx";
 import CategoriesPage from "./Pages/CategoriesPage/CategoriesPage.jsx";
 import OrdersPage from "./Pages/OrdersPage/OrdersPage.jsx";
 import Checkout from "./Pages/Checkout/Checkout.jsx";
+import UserOrders from "./Pages/UserOrder/UserOrders.jsx";
 
 
 const queryClient = new QueryClient();
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: "checkout",
         element: <Checkout />,
+      },
+      {
+        path: "user-order",
+        element: <UserOrders />,
       },
     ],
   },

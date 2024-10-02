@@ -1,7 +1,6 @@
 import React from 'react'
 import useFetch from '../../../_hooks/useFetch';
 import MySpinner from '../../../_components/MainLayout/MySpinner';
-import { Link } from 'react-router-dom';
 import Product from '../../../_components/Cards/Product';
 
 const NewArrival = () => {
