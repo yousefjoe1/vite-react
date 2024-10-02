@@ -14,6 +14,7 @@ import Cart from "./Pages/Cart/Cart.jsx";
 import Admin from "./Pages/admin/Admin.jsx";
 import Auth from "./Pages/Auth/Auth.jsx";
 import CategoriesPage from "./Pages/CategoriesPage/CategoriesPage.jsx";
+import OrdersPage from "./Pages/OrdersPage/OrdersPage.jsx";
 
 
 const queryClient = new QueryClient();
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "auth",
         element: <Auth />,
+      },
+      {
+        path: "orders-page",
+        element: <OrdersPage />,
       },
     ],
   },
