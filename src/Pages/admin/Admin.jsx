@@ -16,7 +16,7 @@ const Admin = () => {
 
     <div className="grid grid-cols-1 gap-10">
       {
-        data?.data.map(el=>(
+        data?.data?.map(el=>(
           <div key={el._id} className='bg-slate-200 rounded-2xl shadow-lg p-4'>
               <div className="imgs flex justify-center gap-5">
                 <img width={200} className='object-cover' loading='lazy' src={el.images[0]} alt={el.images[0]} />

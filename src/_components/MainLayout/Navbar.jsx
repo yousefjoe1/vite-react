@@ -186,12 +186,12 @@ const Navbar = () => {
                   </button>
                 )}
               </div>
-              <button className="p-2 relative hover:text-indigo-600 transition duration-150 ease-in-out">
+              <Link to={`/cart`} className="p-2 relative hover:text-indigo-600 transition duration-150 ease-in-out">
                 <ShoppingCart className="h-6 w-6" />
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
                   0
                 </span>
-              </button>
+              </Link>
               <div className="relative ml-3" ref={profileMenuRef}>
                 <button
                   className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:bg-indigo-100 transition duration-150 ease-in-out"
@@ -258,7 +258,7 @@ const Navbar = () => {
               <div>
                 <button
                   onClick={toggleShopMenu}
-                  className="block pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-900 bg-gray-50 border-indigo-500 flex justify-between items-center w-full hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 ease-in-out"
+                  className=" pl-3 pr-4 py-2 border-l-4 text-base font-medium text-gray-900 bg-gray-50 border-indigo-500 flex justify-between items-center w-full hover:bg-indigo-50 hover:text-indigo-600 transition duration-150 ease-in-out"
                 >
                   Shop
                   <ChevronDown
