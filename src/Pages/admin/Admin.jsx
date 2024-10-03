@@ -14,7 +14,7 @@ const Admin = () => {
     
   return (
     <div className='p-5 container mx-auto'>
-      <AddProduct />
+      <AddProduct refetch={refetch} />
 
     <div className="grid grid-cols-1 gap-10">
       {

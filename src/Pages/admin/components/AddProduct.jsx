@@ -5,6 +5,7 @@ import {
     Input,
     Select,
     Text,
+    useToast,
   } from "@chakra-ui/react";
 import axios from 'axios';
 import { basUrl } from '../../../_functions/getData';
@@ -21,8 +22,8 @@ let categories = ["T-shirts",
 
 
 
-const AddProduct = () => {
-
+const AddProduct = ({refetch}) => {
+    let msg = useToast()
     const [submit, setsubmit] = useState(false)
     
   const [name, setName] = useState('')
@@ -82,16 +83,17 @@ const AddProduct = () => {
         sizes: sizes,
         dress: dress
       }
-      try {
-          let res = await axios.post(`${basUrl}/api/products`,d,h)
-          console.log(res);
-        setsubmit(p=> false)
-        
-      } catch (error) {
-        setsubmit(p=> false)
-        
-      }
 
+      let res = await axios.post(`${basUrl}/api/products`,d,h)
+      if(res.data.code == 301){
+          setsubmit(p=> false)
+          msg({title: 'wrong',status: 'error',duration: 3000})
+
+      }else {
+          setsubmit(p=> false)
+          msg({title: 'good job',status: 'success',duration: 3000})
+          refetch()
+      }
    }
   return (
     <>
