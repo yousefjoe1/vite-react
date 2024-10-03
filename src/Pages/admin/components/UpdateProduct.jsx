@@ -16,18 +16,18 @@ import {
 import axios from "axios";
 import { basUrl } from "../../../_functions/getData";
 
-const UpdateProduct = ({product}) => {
+const UpdateProduct = ({product,refetch}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  console.log(product);
 
-  const [name, setname] = useState(product.name)
+  const [name, setName] = useState(product.name)
   const [details, setdetails] = useState(product.details)
-  const [price, setprice] = useState(product.price)
+  const [price, setPrice] = useState(product.price)
+  const [discount, setDiscount] = useState(product.discount)
   const [category, setCategory] = useState(product.category)
-  const [dress, setdress] = useState(product.dress)
+  const [dress, setDress] = useState(product.dress)
   const [colors, setColors] = useState([product.colors[0],product.colors[1],product.colors[2]])
   const [sizes, setSizes] = useState([product.sizes[0],product.sizes[1],product.sizes[2]])
-  const [images, setimages] = useState([product.images[0],product.images[1],product.images[2]])
+  const [images, setImages] = useState([product.images[0],product.images[1],product.images[2]])
 
   const update = async (second) => {
     let h = {
@@ -36,20 +36,48 @@ const UpdateProduct = ({product}) => {
       }
     }
     let d = {
-      name: req.body.name,
-      price: req.body.price,
-      details: req.body.details,
-      images: req.body.images,
-      discount: req.body.discount,
-      main_category:req.body.main_category,
-      sub_category:req.body.sub_category,
-      colors:req.body.colors,
-      sizes: req.body.sizes,
+      name: name,
+      price: price,
+      details: details,
+      images: images,
+      discount: discount,
+      category: product.category,
+      sub_category: product.sub_category,
+      colors:colors,
+      sizes: sizes,
+      dress: dress
     }
-    let res = await axios.post(`${basUrl}/api/products`,d,h)
+    let res = await axios.patch(`${basUrl}/api/products/${product._id}`,d,h)
     console.log(res);
-    
+    refetch()
    }
+
+  const handlePriceChange = (event) => {
+    // Handle potential non-numeric input
+    const parsedPrice = parseFloat(event.target.value);
+    setPrice(isNaN(parsedPrice) ? price : parsedPrice); // Update only if valid number
+  };
+
+  // Update `colors` and `sizes` state arrays using spread syntax
+
+  const handleColorChange = (index, event) => {
+    const newColors = [...colors];
+    newColors[index] = event.target.value;
+    setColors(newColors);
+  };
+
+  const handleSizeChange   
+ = (index, event) => {
+    const newSizes = [...sizes];
+    newSizes[index] = event.target.value;
+    setSizes(newSizes);
+  };
+
+  const handleImageChange = (index, event) => {
+    const newImages = [...images];
+    newImages[index] = event.target.value;
+    setImages(newImages);
+  };
   
   return (
     <div>
@@ -63,16 +91,19 @@ const UpdateProduct = ({product}) => {
             <ModalCloseButton />
             <ModalBody>
             <Text mb='2px'>name</Text>
-            <Input mb={3} type="text" value={name} onChange={(e)=> setname(e.target.value)}  />
+            <Input mb={3} type="text" value={name} onChange={(e)=> setName(e.target.value)}  />
 
             <Text mb='2px'>price</Text>
-            <Input mb={3} type="number" value={price} onChange={(e)=> setprice(e.target.value)}  />
+            <Input mb={3} type="number" value={price} onChange={(e)=> handlePriceChange(e.target.value)}  />
+
+            <Text mb='2px'>discount</Text>
+            <Input mb={3} type="number" value={discount} onChange={(e)=> setDiscount(e.target.value)}  />
 
             <Text mb='2px'>category</Text>
             <Input mb={3} type="text" value={category} onChange={(e)=> setCategory(e.target.value)}  />
 
             <Text mb='2px'>dress</Text>
-            <Input mb={3} type="text" value={dress} onChange={(e)=> setdress(e.target.value)}  />
+            <Input mb={3} type="text" value={dress} onChange={(e)=> setDress(e.target.value)}  />
 
             <Text mb='2px'>details</Text>
             <Input mb={3} type="text" value={details} onChange={(e)=> setdetails(e.target.value)}  />
@@ -93,9 +124,9 @@ const UpdateProduct = ({product}) => {
 
             <Text my='2px'>images</Text>
             <div className="flex flex-col gap-5">
-                <Input type="text" value={images[0]} onChange={(e)=> setimages()}/>
-                <Input type="text" value={images[1]} onChange={(e)=> setimages()} />
-                <Input type="text" value={images[2]} onChange={(e)=> setimages()} />
+                <Input type="text" value={images[0]} onChange={(e)=> handleImageChange(0,e)}/>
+                <Input type="text" value={images[1]} onChange={(e)=> handleImageChange(1,e)} />
+                <Input type="text" value={images[2]} onChange={(e)=> handleImageChange(2,e)} />
             </div>
 
 
@@ -107,6 +138,9 @@ const UpdateProduct = ({product}) => {
             <ModalFooter>
               <Button colorScheme="blue" mr={3} onClick={onClose}>
                 Close
+              </Button>
+              <Button colorScheme="green" mr={3} onClick={update}>
+                update
               </Button>
             </ModalFooter>
           </ModalContent>

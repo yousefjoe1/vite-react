@@ -2,9 +2,10 @@ import React from 'react'
 import useFetch from '../../_hooks/useFetch'
 import MySpinner from '../../_components/MainLayout/MySpinner';
 import UpdateProduct from './components/UpdateProduct';
+import AddProduct from './components/AddProduct';
 
 const Admin = () => {
-  const { data, isLoading, isError } = useFetch(`products`);
+  const { data, isLoading, isError,refetch } = useFetch(`products`);
 
   if(isLoading || isError){
 
@@ -13,6 +14,7 @@ const Admin = () => {
     
   return (
     <div className='p-5 container mx-auto'>
+      <AddProduct />
 
     <div className="grid grid-cols-1 gap-10">
       {
@@ -30,7 +32,7 @@ const Admin = () => {
               <div className="name">dress: {el.dress} </div>
 
               {/* update */}
-              <UpdateProduct product={el} />
+              <UpdateProduct product={el} refetch={refetch} />
           </div>
         ))
       }
