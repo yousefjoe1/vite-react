@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 
@@ -19,6 +19,10 @@ import FilterMobile from "./components/FilterMobile";
 
 const CategoriesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  // const {id} = useParams()
+  // console.log(id);
+  
 
   useEffect(() => {
     document.body.scrollIntoView();
