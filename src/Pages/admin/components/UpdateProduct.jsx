@@ -24,6 +24,7 @@ const UpdateProduct = ({product,refetch}) => {
   const [price, setPrice] = useState(product.price)
   const [discount, setDiscount] = useState(product.discount)
   const [category, setCategory] = useState(product.category)
+  const [sub_category, setSub_category] = useState(product.sub_category)
   const [dress, setDress] = useState(product.dress)
   const [colors, setColors] = useState([product.colors[0],product.colors[1],product.colors[2]])
   const [sizes, setSizes] = useState([product.sizes[0],product.sizes[1],product.sizes[2]])
@@ -41,8 +42,8 @@ const UpdateProduct = ({product,refetch}) => {
       details: details,
       images: images,
       discount: discount,
-      category: product.category,
-      sub_category: product.sub_category,
+      category: category,
+      sub_category: sub_category,
       colors:colors,
       sizes: sizes,
       dress: dress
@@ -104,6 +105,9 @@ const UpdateProduct = ({product,refetch}) => {
 
             <Text mb='2px'>dress</Text>
             <Input mb={3} type="text" value={dress} onChange={(e)=> setDress(e.target.value)}  />
+
+            <Text mb='2px'>sub category</Text>
+            <Input mb={3} type="text" value={sub_category} onChange={(e)=> setSub_category(e.target.value)}  />
 
             <Text mb='2px'>details</Text>
             <Input mb={3} type="text" value={details} onChange={(e)=> setdetails(e.target.value)}  />

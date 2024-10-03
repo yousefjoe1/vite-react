@@ -5,7 +5,7 @@ import UpdateProduct from './components/UpdateProduct';
 import AddProduct from './components/AddProduct';
 
 const Admin = () => {
-  const { data, isLoading, isError,refetch } = useFetch(`products`);
+  const { data, isLoading, isError,refetch } = useFetch(`products`,'pr-admin');
 
   if(isLoading || isError){
 

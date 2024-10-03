@@ -20,24 +20,27 @@ import Product from "../../_components/Cards/Product";
 
 const CategoriesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
+  
+  
   // const {id} = useParams()
   // console.log(id);
-
+  
   useEffect(() => {
     document.body.scrollIntoView();
   }, []);
-
+  
   let { current: category } = useRef();
   let { current: minPrice } = useRef();
   let { current: maxPrice } = useRef();
   let { current: color } = useRef();
   let { current: size } = useRef();
-
+  
   let categoryName = searchParams.get("dress_style");
+  console.log(categoryName);
 
-  const { data, isLoading, isError } = useFetch(`products?${categoryName}`);
-
+  const { data, isLoading, isError } = useFetch(`products?q=${categoryName}`, 'c-name' ,categoryName);
+  console.log(data);
+  
   const setFilter = (name, value) => {
     let u = `category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&color=${color}&size=${size}`;
     console.log(u, "categ");

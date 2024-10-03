@@ -1,10 +1,11 @@
 export const categories = [
   { name: "T-shirts", link: "t-shirts" },
-  { name: "T-shirts", link: "t-shirts" },
-  { name: "T-shirts", link: "t-shirts" },
-  { name: "T-shirts", link: "t-shirts" },
-  { name: "T-shirts", link: "t-shirts" },
+  { name: "Shorts", link: "Shorts" },
+  { name: "Shirts", link: "Shirts" },
+  { name: "Hoodie", link: "Hoodie" },
+  { name: "Jeans", link: "Jeans" },
 ];
+
 
 export const colors = [
   { name: "black" },
@@ -14,6 +15,7 @@ export const colors = [
   { name: "whtie" },
   { name: "blue" },
   { name: "pink" },
+  { name: "teal" },
 ];
 
 export const sizes = ["Small", "Medium", "Large", "X-Large"];
