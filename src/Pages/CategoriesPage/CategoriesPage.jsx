@@ -16,49 +16,48 @@ import DressStyle from "./components/DressStyle";
 import Categories from "./components/Categories";
 
 import FilterMobile from "./components/FilterMobile";
+import Product from "../../_components/Cards/Product";
 
 const CategoriesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // const {id} = useParams()
   // console.log(id);
-  
 
   useEffect(() => {
     document.body.scrollIntoView();
   }, []);
-  
 
-  let {current: category} = useRef()
-  let {current: minPrice} = useRef();
-  let {current: maxPrice} = useRef();
-  let {current: color} = useRef();
-  let {current: size} = useRef();
+  let { current: category } = useRef();
+  let { current: minPrice } = useRef();
+  let { current: maxPrice } = useRef();
+  let { current: color } = useRef();
+  let { current: size } = useRef();
 
   let categoryName = searchParams.get("dress_style");
 
   const { data, isLoading, isError } = useFetch(`products?${categoryName}`);
 
   const setFilter = (name, value) => {
-    let u = `category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&color=${color}&size=${size}`
-    console.log(u,'categ');
-    
+    let u = `category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&color=${color}&size=${size}`;
+    console.log(u, "categ");
+
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set(name, value);
     console.log(newSearchParams);
-    
+
     // setSearchParams(newSearchParams);
   };
 
   const applayFilter = (second) => {
-    setFilter()
+    setFilter();
   };
 
   const handlePrice = (name, value) => {
-    if(name == 'min'){
-      minPrice = value
-    }else {
-      maxPrice = value
+    if (name == "min") {
+      minPrice = value;
+    } else {
+      maxPrice = value;
     }
   };
 
@@ -89,7 +88,7 @@ const CategoriesPage = () => {
 
           <hr className="mt-3" />
           {/* sub categoreis */}
-          <Categories selectSubCategory={(c)=> category = c} />
+          <Categories selectSubCategory={(c) => (category = c)} />
 
           <hr className="my-3" />
 
@@ -98,11 +97,11 @@ const CategoriesPage = () => {
 
           <hr className="my-3" />
 
-          <Colors setFilter={(c)=> color = c} />
+          <Colors setFilter={(c) => (color = c)} />
 
           <hr className="my-3" />
 
-          <Sizes  selectSize={(s)=> size = s}/>
+          <Sizes selectSize={(s) => (size = s)} />
 
           <hr className="my-3" />
 
@@ -124,12 +123,18 @@ const CategoriesPage = () => {
           <MySpinner />
         ) : (
           <div className="products w-full">
-            <h3 className="flex gap-3 items-center lg:justify-between">
+            <h3 className="flex mb-10 gap-3 items-center lg:justify-between">
               <span className="lg:text-2xl text-lg font-bold">
                 {categoryName}
               </span>
               <span className="text-sm">Showing 1-10 of 100 Products</span>
             </h3>
+
+            <div className="grid lg:grid-cols-4 grid-cols-2 gap-5">
+              {data?.data?.map((prod) => (
+                <Product prod={prod} key={prod._id} />
+              ))}
+            </div>
           </div>
         )}
       </div>

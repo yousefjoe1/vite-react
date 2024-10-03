@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 const Product = ({prod}) => {
   return (
     <>
-      <Link to={`/product/${prod._id}`} className="lg:w-[295px]">
-        <div className="img-div lg:h-[298px] mx-auto ">
+      <Link to={`/product/${prod._id}`} className="lg:max-w-[295px]">
+        <div className="img-div lg:h-[298px] h-[150px] mx-auto ">
           <img
             src={prod.images[0]}
-            className="w-full rounded-2xl object-cover h-full"
+            className="w-full rounded-2xl lg:object-cover object-contain h-full"
             alt="product image"
           />
         </div>
