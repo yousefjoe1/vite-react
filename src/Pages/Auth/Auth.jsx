@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
-import { Spinner } from "@chakra-ui/react";
+import { Spinner, useToast } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 const Auth = () => {
+  let toast = useToast()
+  let msg = (msg,status='success',timev)=> {
+    toast({title: msg,status: status,duration: timev})
+  }
   const [isLogin, setIsLogin] = useState(true);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -93,6 +98,28 @@ const Auth = () => {
       setIsSubmit(false);
     }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!validateForm()) return;
+  //   if (isLogin) {
+  //     let url = "https://e-commerce-depi-node.vercel.app/api/users/login";
+  //     let userdata = {
+  //       email: formData.email,
+  //       password: formData.password
+  //     }
+      
+  //     try {
+  //       let resp = await axios.post(url,userdata)
+  //       // if(resp.data)
+  //       console.log(resp);
+        
+  //     } catch (error) {
+  //       // console.log(error.response.data);
+  //       msg(error.response.data.msg,'error',4000)
+  //     }
+  //   }
+  // };
 
   const toggleAuthMode = (mode) => {
     setIsLogin(mode === "login");

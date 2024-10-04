@@ -1,14 +1,19 @@
 import React from 'react'
 import { useQuery } from '@tanstack/react-query';
-import { getData } from '../_functions/getData';
+import { getData, getDataWithAuth } from '../_functions/getData';
 // isAuth,isEnable
-const useFetch = (url, apiName, fetchAgain,isPaginate,) => {
+const useFetch = (url, apiName, fetchAgain,auth = false) => {
 // console.log(url);
 // * url , apiName , fetchAgain , isPaginate , isAuth , isEnable
     let { data, isLoading, isRefetching, isError,refetch } = useQuery({
         queryKey: [apiName, fetchAgain],
         queryFn: () => {
+            if(auth == true){
+
+                return getDataWithAuth(url,auth)
+            }else {
                 return getData(url)
+            }
         },
         refetchOnWindowFocus: false,
         // enabled: isEnable

@@ -9,8 +9,17 @@ import {
   LogIn,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import useFetch from "../../_hooks/useFetch";
 
 const Navbar = () => {
+
+  // const { data, isLoading, isError } = useFetch(`cart`, 'cart');
+  // console.log(data);
+  // console.log(isError);
+  
+
+
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
