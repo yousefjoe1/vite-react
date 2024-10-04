@@ -10,16 +10,16 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import useFetch from "../../_hooks/useFetch";
+import { useQuery } from "@chakra-ui/react";
+import { basUrl } from "../../_functions/getData";
+import axios from "axios";
+import MySpinner from "./MySpinner";
 
 const Navbar = () => {
 
-  // const { data, isLoading, isError } = useFetch(`cart`, 'cart');
-  // console.log(data);
-  // console.log(isError);
+  const { data, isLoading, isError } = useFetch(`cart`, 'cart-name',false, 'userToken');
+  console.log(data);
   
-
-
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
@@ -198,7 +198,14 @@ const Navbar = () => {
               <Link to={`/cart`} className="p-2 relative hover:text-indigo-600 transition duration-150 ease-in-out">
                 <ShoppingCart className="h-6 w-6" />
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-                  0
+                  {
+                    isLoading ? <MySpinner s="sm" />
+                  :
+                  <> {data.data.length} </>
+                  }
+                  {
+                    isError && 0
+                  }
                 </span>
               </Link>
               <div className="relative ml-3" ref={profileMenuRef}>

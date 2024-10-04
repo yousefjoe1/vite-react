@@ -5,7 +5,7 @@ import axios from "axios";
 
 const Auth = () => {
   let toast = useToast()
-  let msg = (msg,status='success',timev)=> {
+  let msg = (msg,status='success',timev= 3000)=> {
     toast({title: msg,status: status,duration: timev})
   }
   const [isLogin, setIsLogin] = useState(true);
@@ -53,73 +53,97 @@ const Auth = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log(e);
+  //   return
+  //   if (!validateForm()) return;
+
+  //   setIsSubmit(true);
+  //   setMessage("");
+  //   try {
+  //     let url;
+  //     if (isLogin) {
+  //       url = "https://e-commerce-depi-node.vercel.app/api/users/login";
+  //     } else if (isForgotPassword) {
+  //       url =
+  //         "https://e-commerce-depi-node.vercel.app/api/users/forgot-password";
+  //     } else {
+  //       url = "https://e-commerce-depi-node.vercel.app/api/users/register";
+  //     }
+
+  //     const response = await axios.post(url,{
+  //       username: '',
+  //       email: '',
+  //       password: '',
+
+  //     });
+  //     const result = await response.json();
+  //     if (response.ok) {
+  //       if (isLogin) {
+  //         console.log(result);
+          
+  //         localStorage.setItem("userToken", result.data.token);
+  //         window.location.href = "/";
+  //       } else if (isForgotPassword) {
+  //         setMessage("Password reset instructions sent to your email.");
+  //       } else {
+  //         console.log(result);
+          
+  //         setMessage("Registration successful. Please log in.");
+  //         setIsLogin(true);
+  //       }
+  //     } else {
+  //       throw new Error(result.message || "An error occurred");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //     setErrors({ submit: error.message });
+  //   } finally {
+  //     setIsSubmit(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
-    setIsSubmit(true);
-    setMessage("");
-    try {
-      let url;
-      if (isLogin) {
-        url = "https://e-commerce-depi-node.vercel.app/api/users/login";
-      } else if (isForgotPassword) {
-        url =
-          "https://e-commerce-depi-node.vercel.app/api/users/forgot-password";
-      } else {
-        url = "https://e-commerce-depi-node.vercel.app/api/users/register";
+    if (isLogin) {
+      let url = "https://e-commerce-depi-node.vercel.app/api/users/login";
+      let userdata = {
+        email: formData.email,
+        password: formData.password
       }
-
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const result = await response.json();
-      if (response.ok) {
-        if (isLogin) {
-          localStorage.setItem("userToken", result.token);
-          window.location.href = "/";
-        } else if (isForgotPassword) {
-          setMessage("Password reset instructions sent to your email.");
-        } else {
-          setMessage("Registration successful. Please log in.");
-          setIsLogin(true);
-        }
-      } else {
-        throw new Error(result.message || "An error occurred");
+      
+      try {
+        let resp = await axios.post(url,userdata)
+        // if(resp.data)
+        localStorage.setItem("userToken", resp.data.token)
+        console.log(resp.data.token);
+        msg(resp.data.msg)
+        
+      } catch (error) {
+        // console.log(error.response.data);
+        msg(error.response.data.msg,'error',4000)
       }
-    } catch (error) {
-      console.error(error);
-      setErrors({ submit: error.message });
-    } finally {
-      setIsSubmit(false);
+    }else {
+      let url = "https://e-commerce-depi-node.vercel.app/api/users/register";
+      let userdata = {
+        username: formData.name,
+        email: formData.email,
+        password: formData.password
+      }
+      
+      try {
+        let resp = await axios.post(url,userdata)
+        // if(resp.data)
+        console.log(resp);
+        
+      } catch (error) {
+        // console.log(error.response.data);
+        msg(error.response.data.msg,'error',4000)
+      }
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!validateForm()) return;
-  //   if (isLogin) {
-  //     let url = "https://e-commerce-depi-node.vercel.app/api/users/login";
-  //     let userdata = {
-  //       email: formData.email,
-  //       password: formData.password
-  //     }
-      
-  //     try {
-  //       let resp = await axios.post(url,userdata)
-  //       // if(resp.data)
-  //       console.log(resp);
-        
-  //     } catch (error) {
-  //       // console.log(error.response.data);
-  //       msg(error.response.data.msg,'error',4000)
-  //     }
-  //   }
-  // };
 
   const toggleAuthMode = (mode) => {
     setIsLogin(mode === "login");

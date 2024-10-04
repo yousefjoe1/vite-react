@@ -13,8 +13,8 @@ export const getData = async (apiRoute) => {
   }
 
 export const getDataWithAuth = async (apiRoute,auth) => {
+  let adminToken = localStorage.getItem(auth);
 
-    let adminToken = JSON.parse(localStorage.getItem(auth));
     try {
       let res = await axios.get(`${basUrl}/api/${apiRoute}`, {
         headers: {
