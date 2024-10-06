@@ -241,30 +241,41 @@ const ProductPage = () => {
 
   const addTocart = async (pr) => {
     let tk = localStorage.getItem('userToken')
+
+    if(!tk){
+      msg({title: `You have to login `,status: 'warning',duration: 3000})
+      return
+    }
+
     let h =  {
       headers: {
         Authorization: `Bearer ${tk}`
       }
     }
-    let {name,_id,img,discount,color,size,price} = data.data
+    let {name,_id,discount,price,images} = data.data
     let d = {
-      product: {name,_id,img,discount,color,size,price},
+      product: {name,_id,img:images[0],discount,color:selectedColor,size:selectedSize,price},
       count: quantity
     }
 
     setisSubmit(true)
-    let res = await axios.post(`${basUrl}/api/cart/add-to-cart`,d,h)
-    console.log(res.data);
-    
-    if(res.data.in_cart){
-      msg({title: res.data.msg,status: 'info',duration: 3000})
+    try {
+      let res = await axios.post(`${basUrl}/api/cart/add-to-cart`,d,h)
+      if(res.data.in_cart){
+        msg({title: res.data.msg,status: 'info',duration: 3000})
+        setisSubmit(false)
+        return
+      }else{
+        msg({title: res.data.msg,status: 'success',duration: 3000})
+        setisSubmit(false)
+        setContextValue(!contextValue)
+  
+      }
+      
+    } catch (er) {
+      console.log(er);
       setisSubmit(false)
-      return
-    }else{
-      msg({title: res.data.msg,status: 'success',duration: 3000})
-      setisSubmit(false)
-      setContextValue(!contextValue)
-
+      
     }
     
   }
