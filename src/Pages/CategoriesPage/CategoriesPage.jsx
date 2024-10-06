@@ -40,6 +40,9 @@ const CategoriesPage = () => {
     "pr-categ"
   );
 
+  console.log(data);
+  
+
   const setFilter = () => {
     let u = `dress=${dress== null ? 'casual': dress}${
       minPrice != undefined ? `&minPrice=${minPrice}` : ""

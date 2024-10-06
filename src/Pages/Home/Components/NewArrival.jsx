@@ -4,13 +4,13 @@ import MySpinner from "../../../_components/MainLayout/MySpinner";
 import Product from "../../../_components/Cards/Product";
 import { Button } from "@chakra-ui/react";
 
-const NewArrival = () => {
+const NewArrival = ({title}) => {
   const { data, isLoading, isError } = useFetch(`products?count=4`);
 
   return (
     <div className="p-4 md:p-8 container mx-auto">
 
-      <h3 className="font-bold text-center text-4xl mb-5">NEW ARRIVALS</h3>
+      <h3 className="font-bold text-center text-4xl mb-5">{title}</h3>
       {isLoading ? (
         <MySpinner />
       ) : (
