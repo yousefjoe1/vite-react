@@ -8,14 +8,18 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { sizes } from "../categoriesData";
+import { useSearchParams } from "react-router-dom";
 
-const Sizes = ({selectSize}) => {
+const Sizes = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   
   const [size, setsize] = useState('')
 
   const selectColor = (c) => {
     setsize(c)
-    selectSize(c)
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("size", c.toLowerCase());
+    setSearchParams(newSearchParams);
    }
 
 

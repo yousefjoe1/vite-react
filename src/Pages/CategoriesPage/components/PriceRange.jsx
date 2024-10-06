@@ -8,15 +8,17 @@ import {
 } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
 
-const PriceRange = ({handlePrice}) => {
-  const [searchParams,setSearchParams] = useSearchParams();
+const PriceRange = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const newSearchParams = new URLSearchParams(searchParams);
 
   const [rangeValues, setRangeValues] = useState([100, 400]);
 
   const handleRangeChange = (values) => {
     setRangeValues(values);
-    handlePrice('min',values[0])
-    handlePrice('max',values[1])
+    newSearchParams.set("minPrice", values[0]);
+    newSearchParams.set("maxPrice", values[1]);
+    setSearchParams(newSearchParams);
   };
   // console.log(rangeValues);
 

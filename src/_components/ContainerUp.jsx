@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 
-const ContainerUp = ({ children }) => {
+const ContainerUp = ({ children,className='' }) => {
   useEffect(() => {
     document.body.scrollIntoView();
   }, []);
-  return <>{children}</>;
+  return <div className={`${className}`}>{children}</div>;
 };
 
 export default ContainerUp;

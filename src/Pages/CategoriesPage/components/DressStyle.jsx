@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionButton,
@@ -7,13 +7,22 @@ import {
   AccordionPanel,
   Box,
 } from "@chakra-ui/react";
-import { dress_style } from '../categoriesData'
-import { Link } from 'react-router-dom'
-import { ChevronRightIcon } from 'lucide-react'
+import { dress_style } from "../categoriesData";
+import { useSearchParams } from "react-router-dom";
+import { ChevronRightIcon } from "lucide-react";
 
 const DressStyle = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const newSearchParams = new URLSearchParams(searchParams);
+  const [dressStyle, setDressStyle] = useState("");
+
+  const selectDress = (d) => {
+    setDressStyle(d);
+    newSearchParams.set("dress", d.toLowerCase());
+    setSearchParams(newSearchParams);
+  };
   return (
-      <Accordion allowToggle>
+    <Accordion allowToggle>
       <AccordionItem className="border-none">
         <h2>
           <AccordionButton px={0}>
@@ -24,20 +33,20 @@ const DressStyle = () => {
           </AccordionButton>
         </h2>
         <AccordionPanel pb={4} px={0}>
-        {dress_style.map((el, id) => (
-      <Link
-        key={id}
-        to={`/categories?dress=${el.toLowerCase()}`}
-        className="mt-5 flex justify-between items-center"
-      >
-        <span>{el}</span>
-        <ChevronRightIcon size={20} color="gray" />
-      </Link>
-    ))}
+          {dress_style.map((el, id) => (
+            <button
+              onClick={() => selectDress(el)}
+              key={id}
+              className={`${dressStyle == el ? 'bg-slate-100': ''} mt-5 flex justify-between items-center w-full transition-all ease-in-out duration-300`}
+            >
+              <span>{el}</span>
+              <ChevronRightIcon size={20} color="gray" />
+            </button>
+          ))}
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
-  )
-}
+  );
+};
 
-export default DressStyle
+export default DressStyle;

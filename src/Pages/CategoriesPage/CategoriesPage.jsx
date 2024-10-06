@@ -1,7 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Button,
+} from "@chakra-ui/react";
 
 import { ChevronRightIcon } from "lucide-react";
 import { MdFilterList } from "react-icons/md";
@@ -17,52 +22,49 @@ import Categories from "./components/Categories";
 
 import FilterMobile from "./components/FilterMobile";
 import Product from "../../_components/Cards/Product";
+import ContainerUp from "../../_components/ContainerUp";
 
 const CategoriesPage = () => {
-  const [searchParams,setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const newSearchParams = new URLSearchParams(searchParams);
-  console.log(newSearchParams,'sp');
-  
 
-  useEffect(() => {
-    document.body.scrollIntoView();
-  }, []);
-  
-  let { current: category } = useRef();
-  let { current: minPrice } = useRef();
-  let { current: maxPrice } = useRef();
-  let { current: color } = useRef();
-  let { current: size } = useRef();
-  
-  let dressName = searchParams.get("dress");
-  let {dress,color:c,size:s} = searchParams.get("dress");
+  let minPrice  = searchParams.get("minPrice");
+  let maxPrice = searchParams.get("maxPrice");
+  let dress = searchParams.get("dress");
+  let color = searchParams.get("color");
+  let size = searchParams.get("size");
+  let category = searchParams.get("category");
 
-  const { data, isLoading, isError } = useFetch(`products?${newSearchParams}`, 'pr-categ' ,[dressName,newSearchParams.size,c,s]);
-  console.log(data);
-  
+  const { data, isLoading, isError, isRefetching, refetch } = useFetch(
+    `products?${newSearchParams}`,
+    "pr-categ"
+  );
+
   const setFilter = () => {
-    console.log(minPrice,
-      maxPrice,
-      color,
-      size,);
-    
-    let dressName = searchParams.get("dress");
-     let u = `dress=${dressName}${minPrice != undefined ?`&minPrice=${minPrice}`: ''}${maxPrice != undefined ?`&maxPrice=${maxPrice}`: ''}${color != undefined ? `&color=${color}`:''}${size != undefined ? `&size=${size}`: ''}`;
+    let u = `dress=${dress== null ? 'casual': dress}${
+      minPrice != undefined ? `&minPrice=${minPrice}` : ""
+    }${maxPrice != undefined ? `&maxPrice=${maxPrice}` : ""}${
+      color != undefined ? `&color=${color}` : ""
+    }${size != undefined ? `&size=${size}` : ""}${category != undefined? `&category=${category}`:''}`;
     const newSearchParams = new URLSearchParams(u);
     setSearchParams(newSearchParams);
+    refetch();
+    document.body.scrollIntoView({behavior: 'smooth'});
+
   };
 
+  const resetFilter = async () => {
+    const newSearchParams = new URLSearchParams();
+    newSearchParams.set("dress", 'casual');
+    document.body.scrollIntoView({behavior: 'smooth'});
+    await setSearchParams(newSearchParams);
+    refetch();
+    document.body.scrollIntoView();
 
-  const handlePrice = (name, value) => {
-    if (name == "min") {
-      minPrice = value;
-    } else {
-      maxPrice = value;
-    }
   };
 
   return (
-    <div className="max-w-7xl pb-16 mx-auto px-4 sm:px-6 lg:px-8">
+    <ContainerUp className="max-w-7xl pb-16 mx-auto px-4 sm:px-6 lg:px-8">
       <Breadcrumb
         spacing="8px"
         mt={4}
@@ -72,7 +74,9 @@ const CategoriesPage = () => {
           <BreadcrumbLink href="#">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#" className="capitalize">{dressName}</BreadcrumbLink>
+          <BreadcrumbLink href="#" className="capitalize">
+            {dress}
+          </BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
 
@@ -86,20 +90,20 @@ const CategoriesPage = () => {
           </h3>
 
           <hr className="mt-3" />
-          <Categories selectSubCategory={(c) => (category = c)} />
+          <Categories />
 
           <hr className="my-3" />
 
           <h3 className="font-bold">Price</h3>
-          <PriceRange handlePrice={handlePrice} />
+          <PriceRange />
 
           <hr className="my-3" />
 
-          <Colors setFilter={(c) => (color = c)} />
+          <Colors />
 
           <hr className="my-3" />
 
-          <Sizes selectSize={(s) => (size = s)} />
+          <Sizes />
 
           <hr className="my-3" />
 
@@ -115,16 +119,28 @@ const CategoriesPage = () => {
 
         <FilterMobile />
 
+          {isRefetching && 
+          
+        <div className="fixed top-0  z-50 bg-slate-400/80 h-12 border-b-2 w-full flex justify-center items-center p-4 rounded-3xl">
+          <MySpinner s="lg" />
+          
+        </div>
+          }
+
         {isError || isLoading ? (
           <MySpinner />
         ) : (
           <div className="products w-full">
             <h3 className="flex mb-10 gap-3 items-center lg:justify-between">
-              <span className="lg:text-2xl text-lg font-bold">
-                {dressName}
-              </span>
+              <span className="lg:text-2xl text-lg font-bold">{dress}</span>
               <span className="text-sm">Showing 1-10 of 100 Products</span>
             </h3>
+
+            {data?.data?.length == 0 ? (
+              <Button onClick={resetFilter}>Get All</Button>
+            ) : (
+              ""
+            )}
 
             <div className="grid lg:grid-cols-4 grid-cols-2 gap-5">
               {data?.data?.map((prod) => (
@@ -134,7 +150,7 @@ const CategoriesPage = () => {
           </div>
         )}
       </div>
-    </div>
+    </ContainerUp>
   );
 };
 

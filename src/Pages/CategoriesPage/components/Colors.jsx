@@ -2,16 +2,20 @@ import React, { useState } from "react";
 import { colors } from "../categoriesData";
 
 import { MdCheckCircleOutline } from "react-icons/md";
+import { useSearchParams } from "react-router-dom";
 
 
 
-const Colors = ({setFilter}) => {
+const Colors = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [color, setColor] = useState('')
 
   const selectColor = (c) => {
     setColor(c)
-    setFilter(c)
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("color", c.toLowerCase());
+    setSearchParams(newSearchParams);
    }
 
 
@@ -22,7 +26,7 @@ const Colors = ({setFilter}) => {
           onClick={() => selectColor(el.name)}
           style={{ background: el.name }}
           key={id}
-          className={`w-8 h-8 flex justify-center items-center rounded-full border-[1px] `}
+          className={`${color == el.name ? 'border-4': ''} transition-all ease-in-out duration-300 w-8 h-8 flex justify-center items-center rounded-full border-[1px]`}
         >
             {el.name == color ? <MdCheckCircleOutline color="green" />: ''}
           </button>
