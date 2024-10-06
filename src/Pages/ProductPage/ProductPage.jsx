@@ -19,7 +19,7 @@ import ProductImgs from "./components/ProductImgs";
 import ContainerUp from "../../_components/ContainerUp";
 const ProductPage = () => {
   const { id } = useParams();
-  const { data, isLoading, isError } = useFetch(`products/${id}`);
+  const { data, isLoading, isError } = useFetch(`products/${id}`,`product-${id}`);
   const { contextValue, setContextValue } = useContext(MyContext);
 
   const [showBanner, setShowBanner] = useState(true);
@@ -321,17 +321,17 @@ const ProductPage = () => {
           <ProductImgs imgs={data.data.images} />
           <div className="w-full lg:w-1/2 px-4">
             <h2 className="text-2xl lg:text-3xl font-bold mb-2">
-              {product.name}
+              {data.data.name}
             </h2>
             <div className="mb-4">
               <StarRating rating={product.rating} />
             </div>
             <div className="mb-4">
-              <span className="text-2xl font-bold">${product.price}</span>
+              <span className="text-2xl font-bold">${(data.data.price * data.data.discount)  / 100}</span>
               <span className="text-gray-500 line-through ml-2">
-                ${product.originalPrice}
+                ${data.data.price}
               </span>
-              <span className="text-red-500 ml-2">-{product.discount}%</span>
+              <span className="text-red-500 ml-2">-{data.data.discount}%</span>
             </div>
             <div className="mb-8 pb-8 border-b border-gray-200">
               <p>{product.description}</p>
