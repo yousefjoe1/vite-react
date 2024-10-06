@@ -18,6 +18,7 @@ import OrdersPage from "./Pages/OrdersPage/OrdersPage.jsx";
 import Checkout from "./Pages/Checkout/Checkout.jsx";
 import UserOrders from "./Pages/UserOrder/UserOrders.jsx";
 import ProductPage from "./Pages/ProductPage/ProductPage.jsx";
+import MyContextProvider from "./_context/conexts.jsx";
 
 
 const queryClient = new QueryClient();
@@ -72,7 +73,9 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
+        <MyContextProvider>
         <RouterProvider router={router} />
+        </MyContextProvider>
       </ChakraProvider>
     </QueryClientProvider>
   </StrictMode>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import {
   Menu,
   Search,
@@ -14,11 +14,14 @@ import { useQuery } from "@chakra-ui/react";
 import { basUrl } from "../../_functions/getData";
 import axios from "axios";
 import MySpinner from "./MySpinner";
+import { MyContext } from "../../_context/conexts";
 
 const Navbar = () => {
-
-  const { data, isLoading, isError } = useFetch(`cart`, 'cart-name',false, 'userToken');
-  console.log(data);
+  const { contextValue, setContextValue } = useContext(MyContext);
+  console.log(contextValue);
+  
+  const { data, isLoading, isError } = useFetch(`cart`, 'cart-name',contextValue, 'userToken');
+  console.log(data,'cart');
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);

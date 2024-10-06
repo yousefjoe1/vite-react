@@ -141,7 +141,7 @@ const CategoriesPage = () => {
 
             {data?.data?.length == 0 ? (
               <div className="flex items-center gap-4">
-                <Button onClick={resetFilter}>Get All <TbHandClick />  </Button>
+                <Button disabled={isRefetching == true ? true: false} onClick={resetFilter}>Get All <TbHandClick />  </Button>
                 <Badge variant="solid" colorScheme="red">
                   No products found
                 </Badge>

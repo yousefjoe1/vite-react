@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   FiX,
   FiMinus,
@@ -11,9 +11,15 @@ import {
 import useFetch from "../../_hooks/useFetch";
 import { useParams } from "react-router-dom";
 import MySpinner from "../../_components/MainLayout/MySpinner";
+import axios from "axios";
+import { basUrl } from "../../_functions/getData";
+import { MyContext } from "../../_context/conexts";
+import { useToast } from "@chakra-ui/react";
 const ProductPage = () => {
   const { id } = useParams();
   const { data, isLoading, isError } = useFetch(`products/${id}`);
+  const { contextValue, setContextValue } = useContext(MyContext);
+
   console.log(data?.data);
   const [showBanner, setShowBanner] = useState(true);
   const [selectedColor, setSelectedColor] = useState("olive");
@@ -230,6 +236,39 @@ const ProductPage = () => {
     setShowReviewForm(false);
   };
 
+  const [isSubmit, setisSubmit] = useState(false)
+  let msg = useToast()
+
+  const addTocart = async (pr) => {
+    let tk = localStorage.getItem('userToken')
+    let h =  {
+      headers: {
+        Authorization: `Bearer ${tk}`
+      }
+    }
+    let {name,_id,img,discount,color,size,price} = data.data
+    let d = {
+      product: {name,_id,img,discount,color,size,price},
+      count: quantity
+    }
+
+    setisSubmit(true)
+    let res = await axios.post(`${basUrl}/api/cart/add-to-cart`,d,h)
+    console.log(res.data);
+    
+    if(res.data.in_cart){
+      msg({title: res.data.msg,status: 'info',duration: 3000})
+      setisSubmit(false)
+      return
+    }else{
+      msg({title: res.data.msg,status: 'success',duration: 3000})
+      setisSubmit(false)
+      setContextValue(!contextValue)
+
+    }
+    
+  }
+
   return (
     <div className="min-h-screen bg-gray-100">
       {showBanner && (
@@ -368,7 +407,8 @@ const ProductPage = () => {
                   <FiPlus />
                 </button>
               </div>
-              <button className="flex-grow bg-black text-white px-8 py-3 rounded-full flex items-center justify-center">
+              <button disabled={isSubmit == true ? true: false} onClick={ addTocart} className="flex-grow bg-black text-white px-8 py-3 rounded-full flex items-center justify-center">
+                {isSubmit && <MySpinner s="lg" /> }
                 <FiShoppingCart className="mr-2" /> Add to Cart
               </button>
             </div>
