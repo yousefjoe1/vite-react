@@ -1,7 +1,7 @@
 export const categories = [
-  { name: "T-shirts", link: "t-shirts" },
-  { name: "Shorts", link: "Shorts" },
-  { name: "Shirts", link: "Shirts" },
+  { name: "T-shirts", link: "t-shirt" },
+  { name: "Shorts", link: "Short" },
+  { name: "Shirts", link: "Shirt" },
   { name: "Hoodie", link: "Hoodie" },
   { name: "Jeans", link: "Jeans" },
 ];

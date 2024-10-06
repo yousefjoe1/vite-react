@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { Spinner, useToast } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   let toast = useToast()
+  let navigate = useNavigate()
   let msg = (msg,status='success',timev= 3000)=> {
     toast({title: msg,status: status,duration: timev})
   }
@@ -53,60 +55,10 @@ const Auth = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   console.log(e);
-  //   return
-  //   if (!validateForm()) return;
-
-  //   setIsSubmit(true);
-  //   setMessage("");
-  //   try {
-  //     let url;
-  //     if (isLogin) {
-  //       url = "https://e-commerce-depi-node.vercel.app/api/users/login";
-  //     } else if (isForgotPassword) {
-  //       url =
-  //         "https://e-commerce-depi-node.vercel.app/api/users/forgot-password";
-  //     } else {
-  //       url = "https://e-commerce-depi-node.vercel.app/api/users/register";
-  //     }
-
-  //     const response = await axios.post(url,{
-  //       username: '',
-  //       email: '',
-  //       password: '',
-
-  //     });
-  //     const result = await response.json();
-  //     if (response.ok) {
-  //       if (isLogin) {
-  //         console.log(result);
-          
-  //         localStorage.setItem("userToken", result.data.token);
-  //         window.location.href = "/";
-  //       } else if (isForgotPassword) {
-  //         setMessage("Password reset instructions sent to your email.");
-  //       } else {
-  //         console.log(result);
-          
-  //         setMessage("Registration successful. Please log in.");
-  //         setIsLogin(true);
-  //       }
-  //     } else {
-  //       throw new Error(result.message || "An error occurred");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     setErrors({ submit: error.message });
-  //   } finally {
-  //     setIsSubmit(false);
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
+    
     if (isLogin) {
       let url = "https://e-commerce-depi-node.vercel.app/api/users/login";
       let userdata = {
@@ -114,17 +66,20 @@ const Auth = () => {
         password: formData.password
       }
       
-      try {
-        let resp = await axios.post(url,userdata)
-        // if(resp.data)
+      setIsSubmit(true)
+
+      let resp = await axios.post(url,userdata)
+      if(resp.data.code == 400){
+        msg(resp.data.msg,'error')
+      }else{
         localStorage.setItem("userToken", resp.data.token)
-        console.log(resp.data.token);
+        navigate('/')
         msg(resp.data.msg)
-        
-      } catch (error) {
-        // console.log(error.response.data);
-        msg(error.response.data.msg,'error',4000)
       }
+      setIsSubmit(false)
+
+      return
+
     }else {
       let url = "https://e-commerce-depi-node.vercel.app/api/users/register";
       let userdata = {
@@ -133,15 +88,16 @@ const Auth = () => {
         password: formData.password
       }
       
-      try {
+        setIsSubmit(true)
         let resp = await axios.post(url,userdata)
-        // if(resp.data)
-        console.log(resp);
-        
-      } catch (error) {
-        // console.log(error.response.data);
-        msg(error.response.data.msg,'error',4000)
-      }
+        if(resp.data.code == 400){
+          msg(resp.data.msg,'error')
+        }else{
+          localStorage.setItem("userToken", resp.data.token)
+          navigate('/')
+          msg(resp.data.msg)
+        }
+        setIsSubmit(false)
     }
   };
 

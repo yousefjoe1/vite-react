@@ -114,9 +114,9 @@ const UpdateProduct = ({product,refetch}) => {
 
             <Text mb='2px'>colors</Text>
             <div className="flex justify-between gap-5">
-                <Input disabled type="text" value={colors[0]} onChange={(e)=> setColors()}/>
-                <Input disabled type="text" value={colors[1]} onChange={(e)=> setColors()} />
-                <Input disabled type="text" value={colors[2]} onChange={(e)=> setColors()} />
+                <Input  type="text" value={colors[0]} onChange={(e)=> handleColorChange(0,e)}/>
+                <Input  type="text" value={colors[1]} onChange={(e)=> handleColorChange(1,e)} />
+                <Input  type="text" value={colors[2]} onChange={(e)=> handleColorChange(2,e)} />
             </div>
 
             <Text my='2px'>sizes</Text>

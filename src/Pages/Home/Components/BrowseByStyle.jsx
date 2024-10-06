@@ -68,7 +68,7 @@ const BrowseByStyle = () => {
 function StyleCard({ category, isMobile }) {
   return (
     <Link
-      to={`/categories?dress_style=${category.name.toLowerCase()}`}
+      to={`/categories?dress=${category.name.toLowerCase()}`}
       className={`block overflow-hidden h-full rounded-lg shadow-md cursor-pointer transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-lg ${
         !isMobile && category.size === "large" ? "col-span-2" : ""
       }`}
@@ -76,6 +76,7 @@ function StyleCard({ category, isMobile }) {
       <div className="p-0 h-full">
         <div className="relative aspect-[3/2] h-full">
           <img
+          loading="lazy"
             src={category.imageUrl}
             alt={category.name}
             className="object-cover w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-110"

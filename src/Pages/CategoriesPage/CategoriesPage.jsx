@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/react";
 
@@ -19,12 +19,11 @@ import FilterMobile from "./components/FilterMobile";
 import Product from "../../_components/Cards/Product";
 
 const CategoriesPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams,setSearchParams] = useSearchParams();
+  const newSearchParams = new URLSearchParams(searchParams);
+  console.log(newSearchParams,'sp');
   
-  
-  // const {id} = useParams()
-  // console.log(id);
-  
+
   useEffect(() => {
     document.body.scrollIntoView();
   }, []);
@@ -35,26 +34,24 @@ const CategoriesPage = () => {
   let { current: color } = useRef();
   let { current: size } = useRef();
   
-  let categoryName = searchParams.get("dress_style");
-  console.log(categoryName);
+  let dressName = searchParams.get("dress");
+  let {dress,color:c,size:s} = searchParams.get("dress");
 
-  const { data, isLoading, isError } = useFetch(`products?q=${categoryName}`, 'c-name' ,categoryName);
+  const { data, isLoading, isError } = useFetch(`products?${newSearchParams}`, 'pr-categ' ,[dressName,newSearchParams.size,c,s]);
   console.log(data);
   
-  const setFilter = (name, value) => {
-    let u = `category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&color=${color}&size=${size}`;
-    console.log(u, "categ");
-
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set(name, value);
-    console.log(newSearchParams);
-
-    // setSearchParams(newSearchParams);
+  const setFilter = () => {
+    console.log(minPrice,
+      maxPrice,
+      color,
+      size,);
+    
+    let dressName = searchParams.get("dress");
+     let u = `dress=${dressName}${minPrice != undefined ?`&minPrice=${minPrice}`: ''}${maxPrice != undefined ?`&maxPrice=${maxPrice}`: ''}${color != undefined ? `&color=${color}`:''}${size != undefined ? `&size=${size}`: ''}`;
+    const newSearchParams = new URLSearchParams(u);
+    setSearchParams(newSearchParams);
   };
 
-  const applayFilter = (second) => {
-    setFilter();
-  };
 
   const handlePrice = (name, value) => {
     if (name == "min") {
@@ -75,12 +72,11 @@ const CategoriesPage = () => {
           <BreadcrumbLink href="#">Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#">Casual</BreadcrumbLink>
+          <BreadcrumbLink href="#" className="capitalize">{dressName}</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
 
       <div className="flex lg:flex-row flex-row-reverse justify-between gap-5 mt-4">
-        {/* filter in web */}
         <div className="filters lg:block hidden p-4 w-[295px] border-2 rounded-2xl border-gray-400">
           <h3 className="flex justify-between items-center">
             <span>Filters</span>
@@ -90,7 +86,6 @@ const CategoriesPage = () => {
           </h3>
 
           <hr className="mt-3" />
-          {/* sub categoreis */}
           <Categories selectSubCategory={(c) => (category = c)} />
 
           <hr className="my-3" />
@@ -108,18 +103,16 @@ const CategoriesPage = () => {
 
           <hr className="my-3" />
 
-          {/* main categoreis */}
           <DressStyle />
 
           <button
-            onClick={applayFilter}
+            onClick={setFilter}
             className="bg-black rounded-3xl mt-3 text-white p-2 w-[99%] mx-auto "
           >
             Applay Filter
           </button>
         </div>
 
-        {/* filter in mobile */}
         <FilterMobile />
 
         {isError || isLoading ? (
@@ -128,7 +121,7 @@ const CategoriesPage = () => {
           <div className="products w-full">
             <h3 className="flex mb-10 gap-3 items-center lg:justify-between">
               <span className="lg:text-2xl text-lg font-bold">
-                {categoryName}
+                {dressName}
               </span>
               <span className="text-sm">Showing 1-10 of 100 Products</span>
             </h3>

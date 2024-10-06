@@ -6,8 +6,11 @@ import {
   RangeSliderThumb,
   RangeSliderTrack,
 } from "@chakra-ui/react";
+import { useSearchParams } from "react-router-dom";
 
 const PriceRange = ({handlePrice}) => {
+  const [searchParams,setSearchParams] = useSearchParams();
+
   const [rangeValues, setRangeValues] = useState([100, 400]);
 
   const handleRangeChange = (values) => {
