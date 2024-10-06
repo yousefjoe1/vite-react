@@ -1,7 +1,10 @@
 import React, { useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 
+import { TbHandClick } from "react-icons/tb";
+
 import {
+  Badge,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -28,7 +31,7 @@ const CategoriesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const newSearchParams = new URLSearchParams(searchParams);
 
-  let minPrice  = searchParams.get("minPrice");
+  let minPrice = searchParams.get("minPrice");
   let maxPrice = searchParams.get("maxPrice");
   let dress = searchParams.get("dress");
   let color = searchParams.get("color");
@@ -41,29 +44,28 @@ const CategoriesPage = () => {
   );
 
   console.log(data);
-  
 
   const setFilter = () => {
-    let u = `dress=${dress== null ? 'casual': dress}${
+    let u = `dress=${dress == null ? "casual" : dress}${
       minPrice != undefined ? `&minPrice=${minPrice}` : ""
     }${maxPrice != undefined ? `&maxPrice=${maxPrice}` : ""}${
       color != undefined ? `&color=${color}` : ""
-    }${size != undefined ? `&size=${size}` : ""}${category != undefined? `&category=${category}`:''}`;
+    }${size != undefined ? `&size=${size}` : ""}${
+      category != undefined ? `&category=${category}` : ""
+    }`;
     const newSearchParams = new URLSearchParams(u);
     setSearchParams(newSearchParams);
     refetch();
-    document.body.scrollIntoView({behavior: 'smooth'});
-
+    document.body.scrollIntoView({ behavior: "smooth" });
   };
 
   const resetFilter = async () => {
     const newSearchParams = new URLSearchParams();
-    newSearchParams.set("dress", 'casual');
-    document.body.scrollIntoView({behavior: 'smooth'});
+    newSearchParams.set("dress", "casual");
+    document.body.scrollIntoView({ behavior: "smooth" });
     await setSearchParams(newSearchParams);
     refetch();
     document.body.scrollIntoView();
-
   };
 
   return (
@@ -122,13 +124,11 @@ const CategoriesPage = () => {
 
         <FilterMobile />
 
-          {isRefetching && 
-          
-        <div className="fixed top-0  z-50 bg-slate-400/80 h-12 border-b-2 w-full flex justify-center items-center p-4 rounded-3xl">
-          <MySpinner s="lg" />
-          
-        </div>
-          }
+        {isRefetching && (
+          <div className="fixed top-1  z-50 bg-slate-400/80 h-12 border-b-2 w-full flex justify-center items-center p-4 rounded-3xl">
+            <MySpinner s="lg" />
+          </div>
+        )}
 
         {isError || isLoading ? (
           <MySpinner />
@@ -140,7 +140,12 @@ const CategoriesPage = () => {
             </h3>
 
             {data?.data?.length == 0 ? (
-              <Button onClick={resetFilter}>Get All</Button>
+              <div className="flex items-center gap-4">
+                <Button onClick={resetFilter}>Get All <TbHandClick />  </Button>
+                <Badge variant="solid" colorScheme="red">
+                  No products found
+                </Badge>
+              </div>
             ) : (
               ""
             )}
