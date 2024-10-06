@@ -15,17 +15,17 @@ import axios from "axios";
 import { basUrl } from "../../_functions/getData";
 import { MyContext } from "../../_context/conexts";
 import { useToast } from "@chakra-ui/react";
+import ProductImgs from "./components/ProductImgs";
+import ContainerUp from "../../_components/ContainerUp";
 const ProductPage = () => {
   const { id } = useParams();
   const { data, isLoading, isError } = useFetch(`products/${id}`);
   const { contextValue, setContextValue } = useContext(MyContext);
 
-  console.log(data?.data);
   const [showBanner, setShowBanner] = useState(true);
   const [selectedColor, setSelectedColor] = useState("olive");
   const [selectedSize, setSelectedSize] = useState("Large");
   const [quantity, setQuantity] = useState(1);
-  const [mainImage, setMainImage] = useState(0);
   const [activeTab, setActiveTab] = useState("rating-reviews");
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
@@ -281,7 +281,7 @@ const ProductPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <ContainerUp className="min-h-screen bg-gray-100">
       {showBanner && (
         <div className="bg-black text-white p-2 flex justify-between items-center text-xs sm:text-sm">
           <div className="flex-grow text-center">
@@ -316,42 +316,9 @@ const ProductPage = () => {
         {isError || isLoading ? (
           <MySpinner />
         ) : (
-          <div className="flex flex-col lg:flex-row -mx-4"></div>
-        )}
 
         <div className="flex flex-col lg:flex-row -mx-4">
-          <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0 flex">
-            <div className="w-1/5 mr-4">
-              <div className="flex flex-col space-y-2">
-                {product.images.map((img, index) => (
-                  <div
-                    key={index}
-                    className={`w-full aspect-square cursor-pointer overflow-hidden rounded-lg ${
-                      index === mainImage
-                        ? "ring-2 ring-black"
-                        : "ring-1 ring-gray-200"
-                    }`}
-                    onClick={() => setMainImage(index)}
-                  >
-                    <img
-                      src={img}
-                      alt={`Thumbnail ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="w-4/5">
-              <div className="aspect-square overflow-hidden rounded-lg">
-                <img
-                  src={product.images[mainImage]}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
+          <ProductImgs imgs={data.data.images} />
           <div className="w-full lg:w-1/2 px-4">
             <h2 className="text-2xl lg:text-3xl font-bold mb-2">
               {product.name}
@@ -425,6 +392,7 @@ const ProductPage = () => {
             </div>
           </div>
         </div>
+        )}
 
         <div className="mt-16">
           <div className="border-b border-gray-200">
@@ -658,7 +626,7 @@ const ProductPage = () => {
           </div>
         </div>
       </main>
-    </div>
+    </ContainerUp>
   );
 };
 
