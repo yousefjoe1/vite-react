@@ -17,6 +17,7 @@ import CategoriesPage from "./Pages/CategoriesPage/CategoriesPage.jsx";
 import OrdersPage from "./Pages/OrdersPage/OrdersPage.jsx";
 import Checkout from "./Pages/Checkout/Checkout.jsx";
 import UserOrders from "./Pages/UserOrder/UserOrders.jsx";
+import ProductPage from "./Pages/ProductPage/ProductPage.jsx";
 
 
 const queryClient = new QueryClient();
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "user-order",
         element: <UserOrders />,
+      },
+        {
+        path: "product/:id",
+        element: <ProductPage/>,
       },
     ],
   },
