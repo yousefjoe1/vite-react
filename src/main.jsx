@@ -51,7 +51,7 @@ const router = createBrowserRouter([
         element: <Auth />,
       },
       {
-        path: "orders-page",
+        path: "orders",
         element: <OrdersPage />,
       },
       {
