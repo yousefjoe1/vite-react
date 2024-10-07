@@ -1,8 +1,15 @@
 import React, { useState } from "react";
+import MySpinner from "../../../_components/MainLayout/MySpinner";
 
 const ProductImgs = ({imgs}) => {
   const [mainImage, setMainImage] = useState(imgs[0]);
+  console.log(imgs);
 
+  if(!imgs){
+
+    return <MySpinner />
+  }
+  
   return (
     <>
       <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0 flex">

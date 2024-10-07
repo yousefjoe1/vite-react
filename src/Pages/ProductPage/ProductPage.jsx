@@ -319,7 +319,7 @@ const ProductPage = () => {
         ) : (
 
         <div className="flex flex-col lg:flex-row -mx-4">
-          <ProductImgs imgs={data.data.images} />
+          <ProductImgs imgs={data?.data?.images} />
           <div className="w-full lg:w-1/2 px-4">
             <h2 className="text-2xl lg:text-3xl font-bold mb-2">
               {data.data.name}
