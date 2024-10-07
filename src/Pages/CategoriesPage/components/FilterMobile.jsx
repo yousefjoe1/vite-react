@@ -13,40 +13,40 @@ import { GoFilter } from "react-icons/go";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import Categories from "./Categories";
 
-const FilterMobile = () => {
+const FilterMobile = ({refetch}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchParams, setSearchParams] = useSearchParams();
+  const btnRef = React.useRef(null)
+  const newSearchParams = new URLSearchParams(searchParams);
 
-  const btnRef = React.useRef(null);
+  let minPrice = searchParams.get("minPrice");
+  let maxPrice = searchParams.get("maxPrice");
+  let dress = searchParams.get("dress");
+  let color = searchParams.get("color");
+  let size = searchParams.get("size");
+  let category = searchParams.get("category");
 
-  let {current: category} = useRef()
-  let {current: minPrice} = useRef();
-  let {current: maxPrice} = useRef();
-  let {current: color} = useRef();
-  let {current: size} = useRef();
-
-
-  const setFilter = (name, value) => {
-    let u = `category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}&color=${color}&size=${size}`
-    console.log(u,'categ');
-    
-    const newSearchParams = new URLSearchParams(searchParams);
-    newSearchParams.set(name, value);
-    console.log(newSearchParams);
-    
-    // setSearchParams(newSearchParams);
+  const setFilter = () => {
+    let u = `dress=${dress == null ? "casual" : dress}${
+      minPrice != undefined ? `&minPrice=${minPrice}` : ""
+    }${maxPrice != undefined ? `&maxPrice=${maxPrice}` : ""}${
+      color != undefined ? `&color=${color}` : ""
+    }${size != undefined ? `&size=${size}` : ""}${
+      category != undefined ? `&category=${category}` : ""
+    }`;
+    const newSearchParams = new URLSearchParams(u);
+    setSearchParams(newSearchParams);
+    refetch();
+    document.body.scrollIntoView({ behavior: "smooth" });
   };
 
-  const applayFilter = (second) => {
-    setFilter()
-  };
-
-  const handlePrice = (name, value) => {
-    if(name == 'min'){
-      minPrice = value
-    }else {
-      maxPrice = value
-    }
+  const resetFilter = async () => {
+    const newSearchParams = new URLSearchParams();
+    newSearchParams.set("dress", "casual");
+    document.body.scrollIntoView({ behavior: "smooth" });
+    await setSearchParams(newSearchParams);
+    refetch();
+    document.body.scrollIntoView();
   };
   return (
     <div>
@@ -76,20 +76,20 @@ const FilterMobile = () => {
 
           <hr className="mt-3" />
           {/* sub categoreis */}
-          <Categories selectSubCategory={(c)=> category = c} />
+          <Categories />
 
           <hr className="my-3" />
 
           <h3 className="font-bold">Price</h3>
-          <PriceRange handlePrice={handlePrice} />
+          <PriceRange />
 
           <hr className="my-3" />
 
-          <Colors setFilter={(c)=> color = c} />
+          <Colors />
 
           <hr className="my-3" />
 
-          <Sizes  selectSize={(s)=> size = s}/>
+          <Sizes />
 
           <hr className="my-3" />
 
@@ -97,7 +97,7 @@ const FilterMobile = () => {
           <DressStyle />
 
           <button
-            onClick={applayFilter}
+            onClick={setFilter}
             className="bg-black rounded-3xl mt-3 text-white p-2 w-[99%] mx-auto "
           >
             Applay Filter

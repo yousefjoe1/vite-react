@@ -9,7 +9,7 @@ import {
   FiFilter,
 } from "react-icons/fi";
 import useFetch from "../../_hooks/useFetch";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import MySpinner from "../../_components/MainLayout/MySpinner";
 import axios from "axios";
 import { basUrl } from "../../_functions/getData";
@@ -17,6 +17,7 @@ import { MyContext } from "../../_context/conexts";
 import { useToast } from "@chakra-ui/react";
 import ProductImgs from "./components/ProductImgs";
 import ContainerUp from "../../_components/ContainerUp";
+import NewArrival from "../Home/Components/NewArrival";
 const ProductPage = () => {
   const { id } = useParams();
   const { data, isLoading, isError } = useFetch(`products/${id}`,`product-${id}`);
@@ -327,7 +328,7 @@ const ProductPage = () => {
               <StarRating rating={product.rating} />
             </div>
             <div className="mb-4">
-              <span className="text-2xl font-bold">${(data.data.price * data.data.discount)  / 100}</span>
+              <span className="text-2xl font-bold">${data.data.price - (data.data.discount * data.data.price /100  )}</span>
               <span className="text-gray-500 line-through ml-2">
                 ${data.data.price}
               </span>
@@ -386,8 +387,8 @@ const ProductPage = () => {
                 </button>
               </div>
               <button disabled={isSubmit == true ? true: false} onClick={ addTocart} className="flex-grow bg-black text-white px-8 py-3 rounded-full flex items-center justify-center">
-                {isSubmit && <MySpinner s="lg" /> }
-                <FiShoppingCart className="mr-2" /> Add to Cart
+                {isSubmit ? <MySpinner s="lg" />: <><FiShoppingCart className="mr-2" /> Add to Cart</> }
+                
               </button>
             </div>
           </div>
@@ -591,9 +592,9 @@ const ProductPage = () => {
           <h2 className="text-2xl font-bold mb-8 text-center">
             You might also like
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {relatedProducts.map((product, index) => (
-              <div
+              <Link to={`/product/`}
                 key={index}
                 className="bg-white rounded-lg shadow-md overflow-hidden"
               >
@@ -621,9 +622,10 @@ const ProductPage = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
-          </div>
+          </div> */}
+          <NewArrival />
         </div>
       </main>
     </ContainerUp>

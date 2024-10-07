@@ -122,7 +122,7 @@ const CategoriesPage = () => {
           </button>
         </div>
 
-        <FilterMobile />
+        <FilterMobile refetch={refetch} />
 
         {isRefetching && (
           <div className="fixed top-1  z-50 bg-slate-400/80 h-12 border-b-2 w-full flex justify-center items-center p-4 rounded-3xl">
