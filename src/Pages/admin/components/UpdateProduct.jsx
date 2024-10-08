@@ -23,6 +23,7 @@ const UpdateProduct = ({product,refetch}) => {
   const [details, setdetails] = useState(product.details)
   const [price, setPrice] = useState(product.price)
   const [discount, setDiscount] = useState(product.discount)
+  const [rate, setRate] = useState(product.rate)
   const [category, setCategory] = useState(product.category)
   const [sub_category, setSub_category] = useState(product.sub_category)
   const [dress, setDress] = useState(product.dress)
@@ -46,7 +47,8 @@ const UpdateProduct = ({product,refetch}) => {
       sub_category: sub_category,
       colors:colors,
       sizes: sizes,
-      dress: dress
+      dress: dress,
+      rate:rate
     }
     let res = await axios.patch(`${basUrl}/api/products/${product._id}`,d,h)
     console.log(res);
@@ -96,6 +98,9 @@ const UpdateProduct = ({product,refetch}) => {
 
             <Text mb='2px'>price</Text>
             <Input mb={3} type="number" value={price} onChange={(e)=> handlePriceChange(e.target.value)}  />
+
+            <Text mb='2px'>Rate</Text>
+            <Input mb={3} type="number" value={rate} onChange={(e)=> setRate(e.target.value)}  />
 
             <Text mb='2px'>discount</Text>
             <Input mb={3} type="number" value={discount} onChange={(e)=> setDiscount(e.target.value)}  />

@@ -18,6 +18,7 @@ import { useToast } from "@chakra-ui/react";
 import ProductImgs from "./components/ProductImgs";
 import ContainerUp from "../../_components/ContainerUp";
 import NewArrival from "../Home/Components/NewArrival";
+import Rate from "../../_components/Rate";
 const ProductPage = () => {
   const { id } = useParams();
   const { data, isLoading, isError } = useFetch(`products/${id}`,`product-${id}`);
@@ -281,6 +282,9 @@ const ProductPage = () => {
     
   }
 
+  console.log(data?.data);
+  
+
   return (
     <ContainerUp className="min-h-screen bg-gray-100">
       {showBanner && (
@@ -325,7 +329,8 @@ const ProductPage = () => {
               {data.data.name}
             </h2>
             <div className="mb-4">
-              <StarRating rating={product.rating} />
+              {/* <StarRating rating={product.rating} /> */}
+              <Rate rate={data.data.rate} />
             </div>
             <div className="mb-4">
               <span className="text-2xl font-bold">${data.data.price - (data.data.discount * data.data.price /100  )}</span>

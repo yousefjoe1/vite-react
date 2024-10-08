@@ -3,7 +3,7 @@ import MySpinner from "../../../_components/MainLayout/MySpinner";
 
 const ProductImgs = ({imgs}) => {
   const [mainImage, setMainImage] = useState(imgs[0]);
-  console.log(imgs);
+  // console.log(imgs);
 
   if(!imgs){
 

@@ -6,6 +6,7 @@ import AddProduct from './components/AddProduct';
 
 const Admin = () => {
   const { data, isLoading, isError,refetch } = useFetch(`products`,'pr-admin');
+console.log(data);
 
   if(isLoading || isError){
 
@@ -30,6 +31,7 @@ const Admin = () => {
               <div className="name">price: {el.price} </div>
               <div className="name">category: {el.category} </div>
               <div className="name">dress: {el.dress} </div>
+              <div className="name">rate: {el.rate} </div>
 
               {/* update */}
               <UpdateProduct product={el} refetch={refetch} />
