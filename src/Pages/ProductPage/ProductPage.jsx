@@ -9,7 +9,7 @@ import {
   FiFilter,
 } from "react-icons/fi";
 import useFetch from "../../_hooks/useFetch";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MySpinner from "../../_components/MainLayout/MySpinner";
 import axios from "axios";
 import { basUrl } from "../../_functions/getData";
@@ -76,45 +76,6 @@ const ProductPage = () => {
       },
     ],
   };
-
-  const relatedProducts = [
-    {
-      name: "Polo with Contrast Trims",
-      rating: 4.0,
-      price: 212,
-      originalPrice: 242,
-      discount: 20,
-      image:
-        "https://s3-alpha-sig.figma.com/img/15e6/8c10/3095df99e905b164718348af952a0f64?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=pBmaKP9Ny~Ra8uwKLLovuvy2h1waQk4JCO2mp6jN74jdra5ILWmpL2tFgm4aRHw1i3nHmeSkBoPuOcsLxbIvU86-xLBPN6xs8bE-C8rO4f~yRcyCmRw4i1VavAR0FxVGj0o9fd5JH6t93EKLqNCrJALfxUKJUVS61Fw6Vf76ha1f9R3BSUo29J1IfIR9TKDK3hYBhz99iGXu-1Tqif9E1UpDBAmlcgDSyYDIa-2E0JPG-RWDAswLgJ4dtG0MwgUtf-jEQu9m4xurVlnCeRZxkL9my4SjU5sceIkLR3G9Q~sOn-72nl2R0OfY40iYMJTi7sToa40PUCFqjSXiroxYOA__",
-      link: "/product/polo-contrast",
-    },
-    {
-      name: "Gradient Graphic T-shirt",
-      rating: 3.5,
-      price: 145,
-      image:
-        "https://s3-alpha-sig.figma.com/img/f04a/017d/b094f9a20c2328f54a31b153619784f3?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=i611VRFWx1Og0qDdkN8hZlSbMv82Y6wl7oFU~MjFLFZpqg17qBWfuh2XyG87bqkJaKM8hPQ14i4JATKtCk5g6Mvo8pu1OqVw~XOuSDSOSKlpDbn4bg9cYSEAYs9iA-PAoJga4pFMQ3XmkL9vtDIiL~zFZiUIRwLHNSWwVVtnGrJlA38cw7EpgwR9jLmyoVWyM7nQQYcC-Bigr4cEEv51KIT3l6JS4kk-kJd~UEy~wD4JlcEhkQsK9OcfoHy8bCKdVP9HxLb-Qkyw3dQkD6ZAo6-WnQaYVHmcyUqnDBH8tStQdAK0R~cC1dDCVGLopAooo2Q7~QNYot4geQvSlBLbdw__",
-      link: "/product/gradient-tshirt",
-    },
-    {
-      name: "Polo with Tipping Details",
-      rating: 4.5,
-      price: 180,
-      image:
-        "https://s3-alpha-sig.figma.com/img/aecd/8196/485b30fd30b3226e09bb8f8e494c260b?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ga1eGI5u6aryrDyLcqV-JIIv8AkDIkDRKZKt2TmUMtgPOymmqbMDDskfOBwVfSSrzFTWpuQGOrwaaY1V3riZ50NhNtZmoqHUTdX6d-C5CBuzaJLJPO7od4H9aBrDblkRk7e5NP5wFMK0PMf-K9UF7c~5OEPV8Vc55pGeZLoyuVablt~UeXmN35etv~mB4mFTaoLWy7k4~4YpN2TU7HVMAJSrJRc89eQVDis0xcOboFb~eqdLsMdAtyGCkarS3LnAP~RHBDCsiCceHCdZe2E8nJt9YPqZUNibhg76ReMRhtlCrnU8hXDLk2Pz8rtd509pUV-zzLTlNSXH~57AgBuvpA__",
-      link: "/product/polo-tipping",
-    },
-    {
-      name: "Black Striped T-shirt",
-      rating: 5.0,
-      price: 120,
-      originalPrice: 150,
-      discount: 30,
-      image:
-        "https://s3-alpha-sig.figma.com/img/6115/920b/12942762aefb7c7ac954e78b76284504?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=TueIhiej-appdWasjWao4XTLXQ9fcTJ-t6jmweQvCLp1pNJ27iF00az6gGxxMmithfVhl59FqQTXkiBGwdKgcHPQ2MDYsLFB-CQMIcNi4eRarHroBlb0RyFmTWSyCxVtfb3COpNh1mbK5qdhmJY5al2ZqlWDgS7F6A1DS6a0T9aIFM994kwfe6LS-UCsbMSJEpsg0sOM7o~KvOy6lcbm1m~WFAgb-g9pschLlDrxr37TiWPDpVhQVGELj-zdwqLnlyKqdBvzRrad~iP3aeoYlwqb03VUeFe9rH56PAwCFvVq~fM~IonEuJS7Y3b59hu-SY48Y9wYmTeTEEBsycB1cQ__",
-      link: "/product/striped-tshirt",
-    },
-  ];
 
   const [reviews, setReviews] = useState([]);
 
