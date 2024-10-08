@@ -1,6 +1,7 @@
 import React from "react";
 import { FiStar } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import Rate from "../Rate";
 const StarRating = ({ rating }) => {
   return (
     <div className="flex items-center">
@@ -32,7 +33,8 @@ const Product = ({prod}) => {
             </div>
             <div className="p-4">
               <h3 className="font-semibold text-lg mb-2">{prod.name}</h3>
-              <StarRating rating={3} />
+              {/* <StarRating rating={3} /> */}
+              <Rate rate={prod.rate} />
               <div className="mt-2">
                 <span className="font-bold text-lg">${prod.price}</span>
                 {/* {product.originalPrice && (
