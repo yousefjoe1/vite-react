@@ -5,7 +5,7 @@ import { getData, getDataWithAuth } from '../_functions/getData';
 const useFetch = (url, apiName, fetchAgain,auth = '') => {
 // console.log(url);
 // * url , apiName , fetchAgain , isPaginate , isAuth , isEnable
-    let { data, isLoading, isRefetching, isError,refetch ,error} = useQuery({
+    let { data, isLoading, isRefetching, isError,refetch ,error,isFetched} = useQuery({
         queryKey: [apiName, fetchAgain],
         queryFn: () => {
             if(auth.length > 0){
@@ -22,7 +22,7 @@ const useFetch = (url, apiName, fetchAgain,auth = '') => {
     // console.log(isError);
 
 
-    return {data, isLoading, isRefetching, isError,refetch, error}
+    return {data, isLoading, isRefetching, isError,refetch, error , isFetched}
 }
 
 export default useFetch
