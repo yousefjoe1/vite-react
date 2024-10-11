@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import MySpinner from "../../../_components/MainLayout/MySpinner";
 import CartProduct from "../../../_components/Cards/CartProduct";
 
-const CartAndOrder = ({ data, status }) => {
-  const [cartData, setcartData] = useState(data);
-  const { total } = cartData;
+const CartAndOrder = ({ producuts, status }) => {
+  const [cartData, setcartData] = useState(producuts);
+  
+  const { total,data } = cartData;
+  console.log(data,'data');
 
+  let subTotal = data.map(it=> it.product.discount).reduce((accumulator, current) => accumulator + current, 0);
+
+  let finalPrice = total - subTotal * total /100
+  
   let { isLoading, isRefetching, isError } = status;
 
   const handleItem = (item, operator) => {
-    console.log(item, operator);
     let d = total ;
     if(operator == '-'){
         d -= item.price
@@ -19,6 +24,8 @@ const CartAndOrder = ({ data, status }) => {
     let c = {...cartData,total:d}
     setcartData(p=> c)
   };
+
+
 
   return (
     <div>
@@ -58,10 +65,10 @@ const CartAndOrder = ({ data, status }) => {
             <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
             <div className="flex justify-between mb-2">
               <span>Subtotal</span>
-              <span>$100</span>
+              <span>${total}</span>
             </div>
             <div className="flex justify-between mb-2 text-red-500">
-              <span>Discount (-20%)</span>
+              <span>Discount (-{subTotal}%)</span>
               <span>-$100</span>
             </div>
             <div className="flex justify-between mb-2">
@@ -70,7 +77,7 @@ const CartAndOrder = ({ data, status }) => {
             </div>
             <div className="flex justify-between font-semibold text-lg mt-4 pt-4 border-t">
               <span>Total</span>
-              <span>${total}</span>
+              <span>${finalPrice}</span>
             </div>
             <button className="w-full bg-black text-white py-3 rounded-full mt-6 hover:bg-gray-800 transition duration-300">
               Go to Checkout →

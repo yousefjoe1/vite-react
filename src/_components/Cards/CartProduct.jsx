@@ -44,7 +44,6 @@ const CartProduct = ({ product, item,handleItem }) => {
     setIsSubmit(true);
     try {
       let res = await axios.delete(`${basUrl}/api/cart/${id}`, h);
-      console.log(res, "resp");
       setIsSubmit(false);
       setContextValue(!contextValue);
       return;

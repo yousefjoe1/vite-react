@@ -8,8 +8,7 @@ import { MyContext } from "../../_context/conexts";
 const Cart = () => {
   const { contextValue } = useContext(MyContext);
 
-  const { data, isLoading, isError, error, isRefetching } =
-    useFetch(`cart`, "user-cart", contextValue, "userToken");
+  const { data, isLoading, isError, isRefetching } = useFetch(`cart`, "user-cart", contextValue, "userToken");
 
   return (
     <ContainerUp className="min-h-screen bg-white py-8">
@@ -24,17 +23,23 @@ const Cart = () => {
 
         <h1 className="text-2xl font-bold mb-8">Your cart</h1>
 
-        {isLoading ? (
+        {isLoading  ? (
           <MySpinner />
         ) : (
+          <>
+          {
+            isRefetching ? <MySpinner />:
+
           <CartAndOrder
-            data={data}
-            status={{
-              loading: isLoading,
-              isRefetching: isRefetching,
-              isError: isError,
-            }}
+          producuts={data}
+          status={{
+            loading: isLoading,
+            isRefetching: isRefetching,
+            isError: isError,
+          }}
           />
+        }
+          </>
         )}
       </div>
     </ContainerUp>
