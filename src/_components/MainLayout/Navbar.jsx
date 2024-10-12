@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import {
   Menu,
   Search,
@@ -14,12 +14,20 @@ import { useQuery } from "@chakra-ui/react";
 import { basUrl } from "../../_functions/getData";
 import axios from "axios";
 import MySpinner from "./MySpinner";
+import { MyContext } from "../../_context/conexts";
 
 const Navbar = () => {
+  const { contextValue, setContextValue } = useContext(MyContext);
+  console.log(contextValue);
 
-  const { data, isLoading, isError } = useFetch(`cart`, 'cart-name',false, 'userToken');
-  console.log(data);
-  
+  const { data, isLoading, isError,isRefetching} = useFetch(
+    `cart`,
+    "cart-name",
+    contextValue,
+    "userToken"
+  );
+  console.log(data, "cart");
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isShopMenuOpen, setIsShopMenuOpen] = useState(false);
@@ -102,25 +110,25 @@ const Navbar = () => {
                   </button>
                   {isShopMenuOpen && (
                     <div className="absolute z-10 left-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Link 
+                      <Link
                         to="/shop/mens"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                       >
                         Men&apos;s Clothing
                       </Link>
-                      <Link 
+                      <Link
                         to="/shop/womens"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                       >
                         Women&apos;s Clothing
                       </Link>
-                      <Link 
+                      <Link
                         to="/shop/accessories"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                       >
                         Accessories
                       </Link>
-                      <Link 
+                      <Link
                         to="/shop/shoes"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                       >
@@ -195,17 +203,17 @@ const Navbar = () => {
                   </button>
                 )}
               </div>
-              <Link to={`/cart`} className="p-2 relative hover:text-indigo-600 transition duration-150 ease-in-out">
+              <Link
+                to={`/cart`}
+                className="p-2 relative hover:text-indigo-600 transition duration-150 ease-in-out"
+              >
                 <ShoppingCart className="h-6 w-6" />
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-                  {
-                    isLoading ? <MySpinner s="sm" />
-                  :
-                  <> {data.data.length} </>
-                  }
-                  {
-                    isError && 0
-                  }
+                  {isLoading || isRefetching ? (
+                    <MySpinner s="sm" />
+                  ) : (
+                    <>{isError ? 0 : <>{data?.data?.length}</>}</>
+                  )}
                 </span>
               </Link>
               <div className="relative ml-3" ref={profileMenuRef}>
@@ -250,12 +258,14 @@ const Navbar = () => {
                       </>
                     ) : (
                       <>
-                        <Link to={'auth?mode=login'}
+                        <Link
+                          to={"auth?mode=login"}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                         >
                           Login
                         </Link>
-                        <Link to={`auth?mode=register`}
+                        <Link
+                          to={`auth?mode=register`}
                           className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-600"
                         >
                           Register

@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Spinner, useToast } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { MyContext } from "../../_context/conexts";
 
 const Auth = () => {
+  const { contextValue, setContextValue } = useContext(MyContext);
+
   let toast = useToast()
   let navigate = useNavigate()
   let msg = (msg,status='success',timev= 3000)=> {
@@ -55,6 +58,7 @@ const Auth = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
@@ -76,6 +80,7 @@ const Auth = () => {
         navigate('/')
         msg(resp.data.msg)
       }
+      setContextValue(!contextValue)
       setIsSubmit(false)
 
       return

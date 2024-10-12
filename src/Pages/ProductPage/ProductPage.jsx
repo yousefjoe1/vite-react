@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   FiX,
   FiMinus,
@@ -11,15 +11,23 @@ import {
 import useFetch from "../../_hooks/useFetch";
 import { useParams } from "react-router-dom";
 import MySpinner from "../../_components/MainLayout/MySpinner";
+import axios from "axios";
+import { basUrl } from "../../_functions/getData";
+import { MyContext } from "../../_context/conexts";
+import { useToast } from "@chakra-ui/react";
+import ProductImgs from "./components/ProductImgs";
+import ContainerUp from "../../_components/ContainerUp";
+import NewArrival from "../Home/Components/NewArrival";
+import Rate from "../../_components/Rate";
 const ProductPage = () => {
   const { id } = useParams();
-  const { data, isLoading, isError } = useFetch(`products/${id}`);
-  console.log(data?.data);
+  const { data, isLoading, isError } = useFetch(`products/${id}`,`product-${id}`);
+  const { contextValue, setContextValue } = useContext(MyContext);
+
   const [showBanner, setShowBanner] = useState(true);
   const [selectedColor, setSelectedColor] = useState("olive");
   const [selectedSize, setSelectedSize] = useState("Large");
   const [quantity, setQuantity] = useState(1);
-  const [mainImage, setMainImage] = useState(0);
   const [activeTab, setActiveTab] = useState("rating-reviews");
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
@@ -68,45 +76,6 @@ const ProductPage = () => {
       },
     ],
   };
-
-  const relatedProducts = [
-    {
-      name: "Polo with Contrast Trims",
-      rating: 4.0,
-      price: 212,
-      originalPrice: 242,
-      discount: 20,
-      image:
-        "https://s3-alpha-sig.figma.com/img/15e6/8c10/3095df99e905b164718348af952a0f64?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=pBmaKP9Ny~Ra8uwKLLovuvy2h1waQk4JCO2mp6jN74jdra5ILWmpL2tFgm4aRHw1i3nHmeSkBoPuOcsLxbIvU86-xLBPN6xs8bE-C8rO4f~yRcyCmRw4i1VavAR0FxVGj0o9fd5JH6t93EKLqNCrJALfxUKJUVS61Fw6Vf76ha1f9R3BSUo29J1IfIR9TKDK3hYBhz99iGXu-1Tqif9E1UpDBAmlcgDSyYDIa-2E0JPG-RWDAswLgJ4dtG0MwgUtf-jEQu9m4xurVlnCeRZxkL9my4SjU5sceIkLR3G9Q~sOn-72nl2R0OfY40iYMJTi7sToa40PUCFqjSXiroxYOA__",
-      link: "/product/polo-contrast",
-    },
-    {
-      name: "Gradient Graphic T-shirt",
-      rating: 3.5,
-      price: 145,
-      image:
-        "https://s3-alpha-sig.figma.com/img/f04a/017d/b094f9a20c2328f54a31b153619784f3?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=i611VRFWx1Og0qDdkN8hZlSbMv82Y6wl7oFU~MjFLFZpqg17qBWfuh2XyG87bqkJaKM8hPQ14i4JATKtCk5g6Mvo8pu1OqVw~XOuSDSOSKlpDbn4bg9cYSEAYs9iA-PAoJga4pFMQ3XmkL9vtDIiL~zFZiUIRwLHNSWwVVtnGrJlA38cw7EpgwR9jLmyoVWyM7nQQYcC-Bigr4cEEv51KIT3l6JS4kk-kJd~UEy~wD4JlcEhkQsK9OcfoHy8bCKdVP9HxLb-Qkyw3dQkD6ZAo6-WnQaYVHmcyUqnDBH8tStQdAK0R~cC1dDCVGLopAooo2Q7~QNYot4geQvSlBLbdw__",
-      link: "/product/gradient-tshirt",
-    },
-    {
-      name: "Polo with Tipping Details",
-      rating: 4.5,
-      price: 180,
-      image:
-        "https://s3-alpha-sig.figma.com/img/aecd/8196/485b30fd30b3226e09bb8f8e494c260b?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ga1eGI5u6aryrDyLcqV-JIIv8AkDIkDRKZKt2TmUMtgPOymmqbMDDskfOBwVfSSrzFTWpuQGOrwaaY1V3riZ50NhNtZmoqHUTdX6d-C5CBuzaJLJPO7od4H9aBrDblkRk7e5NP5wFMK0PMf-K9UF7c~5OEPV8Vc55pGeZLoyuVablt~UeXmN35etv~mB4mFTaoLWy7k4~4YpN2TU7HVMAJSrJRc89eQVDis0xcOboFb~eqdLsMdAtyGCkarS3LnAP~RHBDCsiCceHCdZe2E8nJt9YPqZUNibhg76ReMRhtlCrnU8hXDLk2Pz8rtd509pUV-zzLTlNSXH~57AgBuvpA__",
-      link: "/product/polo-tipping",
-    },
-    {
-      name: "Black Striped T-shirt",
-      rating: 5.0,
-      price: 120,
-      originalPrice: 150,
-      discount: 30,
-      image:
-        "https://s3-alpha-sig.figma.com/img/6115/920b/12942762aefb7c7ac954e78b76284504?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=TueIhiej-appdWasjWao4XTLXQ9fcTJ-t6jmweQvCLp1pNJ27iF00az6gGxxMmithfVhl59FqQTXkiBGwdKgcHPQ2MDYsLFB-CQMIcNi4eRarHroBlb0RyFmTWSyCxVtfb3COpNh1mbK5qdhmJY5al2ZqlWDgS7F6A1DS6a0T9aIFM994kwfe6LS-UCsbMSJEpsg0sOM7o~KvOy6lcbm1m~WFAgb-g9pschLlDrxr37TiWPDpVhQVGELj-zdwqLnlyKqdBvzRrad~iP3aeoYlwqb03VUeFe9rH56PAwCFvVq~fM~IonEuJS7Y3b59hu-SY48Y9wYmTeTEEBsycB1cQ__",
-      link: "/product/striped-tshirt",
-    },
-  ];
 
   const [reviews, setReviews] = useState([]);
 
@@ -230,8 +199,55 @@ const ProductPage = () => {
     setShowReviewForm(false);
   };
 
+  const [isSubmit, setisSubmit] = useState(false)
+  let msg = useToast()
+
+  const addTocart = async (pr) => {
+    let tk = localStorage.getItem('userToken')
+
+    if(!tk){
+      msg({title: `You have to login `,status: 'warning',duration: 3000})
+      return
+    }
+
+    let h =  {
+      headers: {
+        Authorization: `Bearer ${tk}`
+      }
+    }
+    let {name,_id,discount,price,images} = data.data
+    let d = {
+      product: {name,_id,img:images[0],discount,color:selectedColor,size:selectedSize,price},
+      count: quantity
+    }
+
+    setisSubmit(true)
+    try {
+      let res = await axios.post(`${basUrl}/api/cart/add-to-cart`,d,h)
+      if(res.data.in_cart){
+        msg({title: res.data.msg,status: 'info',duration: 3000})
+        setisSubmit(false)
+        return
+      }else{
+        msg({title: res.data.msg,status: 'success',duration: 3000})
+        setisSubmit(false)
+        setContextValue(!contextValue)
+  
+      }
+      
+    } catch (er) {
+      console.log(er);
+      setisSubmit(false)
+      
+    }
+    
+  }
+
+  console.log(data?.data);
+  
+
   return (
-    <div className="min-h-screen bg-gray-100">
+    <ContainerUp className="min-h-screen bg-gray-100">
       {showBanner && (
         <div className="bg-black text-white p-2 flex justify-between items-center text-xs sm:text-sm">
           <div className="flex-grow text-center">
@@ -266,55 +282,23 @@ const ProductPage = () => {
         {isError || isLoading ? (
           <MySpinner />
         ) : (
-          <div className="flex flex-col lg:flex-row -mx-4"></div>
-        )}
 
         <div className="flex flex-col lg:flex-row -mx-4">
-          <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0 flex">
-            <div className="w-1/5 mr-4">
-              <div className="flex flex-col space-y-2">
-                {product.images.map((img, index) => (
-                  <div
-                    key={index}
-                    className={`w-full aspect-square cursor-pointer overflow-hidden rounded-lg ${
-                      index === mainImage
-                        ? "ring-2 ring-black"
-                        : "ring-1 ring-gray-200"
-                    }`}
-                    onClick={() => setMainImage(index)}
-                  >
-                    <img
-                      src={img}
-                      alt={`Thumbnail ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="w-4/5">
-              <div className="aspect-square overflow-hidden rounded-lg">
-                <img
-                  src={product.images[mainImage]}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </div>
-          </div>
+          <ProductImgs imgs={data?.data?.images} />
           <div className="w-full lg:w-1/2 px-4">
             <h2 className="text-2xl lg:text-3xl font-bold mb-2">
-              {product.name}
+              {data.data.name}
             </h2>
             <div className="mb-4">
-              <StarRating rating={product.rating} />
+              {/* <StarRating rating={product.rating} /> */}
+              <Rate rate={data.data.rate} />
             </div>
             <div className="mb-4">
-              <span className="text-2xl font-bold">${product.price}</span>
+              <span className="text-2xl font-bold">${data.data.price - (data.data.discount * data.data.price /100  )}</span>
               <span className="text-gray-500 line-through ml-2">
-                ${product.originalPrice}
+                ${data.data.price}
               </span>
-              <span className="text-red-500 ml-2">-{product.discount}%</span>
+              <span className="text-red-500 ml-2">-{data.data.discount}%</span>
             </div>
             <div className="mb-8 pb-8 border-b border-gray-200">
               <p>{product.description}</p>
@@ -368,12 +352,14 @@ const ProductPage = () => {
                   <FiPlus />
                 </button>
               </div>
-              <button className="flex-grow bg-black text-white px-8 py-3 rounded-full flex items-center justify-center">
-                <FiShoppingCart className="mr-2" /> Add to Cart
+              <button disabled={isSubmit == true ? true: false} onClick={ addTocart} className="flex-grow bg-black text-white px-8 py-3 rounded-full flex items-center justify-center">
+                {isSubmit ? <MySpinner s="lg" />: <><FiShoppingCart className="mr-2" /> Add to Cart</> }
+                
               </button>
             </div>
           </div>
         </div>
+        )}
 
         <div className="mt-16">
           <div className="border-b border-gray-200">
@@ -572,9 +558,9 @@ const ProductPage = () => {
           <h2 className="text-2xl font-bold mb-8 text-center">
             You might also like
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {relatedProducts.map((product, index) => (
-              <div
+              <Link to={`/product/`}
                 key={index}
                 className="bg-white rounded-lg shadow-md overflow-hidden"
               >
@@ -602,12 +588,13 @@ const ProductPage = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
-          </div>
+          </div> */}
+          <NewArrival />
         </div>
       </main>
-    </div>
+    </ContainerUp>
   );
 };
 
