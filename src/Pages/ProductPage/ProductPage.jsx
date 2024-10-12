@@ -19,6 +19,8 @@ import ProductImgs from "./components/ProductImgs";
 import ContainerUp from "../../_components/ContainerUp";
 import NewArrival from "../Home/Components/NewArrival";
 import Rate from "../../_components/Rate";
+import { initialReviews } from "./productDetailsData";
+import { faqs, sizes } from "../CategoriesPage/categoriesData";
 const ProductPage = () => {
   const { id } = useParams();
   const { data, isLoading, isError } = useFetch(`products/${id}`,`product-${id}`);
@@ -38,43 +40,9 @@ const ProductPage = () => {
   });
 
   const product = {
-    name: "One Life Graphic T-shirt",
-    rating: 4.5,
-    price: 260,
-    originalPrice: 300,
-    discount: 40,
-    description:
-      "This graphic t-shirt which is perfect for any occasion. Crafted from a soft and breathable fabric, it offers superior comfort and style.",
     colors: ["olive", "green", "navy"],
-    sizes: ["Small", "Medium", "Large", "X-Large"],
-    images: [
-      "https://s3-alpha-sig.figma.com/img/21d6/bcec/533545a2b1e10e90b8059bc1bc97eab5?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=bklxkI0GvT5C15nSvHBJU8jIh3k2NBAyL8ZP~FrK5ewUN1epvjQFf7Yl3~qdSh9g8oxA29UM-YDgTL3~-Pi9zV~i-8JihWr7c7kDjNX5tyYkoDTviJXuy7oyA-X-pSLq9LY1-ble8niEmVTIA4fn6ZjU87fIrxI5EDufuh6G54lr6y5xImjMC94JoqZTu9lqFSZTAp2909xf79a-AqEfj0hs0tbXLZYu2vsQZO1pF~hCm~yt~OcVaxuGFI4bhoWLhZ0PZBQ7ukSneafxwRRiFu4prz89jKXj4YJUT4j20lDhKjG0m8pfib8sHIzPl7~kVfgOsju6v0xl1u546QFPPA__",
-      "https://s3-alpha-sig.figma.com/img/52ce/3b46/9d8d7ff6e33f95a574450e07218fc909?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=mqPVkYL9uvAQMeCUPNMh~RNFjOi~1~Z~YCJi9MVkNyL~HjKqorCyL--3WAYJe29S1H5ztIDZzaWAPEJLxK8RSp2VjjolsJuXB5pv6SPYB21YCcH90v0HtEHTwN24R-UC8DxhoNC-CMGgSJHLKl~chzU7vxWjJWId7egt5xNz3zjKIfJCH6PUHpHaUbnJ6TvYjDKN-4KVLUNVl-w12h4xlT4cwXsaKEMRCwFQNJF7uiqpji7KTC9JN6vVL4Xr7UZDZKfpih7lHhdodPZeSUj8i3~gVG~oeb7odMsltjtYEu6uwNo8Hnowkqb-RiOZHp-j0-gc8QJqrxOKbI2oOMAOMQ__",
-      "https://s3-alpha-sig.figma.com/img/51c4/5a78/b417beff6f8fa6310534f3755fd23c5a?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ni7SachtpO8MQVNuo9-htoIbnKtn6~k~g3WZOXkbBZ5f0lG-WnZ6v4G8Xh-GTiB0ti3ejFV7F9WDotOsvfMu4E8bF2z~J4bV0AIGBl17IE89lKBVOx~dzUaqqqXDglYi7JhDHonidMfUc~ICX2uUMNXhwiKUniK2fwFs6trhPooRBYzR3NEwf131HVIMImc4iS3CFVZI6249Lan3ELapUecrK~fzJ1ozl157hPXviKS2cdwuITz3UuVdZ1bbg1K0IwtGxIokAlmAZ5JJwXTsTQ~gMlxHza4EdOmgIJv98KJXMao41K1MOw1aV1n-v~Ba-5dGLh85kN3FeVkrwwauPQ__",
-    ],
-    details: {
-      material: "100% Cotton",
-      fit: "Regular fit",
-      care: "Machine wash cold, tumble dry low",
-      origin: "Imported",
-    },
-    faqs: [
-      {
-        question: "How does the sizing run?",
-        answer:
-          "Our t-shirts are true to size. For a looser fit, we recommend sizing up.",
-      },
-      {
-        question: "Is the material see-through?",
-        answer:
-          "No, the fabric is thick enough to ensure opacity while still being breathable.",
-      },
-      {
-        question: "How should I care for this t-shirt?",
-        answer:
-          "For best results, machine wash cold and tumble dry on low heat. Avoid using bleach.",
-      },
-    ],
+    sizes: sizes,
+    faqs:faqs ,
   };
 
   const [reviews, setReviews] = useState([]);
@@ -84,56 +52,7 @@ const ProductPage = () => {
     if (storedReviews) {
       setReviews(JSON.parse(storedReviews));
     } else {
-      const initialReviews = [
-        {
-          id: 1,
-          name: "Samantha D.",
-          rating: 5,
-          date: "August 14, 2023",
-          content:
-            "I absolutely love this t-shirt! The design is unique and the fabric feels so comfortable. As a fellow designer, I appreciate the attention to detail. It's become my favorite go-to shirt!",
-        },
-        {
-          id: 2,
-          name: "Alex M.",
-          rating: 4,
-          date: "August 15, 2023",
-          content:
-            "This t-shirt exceeded my expectations! The colors are vibrant and the print quality is top-notch. Being a UI/UX designer myself, I'm quite picky about aesthetics, and this t-shirt definitely gets a thumbs up from me!",
-        },
-        {
-          id: 3,
-          name: "Ethan R.",
-          rating: 4,
-          date: "August 16, 2023",
-          content:
-            "This t-shirt is a must-have for anyone who appreciates good design. The minimalistic yet highly pattern caught my eye, and the fit is perfect. I can see the designer's touch in every aspect of this shirt!",
-        },
-        {
-          id: 4,
-          name: "Olivia P.",
-          rating: 4,
-          date: "August 17, 2023",
-          content:
-            "As a UI/UX enthusiast, I value simplicity and functionality. This t-shirt not only represents those principles but is also great to wear. It's evident that the designer poured their creativity into making this t-shirt stand out!",
-        },
-        {
-          id: 5,
-          name: "Liam K.",
-          rating: 4,
-          date: "August 18, 2023",
-          content:
-            "This t-shirt is a fusion of comfort and creativity. The fabric is soft, and the design speaks volumes about the designer's skill. It's like wearing a piece of art that reflects my passion for both design and fashion!",
-        },
-        {
-          id: 6,
-          name: "Ava H.",
-          rating: 5,
-          date: "August 19, 2023",
-          content:
-            "I'm not just wearing a t-shirt; I'm wearing a piece of design philosophy. The intricate details and thoughtful layout of the design make this shirt a conversation starter!",
-        },
-      ];
+
       setReviews(initialReviews);
       localStorage.setItem("productReviews", JSON.stringify(initialReviews));
     }
@@ -243,8 +162,6 @@ const ProductPage = () => {
     
   }
 
-  console.log(data?.data);
-  
 
   return (
     <ContainerUp className="min-h-screen bg-gray-100">
@@ -558,39 +475,6 @@ const ProductPage = () => {
           <h2 className="text-2xl font-bold mb-8 text-center">
             You might also like
           </h2>
-          {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {relatedProducts.map((product, index) => (
-              <Link to={`/product/`}
-                key={index}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
-              >
-                <a href={product.link} className="block h-64 overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
-                </a>
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
-                  <StarRating rating={product.rating} />
-                  <div className="mt-2">
-                    <span className="font-bold text-lg">${product.price}</span>
-                    {product.originalPrice && (
-                      <>
-                        <span className="text-gray-500 line-through ml-2">
-                          ${product.originalPrice}
-                        </span>
-                        <span className="text-red-500 ml-2">
-                          -{product.discount}%
-                        </span>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div> */}
           <NewArrival />
         </div>
       </main>
