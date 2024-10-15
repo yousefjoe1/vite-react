@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import MySpinner from "../../../_components/MainLayout/MySpinner";
 import CartProduct from "../../../_components/Cards/CartProduct";
+import { Link } from "react-router-dom";
 
 const CartAndOrder = ({ producuts, status }) => {
   const [cartData, setcartData] = useState(producuts);
   
   const { total,data } = cartData;
-  console.log(data,'data');
 
   let subTotal = data.map(it=> it.product.discount).reduce((accumulator, current) => accumulator + current, 0);
 
@@ -25,6 +25,10 @@ const CartAndOrder = ({ producuts, status }) => {
     setcartData(p=> c)
   };
 
+
+  let t = subTotal
+  console.log(t);
+  
 
 
   return (
@@ -69,7 +73,7 @@ const CartAndOrder = ({ producuts, status }) => {
             </div>
             <div className="flex justify-between mb-2 text-red-500">
               <span>Discount (-{subTotal}%)</span>
-              <span>-$100</span>
+              <span>-${t}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span>Delivery Fee</span>
@@ -79,9 +83,9 @@ const CartAndOrder = ({ producuts, status }) => {
               <span>Total</span>
               <span>${finalPrice}</span>
             </div>
-            <button className="w-full bg-black text-white py-3 rounded-full mt-6 hover:bg-gray-800 transition duration-300">
+            <Link to={`/checkout`} className="w-full block text-center bg-black text-white py-3 rounded-full mt-6 hover:bg-gray-800 transition duration-300">
               Go to Checkout →
-            </button>
+            </Link>
           </div>
         </div>
       </div>

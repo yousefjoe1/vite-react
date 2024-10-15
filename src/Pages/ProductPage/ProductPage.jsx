@@ -207,7 +207,6 @@ const ProductPage = () => {
               {data.data.name}
             </h2>
             <div className="mb-4">
-              {/* <StarRating rating={product.rating} /> */}
               <Rate rate={data.data.rate} />
             </div>
             <div className="mb-4">
