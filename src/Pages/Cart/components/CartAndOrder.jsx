@@ -26,8 +26,8 @@ const CartAndOrder = ({ producuts, status }) => {
   };
 
 
-  let t = subTotal
-  console.log(t);
+  let t = total - finalPrice
+  console.log(t,'curr price');
   
 
 
