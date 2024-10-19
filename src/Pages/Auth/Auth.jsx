@@ -7,6 +7,8 @@ import { MyContext } from "../../_context/conexts";
 
 const Auth = () => {
   const { contextValue, setContextValue } = useContext(MyContext);
+  const searchParams = new URLSearchParams(window.location.search);
+  const mode = searchParams.get("mode");
 
   let toast = useToast()
   let navigate = useNavigate()
@@ -25,11 +27,9 @@ const Auth = () => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const mode = searchParams.get("mode");
     setIsLogin(mode !== "register");
     setIsForgotPassword(mode === "forgot-password");
-  }, []);
+  }, [mode]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
