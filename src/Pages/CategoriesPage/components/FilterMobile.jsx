@@ -44,12 +44,12 @@ const FilterMobile = ({refetch}) => {
     const newSearchParams = new URLSearchParams();
     newSearchParams.set("dress", "casual");
     document.body.scrollIntoView({ behavior: "smooth" });
-    await setSearchParams(newSearchParams);
+    setSearchParams(newSearchParams);
     refetch();
     document.body.scrollIntoView();
   };
   return (
-    <div>
+    <div className="absolute right-5">
       <button className="lg:hidden block" mt={0} ref={btnRef} onClick={onOpen}>
       <GoFilter size={25} />
       </button>

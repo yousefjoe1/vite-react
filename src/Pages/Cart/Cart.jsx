@@ -36,7 +36,7 @@ const Cart = () => {
               <MySpinner />
             ) : (
               <>
-              {data.data.length  == 0 ? 
+              {data?.data?.length  == 0 ? 
               <img src="https://mir-s3-cdn-cf.behance.net/projects/404/95974e121862329.Y3JvcCw5MjIsNzIxLDAsMTM5.png" alt="image" />
                 :
               <CartAndOrder

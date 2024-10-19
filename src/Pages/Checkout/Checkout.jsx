@@ -5,7 +5,7 @@ const Checkout = () => {
   return (
     <ContainerUp className='min-h-screen container mx-auto'>
 
-      <div className="flex pt-10">
+      <div className="flex justify-between pt-10">
 
         <div className="left-section w-1/2">
 
@@ -46,6 +46,30 @@ const Checkout = () => {
           <span>Payment Method</span>
           </div>
 
+        </div>
+        <div className="w-full lg:w-1/3">
+          <div className="bg-white rounded-lg shadow-sm border p-6">
+            <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+            <div className="flex justify-between mb-2">
+              <span>Subtotal</span>
+              <span>$200</span>
+            </div>
+            <div className="flex justify-between mb-2 text-red-500">
+              <span>Discount (-10%)</span>
+              <span>-$120</span>
+            </div>
+            <div className="flex justify-between mb-2">
+              <span>Delivery Fee</span>
+              <span>$15</span>
+            </div>
+            <div className="flex justify-between font-semibold text-lg mt-4 pt-4 border-t">
+              <span>Total</span>
+              <span>$110</span>
+            </div>
+            <div to={`/checkout`} className="w-full block text-center bg-black text-white py-3 rounded-full mt-6 hover:bg-gray-800 transition duration-300">
+            Place Order
+            </div>
+          </div>
         </div>
 
 

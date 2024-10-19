@@ -27,9 +27,6 @@ const CartAndOrder = ({ producuts, status }) => {
 
 
   let t = total - finalPrice
-  console.log(t,'curr price');
-  
-
 
   return (
     <div>
