@@ -28,6 +28,9 @@ let myconfig = {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(),VitePWA(myconfig)],
+  define: {
+    'process.env.BUILD_VERSION': JSON.stringify(process.env.BUILD_VERSION || Date.now())
+  }
 })
 
 

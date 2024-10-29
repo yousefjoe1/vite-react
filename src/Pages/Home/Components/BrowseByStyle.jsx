@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import Casual from "/images/casual.png";
+import Casual from "/images/casual-new.jpg";
 import Formal from "/images/formal.png";
-import Party from "/images/party.png";
+import Party from "/images/party-img.jpg";
 import Gym from "/images/gym.png";
 import { Link } from "react-router-dom";
 
@@ -79,6 +79,8 @@ function StyleCard({ category, isMobile }) {
           loading="lazy"
             src={category.imageUrl}
             alt={category.name}
+            width={500}
+            height={300}
             className="object-cover w-full h-full transition-transform duration-300 ease-in-out transform hover:scale-110"
             style={{ objectPosition: "center" }}
           />

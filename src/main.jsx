@@ -22,6 +22,7 @@ import MyContextProvider from "./_context/conexts.jsx";
 
 import { registerSW } from 'virtual:pwa-register'
 
+
 registerSW({ immediate: true })
 
 const queryClient = new QueryClient();
