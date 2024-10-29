@@ -20,6 +20,9 @@ import UserOrders from "./Pages/UserOrder/UserOrders.jsx";
 import ProductPage from "./Pages/ProductPage/ProductPage.jsx";
 import MyContextProvider from "./_context/conexts.jsx";
 
+import { registerSW } from 'virtual:pwa-register'
+
+registerSW({ immediate: true })
 
 const queryClient = new QueryClient();
 
