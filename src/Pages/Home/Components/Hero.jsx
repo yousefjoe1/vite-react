@@ -1,4 +1,4 @@
-import Model from "/images/model.png";
+import Model from "/images/hero-section.jpg";
 import ZaraLogo from "/images/zara-logo.svg";
 import VersaceLogo from "/images/versace-logo.svg";
 import CalvinLogo from "/images/calvin-logo.svg";
@@ -8,7 +8,7 @@ import GucciLogo from "/images/gucci-logo.svg";
 const Hero = () => {
   return (
     <>
-      <div className="bg-[#F2F0F1] font-inter">
+      <section className="bg-[#F2F0F1] font-inter">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row">
             <div className="lg:w-1/2 px-4 py-12 lg:pr-12">
@@ -49,7 +49,7 @@ const Hero = () => {
                 </div>
               </div>
             </div>
-            <div className="lg:w-1/2 flex items-end">
+            <div className="lg:w-1/2 flex items-center">
               <img
                 src={Model}
                 alt="Stylish couple wearing fashionable clothes"
@@ -69,7 +69,7 @@ const Hero = () => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 };
