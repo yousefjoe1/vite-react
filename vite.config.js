@@ -6,9 +6,9 @@ let myconfig = {
   registerType: 'prompt',
   includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
   manifest: {
-    name: 'My Vite React PWA',
-    short_name: 'Vite React PWA',
-    description: 'My Vite React PWA',
+    name: 'Shop in the shop',
+    short_name: 'In The Shop',
+    description: 'Shop app - categories - cloths - shoess - shirts',
     theme_color: '#ffffff',
     icons: [
       {

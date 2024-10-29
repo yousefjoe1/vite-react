@@ -201,20 +201,22 @@ const ProductPage = () => {
         ) : (
 
         <div className="flex flex-col lg:flex-row -mx-4">
+          {data?.data?.images.length > 0 &&
           <ProductImgs imgs={data?.data?.images} />
+          }
           <div className="w-full lg:w-1/2 px-4">
             <h2 className="text-2xl lg:text-3xl font-bold mb-2">
-              {data.data.name}
+              {data?.data?.name}
             </h2>
             <div className="mb-4">
-              <Rate rate={data.data.rate} />
+              <Rate rate={data?.data?.rate} />
             </div>
             <div className="mb-4">
-              <span className="text-2xl font-bold">${data.data.price - (data.data.discount * data.data.price /100  )}</span>
+              <span className="text-2xl font-bold">${data?.data?.price - (data?.data?.discount * data?.data?.price /100  )}</span>
               <span className="text-gray-500 line-through ml-2">
-                ${data.data.price}
+                ${data?.data?.price}
               </span>
-              <span className="text-red-500 ml-2">-{data.data.discount}%</span>
+              <span className="text-red-500 ml-2">-{data?.data?.discount}%</span>
             </div>
             <div className="mb-8 pb-8 border-b border-gray-200">
               <p>{product.description}</p>

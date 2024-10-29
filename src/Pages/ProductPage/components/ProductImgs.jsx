@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import MySpinner from "../../../_components/MainLayout/MySpinner";
 
-const ProductImgs = ({imgs}) => {
+const ProductImgs = ({imgs = []}) => {
+  
+
   const [mainImage, setMainImage] = useState(imgs[0]);
   // console.log(imgs);
 
