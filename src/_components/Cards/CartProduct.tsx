@@ -1,18 +1,19 @@
-import React, { useCallback, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
-import { debounce } from 'lodash';
 import MySpinner from "../MainLayout/MySpinner";
 
 import { FiTrash2 } from "react-icons/fi";
 import { useToast } from "@chakra-ui/react";
 
-import { basUrl } from "../../_functions/getData";
+import { baseUrl } from "../../_functions/getData";
 import { MyContext } from "../../_context/conexts";
+import { ProductItem } from "../../d";
 
-const CartProduct = ({ product, item,handleItem }) => {
-  console.log(product);
+
+const CartProduct = ({ product, item,handleItem }:{product:ProductItem}) => {  
+  const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
+  const { contextValue ,setContextValue} = context;
   
-  const { contextValue, setContextValue } = useContext(MyContext);
 
   let msg = useToast();
   const [isSubmit, setIsSubmit] = useState(false);
@@ -46,7 +47,7 @@ const CartProduct = ({ product, item,handleItem }) => {
     };
     setIsSubmit(true);
     try {
-      let res = await axios.delete(`${basUrl}/api/cart/${id}`, h);
+      let res = await axios.delete(`${baseUrl}/api/cart/${id}`, h);
       setIsSubmit(false);
       setContextValue(!contextValue);
       return;
@@ -65,44 +66,6 @@ const CartProduct = ({ product, item,handleItem }) => {
     // setCartItems(cartIt/ems.filter((item) => item.id !== id));
   };
 
-
-  // const updateCart = async () => {
-  //   const tk = localStorage.getItem('userToken');
-
-  //   if (!tk) {
-  //     msg({ title: `You have to login`, status: 'warning', duration: 3000 });
-  //     return;
-  //   }
-
-  //   const h = {
-  //     headers: {
-  //       Authorization: `Bearer ${tk}`
-  //     }
-  //   };
-
-  //   let {name,_id,discount,price,images} = product
-  //   let d = {
-  //     product: {name,_id,img:images[0],discount,color:selectedColor,size:selectedSize,price},
-  //     count: productCount
-  //   }
-
-  //   try {
-  //     const res = await axios.put(`${basUrl}/api/cart/${_id}`, d, h);
-  //     console.log(res);
-      
-  //     if (res.data.in_cart) {
-  //       msg({ title: res.data.msg, status: 'info', duration: 3000 });
-  //       return;
-  //     } else {
-  //       msg({ title: res.data.msg, status: 'success', duration: 3000 });
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // Debounce the updateCart function
-  // const debouncedUpdateCart = useCallback(debounce(updateCart, 1000), [productCount]);
   return (
     <div
       key={product._id}

@@ -48,6 +48,8 @@ const CartAndOrder = ({ producuts, status }) => {
             )}
             {cartData?.data?.map((item) => {
               let { product } = item;
+              console.log(item,'item');
+              
               return (
                 <CartProduct
                   key={item._id}

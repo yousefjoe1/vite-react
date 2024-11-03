@@ -1,10 +1,10 @@
 import axios from "axios";
 
-export const basUrl = import.meta.env.VITE_REACT_APP_URL;
-
-export const getData = async (apiRoute) => {
+export const baseUrl = import.meta.env.VITE_REACT_APP_URL;
+// Property 'env' does not exist on type 'ImportMeta'
+export const getData = async (apiRoute:string) => {
   try {
-      let res = await axios.get(`${basUrl}/api/${apiRoute}`)
+      let res = await axios.get(`${baseUrl}/api/${apiRoute}`)
       return res.data;
     } catch (er) {
       console.log(er);
@@ -12,11 +12,11 @@ export const getData = async (apiRoute) => {
     }
   }
 
-export const getDataWithAuth = async (apiRoute,auth) => {
+export const getDataWithAuth = async (apiRoute:string,auth:string) => {
   let adminToken = localStorage.getItem(auth);
 
     try {
-      let res = await axios.get(`${basUrl}/api/${apiRoute}`, {
+      let res = await axios.get(`${baseUrl}/api/${apiRoute}`, {
         headers: {
           Authorization: `Bearer ${adminToken}`,
         }

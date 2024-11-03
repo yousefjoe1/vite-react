@@ -10,15 +10,12 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import useFetch from "../../_hooks/useFetch";
-import { useQuery } from "@chakra-ui/react";
-import { basUrl } from "../../_functions/getData";
-import axios from "axios";
 import MySpinner from "./MySpinner";
 import { MyContext } from "../../_context/conexts";
 
-const Navbar = () => {
-  const { contextValue, setContextValue } = useContext(MyContext);
-  console.log(contextValue);
+const Navbar: React.FC = () => {
+  const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
+  const { contextValue } = context;
 
   const { data, isLoading, isError,isRefetching} = useFetch(
     `cart`,
@@ -26,7 +23,6 @@ const Navbar = () => {
     contextValue,
     "userToken"
   );
-  console.log(data, "cart");
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -43,16 +39,6 @@ const Navbar = () => {
   const toggleShopMenu = () => setIsShopMenuOpen(!isShopMenuOpen);
   const toggleSearch = () => setIsSearchExpanded(!isSearchExpanded);
 
-  const handleLogin = () => {
-    window.location.href = "/auth?mode=login";
-    setIsProfileMenuOpen(false);
-  };
-
-  const handleRegister = () => {
-    window.location.href = "/auth?mode=register";
-    setIsProfileMenuOpen(false);
-  };
-
   const handleLogout = () => {
     setIsLoggedIn(false);
     setIsProfileMenuOpen(false);
@@ -60,27 +46,6 @@ const Navbar = () => {
     window.location.href = "/";
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsMenuOpen(false);
-      }
-      if (
-        profileMenuRef.current &&
-        !profileMenuRef.current.contains(event.target)
-      ) {
-        setIsProfileMenuOpen(false);
-      }
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setIsSearchExpanded(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("userToken");

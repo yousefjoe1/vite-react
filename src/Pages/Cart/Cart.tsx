@@ -6,7 +6,8 @@ import CartAndOrder from "./components/CartAndOrder";
 import { MyContext } from "../../_context/conexts";
 
 const Cart = () => {
-  const { contextValue } = useContext(MyContext);
+  const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
+  const { contextValue } = context;;
 
   const { data, isLoading, isError, isRefetching } = useFetch(
     `cart`,

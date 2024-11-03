@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "types": [
+      "vite-plugin-pwa/react","vite/client"
+    ],
+    "target": "esnext",                        // Specify ECMAScript target version
+    "module": "esnext",                        // Specify module code generation
+    "lib": ["dom", "dom.iterable", "esnext"], // Specify library files to be included
+    "allowJs": true,                           // Allow JavaScript files to be compiled
+    "skipLibCheck": true,                      // Skip type checking of declaration files
+    "strict": true,                            // Enable all strict type checking options
+    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references
+    "noEmit": true,                            // Disable emitting files from the compiler
+    "esModuleInterop": true,                   // Enables emit interoperability between CommonJS and ES Modules
+    "moduleResolution": "node",                 // Use Node.js style module resolution
+    "resolveJsonModule": true,                 // Include modules imported with `.json` extension
+    "isolatedModules": true,                 
+    "jsx": "react-jsx"           // Ensure that each file can be safely transpiled
+  },
+  "include": [
+    "src"                                      // Include the source directory
+  ],
+  "exclude": [
+    "node_modules"                             // Exclude the node_modules directory
+  ]
+}

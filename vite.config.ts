@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
-let myconfig = {
+let myconfig :any = {
   registerType: 'prompt',
   includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
   manifest: {
@@ -32,5 +32,4 @@ export default defineConfig({
     'process.env.BUILD_VERSION': JSON.stringify(process.env.BUILD_VERSION || Date.now())
   }
 })
-
 
