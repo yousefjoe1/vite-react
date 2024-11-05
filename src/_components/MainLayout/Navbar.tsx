@@ -20,8 +20,7 @@ const Navbar: React.FC = () => {
     "cart-name",
     contextValue,
     "userToken"
-  );
-
+  )
 
   return (
     <>
