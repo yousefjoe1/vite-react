@@ -34,7 +34,7 @@ console.log(data);
               <div className="name">rate: {el.rate} </div>
 
               {/* update */}
-              <UpdateProduct product={el} refetch={refetch} />
+              {/* <UpdateProduct product={el} refetch={refetch} /> */}
           </div>
         ))
       }

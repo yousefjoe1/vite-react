@@ -204,7 +204,7 @@ const Auth = () => {
                 : "Already have an account? Sign in"}
             </motion.button>
           </div>
-          {isLogin && (
+          {/* {isLogin && (
             <div className="text-sm">
               <motion.button
                 onClick={() => toggleAuthMode("forgot-password")}
@@ -215,10 +215,10 @@ const Auth = () => {
                 Forgot your password?
               </motion.button>
             </div>
-          )}
+          )} */}
         </div>
 
-        {isForgotPassword && (
+        {/* {isForgotPassword && (
           <div className="text-sm text-center">
             <motion.button
               onClick={() => toggleAuthMode("login")}
@@ -229,7 +229,7 @@ const Auth = () => {
               Back to login
             </motion.button>
           </div>
-        )}
+        )} */}
       </motion.div>
     </section>
   );

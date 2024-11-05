@@ -1,5 +1,3 @@
-import React from "react";
-
 import Sidebar from "./Sidebar";
 import OrderStatusCards from "./OrderStatusCards";
 import OrdersTable from "./OrdersTable";

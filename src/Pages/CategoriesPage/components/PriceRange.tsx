@@ -14,7 +14,7 @@ const PriceRange = () => {
 
   const [rangeValues, setRangeValues] = useState([100, 400]);
 
-  const handleRangeChange = (values) => {
+  const handleRangeChange = (values: any) => {
     setRangeValues(values);
     newSearchParams.set("minPrice", values[0]);
     newSearchParams.set("maxPrice", values[1]);

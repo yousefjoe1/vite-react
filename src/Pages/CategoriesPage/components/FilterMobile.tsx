@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useSearchParams } from "react-router-dom";
 
 import PriceRange from "./PriceRange";
@@ -13,11 +13,10 @@ import { GoFilter } from "react-icons/go";
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
 import Categories from "./Categories";
 
-const FilterMobile = ({refetch}) => {
+const FilterMobile : React.FC<{ refetch: Function }> = ({ refetch }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [searchParams, setSearchParams] = useSearchParams();
   const btnRef = React.useRef(null)
-  const newSearchParams = new URLSearchParams(searchParams);
 
   let minPrice = searchParams.get("minPrice");
   let maxPrice = searchParams.get("maxPrice");
@@ -50,7 +49,7 @@ const FilterMobile = ({refetch}) => {
   };
   return (
     <div className="absolute right-5">
-      <button className="lg:hidden block" mt={0} ref={btnRef} onClick={onOpen}>
+      <button className="lg:hidden block" ref={btnRef} onClick={onOpen}>
       <GoFilter size={25} />
       </button>
 

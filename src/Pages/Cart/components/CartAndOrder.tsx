@@ -1,35 +1,43 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import MySpinner from "../../../_components/MainLayout/MySpinner";
 import CartProduct from "../../../_components/Cards/CartProduct";
 import { Link } from "react-router-dom";
+import { CartItem, ProductItem, ProductsCartObject, Status } from "../../../d";
 
-const CartAndOrder = ({ producuts, status }) => {
-  const [cartData, setcartData] = useState(producuts);
-  
-  const { total,data } = cartData;
 
-  let subTotal = data.map(it=> it.product.discount).reduce((accumulator, current) => accumulator + current, 0);
+const CartAndOrder = ({
+  products,
+  status,
+}: {
+  products: ProductsCartObject;
+  status: Status;
+}) => {
+  const [cartData, setcartData] = useState<ProductsCartObject>(products);
+  const { total, data } = cartData;
 
-  let finalPrice = total - subTotal * total /100
-  
+  let subTotal = data
+    .map((it: CartItem) => it.product.discount)
+    .reduce((accumulator, current) => accumulator + current, 0);
+
+  let finalPrice = total - (subTotal * total) / 100;
+
   let { isLoading, isRefetching, isError } = status;
 
-  const handleItem = (item, operator) => {
-    let d = total ;
-    if(operator == '-'){
-        d -= item.price
-    }else{
-        d  += item.price
+  const handleItem = (item: ProductItem, operator: string) => {
+    let d = total;
+    if (operator == "-") {
+      d -= item.price;
+    } else {
+      d += item.price;
     }
-    let c = {...cartData,total:d}
-    setcartData(p=> c)
+    let c = { ...cartData, total: d };
+    setcartData((p) => c);
   };
 
-
-  let t = total - finalPrice
+  let t = total - finalPrice;
 
   return (
-    <div>
+    <>
       <div className="flex flex-col lg:flex-row gap-8">
         <div className="w-full lg:w-2/3">
           <div className="bg-white relative rounded-lg shadow-sm border p-4">
@@ -48,8 +56,8 @@ const CartAndOrder = ({ producuts, status }) => {
             )}
             {cartData?.data?.map((item) => {
               let { product } = item;
-              console.log(item,'item');
-              
+              console.log(item, "item");
+
               return (
                 <CartProduct
                   key={item._id}
@@ -82,13 +90,16 @@ const CartAndOrder = ({ producuts, status }) => {
               <span>Total</span>
               <span>${finalPrice}</span>
             </div>
-            <Link to={`/checkout`} className="w-full block text-center bg-black text-white py-3 rounded-full mt-6 hover:bg-gray-800 transition duration-300">
+            <Link
+              to={`/checkout`}
+              className="w-full block text-center bg-black text-white py-3 rounded-full mt-6 hover:bg-gray-800 transition duration-300"
+            >
               Go to Checkout →
             </Link>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

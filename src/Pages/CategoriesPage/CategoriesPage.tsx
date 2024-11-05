@@ -1,4 +1,3 @@
-import React, { useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { TbHandClick } from "react-icons/tb";
@@ -27,6 +26,8 @@ import FilterMobile from "./components/FilterMobile";
 import Product from "../../_components/Cards/Product";
 import ContainerUp from "../../_components/ContainerUp";
 
+import { ProductItem } from "../../d";
+
 const CategoriesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const newSearchParams = new URLSearchParams(searchParams);
@@ -38,12 +39,7 @@ const CategoriesPage = () => {
   let size = searchParams.get("size");
   let category = searchParams.get("category");
 
-  const { data, isLoading, isError, isRefetching, refetch } = useFetch(
-    `products?${newSearchParams}`,
-    "pr-categ"
-  );
-
-  console.log(data);
+  const { data, isLoading, isError, isRefetching, refetch } = useFetch(`products?${newSearchParams}`,"pr-categ",true);
 
   const setFilter = () => {
     let u = `dress=${dress == null ? "casual" : dress}${
@@ -63,9 +59,8 @@ const CategoriesPage = () => {
     const newSearchParams = new URLSearchParams();
     newSearchParams.set("dress", "casual");
     document.body.scrollIntoView({ behavior: "smooth" });
-    await setSearchParams(newSearchParams);
+    setSearchParams(newSearchParams);
     refetch();
-    document.body.scrollIntoView();
   };
 
   return (
@@ -122,7 +117,7 @@ const CategoriesPage = () => {
           </button>
         </div>
 
-        <FilterMobile refetch={refetch} />
+        <FilterMobile refetch={()=> refetch()} />
 
         {isRefetching && (
           <div className="fixed top-1  z-50 bg-slate-400/80 h-12 border-b-2 w-full flex justify-center items-center p-4 rounded-3xl">
@@ -151,7 +146,7 @@ const CategoriesPage = () => {
             )}
 
             <div className="grid lg:grid-cols-4 grid-cols-2 gap-5">
-              {data?.data?.map((prod) => (
+              {data?.data?.map((prod:ProductItem) => (
                 <Product prod={prod} key={prod._id} />
               ))}
             </div>

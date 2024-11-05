@@ -7,19 +7,18 @@ import { useToast } from "@chakra-ui/react";
 
 import { baseUrl } from "../../_functions/getData";
 import { MyContext } from "../../_context/conexts";
-import { ProductItem } from "../../d";
+import { CartItem, ProductItem } from "../../d";
 
 
-const CartProduct = ({ product, item,handleItem }:{product:ProductItem}) => {  
+const CartProduct = ({ product, item,handleItem }:{product:ProductItem,item:CartItem,handleItem:Function}) => {  
   const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
   const { contextValue ,setContextValue} = context;
   
-
   let msg = useToast();
   const [isSubmit, setIsSubmit] = useState(false);
   const [productCount, setProductCount] = useState(parseInt(item.count));
 
-  const handleProductCount = (t) => {
+  const handleProductCount = (t:string) => {
     if (t == "-") {
       if (productCount > 1) {
         setProductCount(productCount - 1);
@@ -32,7 +31,7 @@ const CartProduct = ({ product, item,handleItem }:{product:ProductItem}) => {
     // debouncedUpdateCart()
   };
 
-  const removeItem = async (id) => {
+  const removeItem = async (id:string) => {
     let tk = localStorage.getItem("userToken");
 
     if (!tk) {

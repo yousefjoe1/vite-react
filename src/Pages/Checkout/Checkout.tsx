@@ -66,7 +66,7 @@ const Checkout = () => {
               <span>Total</span>
               <span>$110</span>
             </div>
-            <div to={`/checkout`} className="w-full block text-center bg-black text-white py-3 rounded-full mt-6 hover:bg-gray-800 transition duration-300">
+            <div className="w-full block text-center bg-black text-white py-3 rounded-full mt-6 hover:bg-gray-800 transition duration-300">
             Place Order
             </div>
           </div>

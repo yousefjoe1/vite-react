@@ -1,43 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Reviews } from "../ReviewData";
 
-const reviews = [
-  {
-    id: 1,
-    name: "Sarah M.",
-    rating: 5,
-    text: "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-    verified: true,
-  },
-  {
-    id: 2,
-    name: "Alex K.",
-    rating: 5,
-    text: "Finding clothes that align with my personal style used to be a challenge until I discovered Shop.co. The range of options they offer is truly remarkable, catering to a variety of tastes and occasions.",
-    verified: true,
-  },
-  {
-    id: 3,
-    name: "James L.",
-    rating: 5,
-    text: "As someone who's always on the lookout for unique fashion pieces, I'm thrilled to have stumbled upon Shop.co. The selection of clothes is not only diverse but also on-point with the latest trends.",
-    verified: true,
-  },
-  {
-    id: 4,
-    name: "Emma R.",
-    rating: 4,
-    text: "Shop.co has become my go-to for fashionable and affordable clothing. The quality is consistently good, and their customer service is top-notch.",
-    verified: true,
-  },
-  {
-    id: 5,
-    name: "Michael P.",
-    rating: 5,
-    text: "I appreciate the attention to detail in every garment from Shop.co. The fit is always perfect, and the materials are of high quality. It's refreshing to find a brand that consistently delivers excellence.",
-    verified: true,
-  },
-];
 
 export default function CustomerReviews() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -54,31 +18,31 @@ export default function CustomerReviews() {
   }, []);
 
   const nextReview = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % Reviews.length);
   };
 
   const prevReview = () => {
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length
+      (prevIndex) => (prevIndex - 1 + Reviews.length) % Reviews.length
     );
   };
 
   const getVisibleReviews = () => {
     const visibleCount = isMobile ? 1 : 3;
     return [...Array(visibleCount)].map((_, index) => {
-      const reviewIndex = (currentIndex + index) % reviews.length;
-      return reviews[reviewIndex];
+      const reviewIndex = (currentIndex + index) % Reviews.length;
+      return Reviews[reviewIndex];
     });
   };
 
   const visibleReviews = getVisibleReviews();
 
-  const handleTouchStart = (e) => {
+  const handleTouchStart = (e:any) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
   };
 
-  const handleTouchMove = (e) => {
+  const handleTouchMove = (e:any) => {
     setTouchEnd(e.targetTouches[0].clientX);
   };
 
@@ -95,7 +59,7 @@ export default function CustomerReviews() {
   };
 
   return (
-    <div className="w-full bg-white py-16 font-inter">
+    <section className="w-full bg-white py-16 font-inter">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 font-cairo">
@@ -134,7 +98,7 @@ export default function CustomerReviews() {
               }%)`,
             }}
           >
-            {reviews.concat(reviews).map((review, index) => (
+            {Reviews.concat(Reviews).map((review, index) => (
               <div
                 key={`${review.id}-${index}`}
                 className={`w-full md:w-1/3 px-2 transition-all duration-300 flex-shrink-0`}
@@ -185,6 +149,6 @@ export default function CustomerReviews() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -16,7 +16,7 @@ const DressStyle = () => {
   const newSearchParams = new URLSearchParams(searchParams);
   const [dressStyle, setDressStyle] = useState("");
 
-  const selectDress = (d) => {
+  const selectDress = (d:string) => {
     setDressStyle(d);
     newSearchParams.set("dress", d.toLowerCase());
     setSearchParams(newSearchParams);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, FormEvent } from "react";
 import {
   FiX,
   FiMinus,
@@ -8,23 +8,36 @@ import {
   FiMoreHorizontal,
   FiFilter,
 } from "react-icons/fi";
-import useFetch from "../../_hooks/useFetch";
-import { useParams } from "react-router-dom";
-import MySpinner from "../../_components/MainLayout/MySpinner";
-import axios from "axios";
-import { basUrl } from "../../_functions/getData";
 import { MyContext } from "../../_context/conexts";
+import useFetch from "../../_hooks/useFetch";
+import { Link, useParams } from "react-router-dom";
+
+import MySpinner from "../../_components/MainLayout/MySpinner";
 import { useToast } from "@chakra-ui/react";
+
+import axios from "axios";
+import { baseUrl } from "../../_functions/getData";
+
 import ProductImgs from "./components/ProductImgs";
 import ContainerUp from "../../_components/ContainerUp";
 import NewArrival from "../Home/Components/NewArrival";
 import Rate from "../../_components/Rate";
+
 import { initialReviews } from "./productDetailsData";
 import { faqs, sizes } from "../CategoriesPage/categoriesData";
+import { ReviewData } from "../../d";
+
+interface Product {
+  colors: string[]; // Array of color strings
+  sizes: string[];  // Assuming sizes is an array of strings
+  faqs: Array<{ question: string; answer: string }>; // Assuming faqs is an array of objects with question and answer
+}
+
 const ProductPage = () => {
   const { id } = useParams();
-  const { data, isLoading, isError } = useFetch(`products/${id}`,`product-${id}`);
-  const { contextValue, setContextValue } = useContext(MyContext);
+  const { data, isLoading, isError } = useFetch(`products/${id}`,`product-${id}`,true);
+  const context = useContext(MyContext)!;
+  const { contextValue , setContextValue} = context;;
 
   const [showBanner, setShowBanner] = useState(true);
   const [selectedColor, setSelectedColor] = useState("olive");
@@ -39,13 +52,13 @@ const ProductPage = () => {
     content: "",
   });
 
-  const product = {
+  const product: Product = {
     colors: ["olive", "green", "navy"],
     sizes: sizes,
     faqs:faqs ,
   };
 
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState<ReviewData[]>([]);
 
   useEffect(() => {
     const storedReviews = localStorage.getItem("productReviews");
@@ -58,7 +71,7 @@ const ProductPage = () => {
     }
   }, []);
 
-  const StarRating = ({ rating }) => {
+  const StarRating = ({ rating }: {rating:number}) => {
     return (
       <div className="flex items-center">
         {[...Array(5)].map((_, i) => (
@@ -76,7 +89,7 @@ const ProductPage = () => {
     );
   };
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab:string) => {
     setActiveTab(tab);
   };
 
@@ -96,7 +109,7 @@ const ProductPage = () => {
     console.log("Filter clicked");
   };
 
-  const handleReviewSubmit = (e) => {
+  const handleReviewSubmit = (e:FormEvent) => {
     e.preventDefault();
     const newReviewObject = {
       id: reviews.length + 1,
@@ -121,7 +134,7 @@ const ProductPage = () => {
   const [isSubmit, setisSubmit] = useState(false)
   let msg = useToast()
 
-  const addTocart = async (pr) => {
+  const addTocart = async () => {
     let tk = localStorage.getItem('userToken')
 
     if(!tk){
@@ -142,7 +155,7 @@ const ProductPage = () => {
 
     setisSubmit(true)
     try {
-      let res = await axios.post(`${basUrl}/api/cart/add-to-cart`,d,h)
+      let res = await axios.post(`${baseUrl}/api/cart/add-to-cart`,d,h)
       if(res.data.in_cart){
         msg({title: res.data.msg,status: 'info',duration: 3000})
         setisSubmit(false)
@@ -180,21 +193,21 @@ const ProductPage = () => {
 
       <main className="container mx-auto px-4 py-8">
         <div className="text-sm breadcrumbs mb-4">
-          <a href="/" className="hover:underline">
+          <Link to={`/`} className="hover:underline">
             Home
-          </a>{" "}
+          </Link>{" "}
           &gt;
-          <a href="/shop" className="hover:underline">
+          <Link to="/shop" className="hover:underline">
             Shop
-          </a>{" "}
+          </Link>{" "}
           &gt;
-          <a href="/shop/men" className="hover:underline">
+          <Link to="/shop/men" className="hover:underline">
             Men
-          </a>{" "}
+          </Link>{" "}
           &gt;
-          <a href="/shop/men/t-shirts" className="hover:underline">
+          <Link to="/shop/men/t-shirts" className="hover:underline">
             T-shirts
-          </a>
+          </Link>
         </div>
         {isError || isLoading ? (
           <MySpinner />
@@ -219,7 +232,7 @@ const ProductPage = () => {
               <span className="text-red-500 ml-2">-{data?.data?.discount}%</span>
             </div>
             <div className="mb-8 pb-8 border-b border-gray-200">
-              <p>{product.description}</p>
+              <p>{data.data.description}</p>
             </div>
             <div className="mb-8 pb-8 border-b border-gray-200">
               <h3 className="font-semibold mb-4">Select Colors</h3>
@@ -272,7 +285,6 @@ const ProductPage = () => {
               </div>
               <button disabled={isSubmit == true ? true: false} onClick={ addTocart} className="flex-grow bg-black text-white px-8 py-3 rounded-full flex items-center justify-center">
                 {isSubmit ? <MySpinner s="lg" />: <><FiShoppingCart className="mr-2" /> Add to Cart</> }
-                
               </button>
             </div>
           </div>
@@ -303,7 +315,7 @@ const ProductPage = () => {
             </nav>
           </div>
 
-          {activeTab === "product-details" && (
+          {/* {activeTab === "product-details" && (
             <div className="mt-8">
               <h3 className="text-xl font-semibold mb-4">Product Details</h3>
               <ul className="list-disc list-inside space-y-2">
@@ -313,7 +325,7 @@ const ProductPage = () => {
                 <li>Origin: {product.details.origin}</li>
               </ul>
             </div>
-          )}
+          )} */}
 
           {activeTab === "rating-reviews" && (
             <div className="mt-8">
@@ -405,7 +417,7 @@ const ProductPage = () => {
                           })
                         }
                         className="w-full p-2 border rounded"
-                        rows="4"
+                        // rows="4"
                         required
                       ></textarea>
                     </div>
@@ -476,7 +488,7 @@ const ProductPage = () => {
           <h2 className="text-2xl font-bold mb-8 text-center">
             You might also like
           </h2>
-          <NewArrival />
+          <NewArrival title="" />
         </div>
       </main>
     </ContainerUp>

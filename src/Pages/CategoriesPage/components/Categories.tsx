@@ -10,7 +10,7 @@ const Categories = () => {
 
   const [category, setCategory] = useState("");
 
-  const selectCategory = (c) => {
+  const selectCategory = (c:string) => {
     setCategory(c);
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("category", c.toLowerCase());

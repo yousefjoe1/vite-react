@@ -5,13 +5,13 @@ import NewArrival from "./Components/NewArrival";
 
 const Home = () => {
   return (
-    <div>
+    <>
       <Hero />
       <NewArrival title='New Arrival' />
       <NewArrival title='Top Selling'/>
       <BrowseByStyle />
       <CustomerReviews />
-    </div>
+    </>
   );
 };
 

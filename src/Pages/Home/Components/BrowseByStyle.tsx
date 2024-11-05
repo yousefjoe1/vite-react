@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+
 import Casual from "/images/casual-new.jpg";
 import Formal from "/images/formal.png";
 import Party from "/images/party-img.jpg";
 import Gym from "/images/gym.png";
-import { Link } from "react-router-dom";
 
-const styleCategories = [
+import { BrowsBy } from "../../../d";
+
+const styleCategories  = [
   {
     name: "Casual",
     imageUrl: Casual,
@@ -65,7 +67,7 @@ const BrowseByStyle = () => {
   );
 };
 
-function StyleCard({ category, isMobile }) {
+function StyleCard({ category, isMobile }:{category: BrowsBy,isMobile: boolean}) {
   return (
     <Link
       to={`/categories?dress=${category.name.toLowerCase()}`}
@@ -92,14 +94,5 @@ function StyleCard({ category, isMobile }) {
     </Link>
   );
 }
-
-StyleCard.propTypes = {
-  category: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    imageUrl: PropTypes.string.isRequired,
-    size: PropTypes.oneOf(["normal", "large"]).isRequired,
-  }).isRequired,
-  isMobile: PropTypes.bool.isRequired,
-};
 
 export default BrowseByStyle;

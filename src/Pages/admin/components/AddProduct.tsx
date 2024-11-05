@@ -2,14 +2,14 @@ import React, { useState } from "react";
 
 import { Button, Input, Select, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
-import { basUrl } from "../../../_functions/getData";
+import { baseUrl } from "../../../_functions/getData";
 import MySpinner from "../../../_components/MainLayout/MySpinner";
 
 let dressvalue = ["casual", "formal", "party", "gym"];
 let subvalues = ["men", "women", "shoes", "accessories"];
 let categories = ["T-shirts", "Shorts", "Shirts", "Hoodie", "Jeans"];
 
-const AddProduct = ({ refetch }) => {
+const AddProduct = ({ refetch }:{refetch:Function}) => {
   let msg = useToast();
   const [submit, setsubmit] = useState(false);
 
@@ -28,35 +28,35 @@ const AddProduct = ({ refetch }) => {
     "blue",
   ]);
   const [sizes, setSizes] = useState(["Small", "Medium", "Large", "X-Large"]);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<string[]>([]);
 
-  const handlePriceChange = (event) => {
-    // Handle potential non-numeric input
-    const parsedPrice = parseFloat(event.target.value);
-    setPrice(isNaN(parsedPrice) ? price : parsedPrice); // Update only if valid number
-  };
+  // const handlePriceChange = (event) => {
+  //   // Handle potential non-numeric input
+  //   const parsedPrice = parseFloat(event.target.value);
+  //   setPrice(isNaN(parsedPrice) ? price : parsedPrice); // Update only if valid number
+  // };
 
-  // Update `colors` and `sizes` state arrays using spread syntax
+  // // Update `colors` and `sizes` state arrays using spread syntax
 
-  const handleColorChange = (index, event) => {
-    const newColors = [...colors];
-    newColors[index] = event.target.value;
-    setColors(newColors);
-  };
+  // const handleColorChange = (index, event) => {
+  //   const newColors = [...colors];
+  //   newColors[index] = event.target.value;
+  //   setColors(newColors);
+  // };
 
-  const handleSizeChange = (index, event) => {
-    const newSizes = [...sizes];
-    newSizes[index] = event.target.value;
-    setSizes(newSizes);
-  };
+  // const handleSizeChange = (index, event) => {
+  //   const newSizes = [...sizes];
+  //   newSizes[index] = event.target.value;
+  //   setSizes(newSizes);
+  // };
 
-  const handleImageChange = (index, event) => {
-    const newImages = [...images];
+  const handleImageChange = (index:number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const newImages : string[] = [...images];
     newImages[index] = event.target.value;
     setImages(newImages);
   };
 
-  const AddProduct = async (second) => {
+  const AddProduct = async () => {
     setsubmit((p) => true);
     let h = {
       headers: {
@@ -76,7 +76,7 @@ const AddProduct = ({ refetch }) => {
       dress: dress,
     };
 
-    let res = await axios.post(`${basUrl}/api/products`, d, h);
+    let res = await axios.post(`${baseUrl}/api/products`, d, h);
     if (res.data.code == 301) {
       setsubmit((p) => false);
       msg({ title: "wrong", status: "error", duration: 3000 });

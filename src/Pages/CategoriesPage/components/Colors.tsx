@@ -11,7 +11,7 @@ const Colors = () => {
 
   const [color, setColor] = useState('')
 
-  const selectColor = (c) => {
+  const selectColor = (c:string) => {
     setColor(c)
     const newSearchParams = new URLSearchParams(searchParams);
     newSearchParams.set("color", c.toLowerCase());

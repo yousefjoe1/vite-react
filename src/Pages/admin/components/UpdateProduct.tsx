@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import {
   Modal,
@@ -14,15 +14,16 @@ import {
   Text,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { basUrl } from "../../../_functions/getData";
+import { baseUrl } from "../../../_functions/getData";
+import { ProductInfo } from "../../../d";
 
-const UpdateProduct = ({product,refetch}) => {
+const UpdateProduct = ({product,refetch}: {product:ProductInfo,refetch:Function}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [name, setName] = useState(product.name)
   const [details, setdetails] = useState(product.details)
   const [price, setPrice] = useState(product.price)
-  const [discount, setDiscount] = useState(product.discount)
+  const [discount, setDiscount] = useState<string | number>(product.discount)
   const [rate, setRate] = useState(product.rate)
   const [category, setCategory] = useState(product.category)
   const [sub_category, setSub_category] = useState(product.sub_category)
@@ -31,7 +32,7 @@ const UpdateProduct = ({product,refetch}) => {
   const [sizes, setSizes] = useState([product.sizes[0],product.sizes[1],product.sizes[2]])
   const [images, setImages] = useState([product.images[0],product.images[1],product.images[2]])
 
-  const update = async (second) => {
+  const update = async () => {
     let h = {
       headers: {
         Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYWRtaW4xMjN5b3Vzc2VmQGdtYWlsLmNvbSIsImlhdCI6MTcyNzgxMTIzN30.SuRjNdjjGmjPKLq_4bdwOHouPw59xzFAqLnBy8wu2WM`
@@ -50,33 +51,32 @@ const UpdateProduct = ({product,refetch}) => {
       dress: dress,
       rate:rate
     }
-    let res = await axios.patch(`${basUrl}/api/products/${product._id}`,d,h)
+    let res = await axios.patch(`${baseUrl}/api/products/${product._id}`,d,h)
     console.log(res);
     refetch()
    }
 
-  const handlePriceChange = (event) => {
+  const handlePriceChange = (event: string) => {
     // Handle potential non-numeric input
-    const parsedPrice = parseFloat(event.target.value);
+    const parsedPrice = parseFloat(event);
     setPrice(isNaN(parsedPrice) ? price : parsedPrice); // Update only if valid number
   };
 
   // Update `colors` and `sizes` state arrays using spread syntax
 
-  const handleColorChange = (index, event) => {
+  const handleColorChange = (index:number, event: React.ChangeEvent<HTMLInputElement>) => {
     const newColors = [...colors];
     newColors[index] = event.target.value;
     setColors(newColors);
   };
 
-  const handleSizeChange   
- = (index, event) => {
+  const handleSizeChange = (index:number, event: React.ChangeEvent<HTMLInputElement>)=> {
     const newSizes = [...sizes];
     newSizes[index] = event.target.value;
     setSizes(newSizes);
   };
 
-  const handleImageChange = (index, event) => {
+  const handleImageChange = (index:number, event: React.ChangeEvent<HTMLInputElement>) => {
     const newImages = [...images];
     newImages[index] = event.target.value;
     setImages(newImages);
@@ -96,7 +96,7 @@ const UpdateProduct = ({product,refetch}) => {
             <Text mb='2px'>name</Text>
             <Input mb={3} type="text" value={name} onChange={(e)=> setName(e.target.value)}  />
 
-            <Text mb='2px'>price</Text>
+            <Text  mb='2px'>price</Text>
             <Input mb={3} type="number" value={price} onChange={(e)=> handlePriceChange(e.target.value)}  />
 
             <Text mb='2px'>Rate</Text>
@@ -126,9 +126,9 @@ const UpdateProduct = ({product,refetch}) => {
 
             <Text my='2px'>sizes</Text>
             <div className="flex justify-between gap-5">
-                <Input disabled type="text" value={sizes[0]} onChange={(e)=> setSizes()}/>
-                <Input disabled type="text" value={sizes[1]} onChange={(e)=> setSizes()} />
-                <Input disabled type="text" value={sizes[2]} onChange={(e)=> setSizes()} />
+                <Input disabled type="text" value={sizes[0]} onChange={(e)=> {}}/>
+                <Input disabled type="text" value={sizes[1]} onChange={(e)=> {}} />
+                <Input disabled type="text" value={sizes[2]} onChange={(e)=> {}} />
             </div>
 
             <Text my='2px'>images</Text>

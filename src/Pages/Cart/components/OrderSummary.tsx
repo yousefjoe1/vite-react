@@ -1,6 +1,7 @@
-import React from 'react'
 
-const OrderSummary = ({data,cartDetails}) => {
+
+// Todo --> make it dynamic and add interface
+const OrderSummary = ({cartDetails}:{cartDetails:any}) => {
     let {total} = cartDetails;
     
   return (
