@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <>
-      <section className="bg-[#F2F0F1] font-inter">
+      <section className="bg-white-100 font-inter">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row">
             <div className="lg:w-1/2 px-4 py-12 lg:pr-12">
@@ -21,7 +21,9 @@ const Hero = () => {
                 garments, designed to bring out your individuality and cater to
                 your sense of style.
               </p>
-              <Link to="/shop"
+              <Link
+                title="Shop Now"
+                to="/shop"
                 className="inline-block bg-black text-white py-3 px-8 rounded-full font-semibold hover:bg-gray-800 transition duration-300"
               >
                 Shop Now
@@ -51,7 +53,9 @@ const Hero = () => {
             </div>
             <div className="lg:w-1/2 flex items-center">
               <img
-              loading="lazy"
+                width={"auto"}
+                height={"auto"}
+                loading="lazy"
                 src={Model}
                 alt="Stylish couple wearing fashionable clothes"
                 className="w-full h-auto object-cover"
@@ -62,11 +66,46 @@ const Hero = () => {
         <div className="bg-black py-8">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap justify-center gap-8">
-              <img src={VersaceLogo} alt="Versace" className="h-8 w-auto" loading="lazy" />
-              <img src={ZaraLogo} alt="Zara" className="h-8 w-auto" loading="lazy" />
-              <img src={GucciLogo} alt="Gucci" className="h-8 w-auto" loading="lazy" />
-              <img src={PradaLogo} alt="Prada" className="h-8 w-auto" loading="lazy" />
-              <img src={CalvinLogo} alt="Calvin Klein" className="h-8 w-auto" loading="lazy" />
+              <img
+                src={VersaceLogo}
+                alt="Versace"
+                className="h-8 w-auto"
+                loading="lazy"
+                width={"auto"}
+                height={"auto"}
+              />
+              <img
+                src={ZaraLogo}
+                alt="Zara"
+                className="h-8 w-auto"
+                loading="lazy"
+                width={"auto"}
+                height={"auto"}
+              />
+              <img
+                src={GucciLogo}
+                alt="Gucci"
+                className="h-8 w-auto"
+                loading="lazy"
+                width={"auto"}
+                height={"auto"}
+              />
+              <img
+                src={PradaLogo}
+                alt="Prada"
+                className="h-8 w-auto"
+                loading="lazy"
+                width={"auto"}
+                height={"auto"}
+              />
+              <img
+                src={CalvinLogo}
+                alt="Calvin Klein"
+                className="h-8 w-auto"
+                loading="lazy"
+                width={"auto"}
+                height={"auto"}
+              />
             </div>
           </div>
         </div>

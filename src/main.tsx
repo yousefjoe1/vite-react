@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { lazy, StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyContextProvider from "./_context/conexts";
@@ -13,18 +13,38 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import MainLayout from "./_components/MainLayout/MainLayout";
+import MySpinner from "./_components/MainLayout/MySpinner";
+import NotFound from "./_components/NotFound";
 
 // pages
-import Admin from "./Pages/admin/Admin";
-import Home from "./Pages/Home/Home";
-import Cart from "./Pages/Cart/Cart";
-import Auth from "./Pages/Auth/Auth";
-import CategoriesPage from "./Pages/CategoriesPage/CategoriesPage";
-import OrdersPage from "./Pages/OrdersPage/OrdersPage";
-import Checkout from "./Pages/Checkout/Checkout";
-import UserOrders from "./Pages/UserOrder/UserOrders";
-import ProductPage from "./Pages/ProductPage/ProductPage";
+// import Admin from "./Pages/admin/Admin";
+// import Home from "./Pages/Home/Home";
+// import Cart from "./Pages/Cart/Cart";
+// import Auth from "./Pages/Auth/Auth";
+// import CategoriesPage from "./Pages/CategoriesPage/CategoriesPage";
+// import OrdersPage from "./Pages/OrdersPage/OrdersPage";
+// import Checkout from "./Pages/Checkout/Checkout";
+// import UserOrders from "./Pages/UserOrder/UserOrders";
+// import ProductPage from "./Pages/ProductPage/ProductPage";
+// import ContainerUp from "./_components/ContainerUp";
+// Lazy load components
+const Admin = lazy(() => import('./Pages/admin/Admin'));
+const Home = lazy(() => import('./Pages/Home/Home'));
+const Cart = lazy(() => import('./Pages/Cart/Cart'));
+const Auth = lazy(() => import('./Pages/Auth/Auth'));
+const CategoriesPage = lazy(() => import('./Pages/CategoriesPage/CategoriesPage'));
+const OrdersPage = lazy(() => import('./Pages/OrdersPage/OrdersPage'));
+const Checkout = lazy(() => import('./Pages/Checkout/Checkout'));
+const UserOrders = lazy(() => import('./Pages/UserOrder/UserOrders'));
+const ProductPage = lazy(() => import('./Pages/ProductPage/ProductPage'));
 
+type ComponentType<P = {}> = React.FC<P>;
+
+const withSuspense = (Component:any) => (
+  <Suspense fallback={<MySpinner />}>
+    <Component />
+  </Suspense>
+);
 
 
 // import { useRegisterSW } from 'virtual:pwa-register/react'
@@ -34,7 +54,6 @@ import ProductPage from "./Pages/ProductPage/ProductPage";
 // useRegisterSW({ immediate: true })
 
 const queryClient = new QueryClient();
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,43 +61,43 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: withSuspense(Home),
       },
       {
         path: "cart",
-        element: <Cart />,
+        element: withSuspense(Cart),
       },
       {
         path: "categories",
-        element: <CategoriesPage />,
+        element: withSuspense(CategoriesPage),
       },
       {
         path: "admin",
-        element: <Admin />,
+        element: withSuspense(Admin),
       },
       {
         path: "auth",
-        element: <Auth />,
+        element: withSuspense(Auth),
       },
       {
         path: "orders",
-        element: <OrdersPage />,
+        element: withSuspense(OrdersPage),
       },
       {
         path: "checkout",
-        element: <Checkout />,
+        element: withSuspense(Checkout),
       },
       {
         path: "user-order",
-        element: <UserOrders />,
+        element: withSuspense(UserOrders),
       },
-        {
+      {
         path: "product/:id",
-        element: <ProductPage/>,
+        element: withSuspense(ProductPage),
       },
       {
         path: "*",
-        element: <><img src="https://media.istockphoto.com/id/1348157796/vector/website-under-construction-page-web-page-under-construction-website-under-maintenance-page.jpg?s=612x612&w=0&k=20&c=vJCWlc0t7pZY3b41LciyKsXQAtcDlMqzq2M7zOsl5rI=" alt="" /></>, 
+        element: withSuspense(NotFound),
       },
     ],
   },

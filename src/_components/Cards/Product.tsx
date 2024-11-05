@@ -5,7 +5,7 @@ import { ProductItem } from "../../d";
 const Product = ({ prod }: { prod: ProductItem }) => {
   return (
     <>
-      <Link to={`/product/${prod._id}`} className="lg:max-w-[295px]">
+      <Link onClick={()=> document.body.scrollIntoView()} to={`/product/${prod._id}`} className="lg:max-w-[295px]">
         <div className="block h-64 overflow-hidden">
           <img
             src={prod.images[0]}

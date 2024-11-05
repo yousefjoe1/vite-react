@@ -20,12 +20,12 @@ import { baseUrl } from "../../_functions/getData";
 
 import ProductImgs from "./components/ProductImgs";
 import ContainerUp from "../../_components/ContainerUp";
-import NewArrival from "../Home/Components/NewArrival";
 import Rate from "../../_components/Rate";
 
 import { initialReviews } from "./productDetailsData";
 import { faqs, sizes } from "../CategoriesPage/categoriesData";
 import { ReviewData } from "../../d";
+import ProductsSection from "../Home/Components/ProductsSection";
 
 interface Product {
   colors: string[]; // Array of color strings
@@ -488,7 +488,7 @@ const ProductPage = () => {
           <h2 className="text-2xl font-bold mb-8 text-center">
             You might also like
           </h2>
-          <NewArrival title="" />
+          <ProductsSection title="" link="all-products" />
         </div>
       </main>
     </ContainerUp>

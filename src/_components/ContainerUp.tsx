@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const ContainerUp = ({ children,className='' }:{children:React.ReactNode,className:string}) => {
+const ContainerUp = ({ children,className='' }:{children:React.ReactNode,className?:string}) => {
   useEffect(() => {
     document.body.scrollIntoView();
   }, []);

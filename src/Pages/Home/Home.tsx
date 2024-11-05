@@ -1,14 +1,14 @@
 import CustomerReviews from "./Components/CustomerReviews";
 import Hero from "./Components/Hero";
 import BrowseByStyle from "./Components/BrowseByStyle";
-import NewArrival from "./Components/NewArrival";
+import ProductsSection from "./Components/ProductsSection";
 
 const Home = () => {
   return (
     <>
       <Hero />
-      <NewArrival title='New Arrival' />
-      <NewArrival title='Top Selling'/>
+      <ProductsSection title='New Arrival' link="new-arrival" />
+      <ProductsSection title='Top Selling' link="top-selling"/>
       <BrowseByStyle />
       <CustomerReviews />
     </>

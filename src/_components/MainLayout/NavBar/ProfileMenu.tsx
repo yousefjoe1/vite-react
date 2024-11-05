@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { MyContext } from "../../../_context/conexts";
 
 const ProfileMenu = () => {
-    const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
-    const { contextValue,setContextValue } = context;
+  const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
+  const { contextValue, setContextValue } = context;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const redirect = useNavigate();
 
@@ -15,13 +15,13 @@ const ProfileMenu = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("userToken");
     redirect("/");
-    setContextValue(!contextValue)
+    setContextValue(!contextValue);
   };
 
   useEffect(() => {
     const token = localStorage.getItem("userToken");
     setIsLoggedIn(!!token);
-  }, [isLoggedIn,contextValue]);
+  }, [isLoggedIn, contextValue]);
 
   const items: MenuProps["items"] = isLoggedIn
     ? [

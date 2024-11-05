@@ -1,8 +1,5 @@
 import { useContext } from "react";
-import {
-  Search,
-  ShoppingCart,
-} from "lucide-react";
+import { Search, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import useFetch from "../../_hooks/useFetch";
 import MySpinner from "./MySpinner";
@@ -15,12 +12,12 @@ const Navbar: React.FC = () => {
   const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
   const { contextValue } = context;
 
-  const { data, isLoading, isError,isRefetching} = useFetch(
+  const { data, isLoading, isError, isRefetching } = useFetch(
     `cart`,
     "cart-name",
     contextValue,
     "userToken"
-  )
+  );
 
   return (
     <>
