@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
-const AdminLayout = () => {
+const VendorLayout = () => {
   return (
     <>
     <nav>
@@ -12,4 +12,4 @@ const AdminLayout = () => {
   )
 }
 
-export default AdminLayout
+export default VendorLayout

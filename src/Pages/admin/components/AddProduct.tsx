@@ -5,20 +5,26 @@ import axios from "axios";
 import { baseUrl } from "../../../_functions/getData";
 import MySpinner from "../../../_components/MainLayout/MySpinner";
 import Selections from "./Selections";
+import MultiSelections from "./MultiSelections";
 
 let allDress = ["casual", "formal", "party", "gym"];
 let allSubCateg = ["men", "women", "shoes", "accessories"];
 let allCategories = ["t-shirts", "shorts", "shirts", "hoodie", "jeans"];
-let allColors = [
-  "black",
-  "gray",
-  "white",
-  "green",
-  "blue",
-  "olive",
-  "navy" 
+const allColors = [
+  { label: 'Black', value: 'black' },
+  { label: 'Gray', value: 'gray' },
+  { label: 'White', value: 'white' },
+  { label: 'Green', value: 'green' },
+  { label: 'Blue', value: 'blue' },
+  { label: 'Olive', value: 'olive' },
+  { label: 'Navy', value: 'navy' },
 ]
-let allSizes = ["small", "medium", "large", "x-Large"]
+const allSizes = [
+  { label: 'Small', value: 'small' },
+  { label: 'Medium', value: 'medium' },
+  { label: 'Large', value: 'large' },
+  { label: 'X-Large', value: 'x-large' },
+];
 
 const AddProduct = ({ refetch }: { refetch: Function }) => {
   let msg = useToast();
@@ -26,12 +32,12 @@ const AddProduct = ({ refetch }: { refetch: Function }) => {
 
   const [name, setName] = useState("");
   const [details, setdetails] = useState("");
-  const [price, setPrice] = useState("");
-  const [discount, setDiscount] = useState("");
-  const [category, setCategory] = useState("");
-  const [sub_category, setSub_category] = useState("");
-  const [dress, setDress] = useState("");
-  const [colors, setColors] = useState<string[]>([]);
+  const [price, setPrice] = useState("0");
+  const [discount, setDiscount] = useState("0");
+  const [category, setCategory] = useState("t-shirts");
+  const [sub_category, setSub_category] = useState("men");
+  const [dress, setDress] = useState("casual");
+  const [colors, setColors] = useState<string[]>(['']);
   const [sizes, setSizes] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
 
@@ -74,6 +80,7 @@ const AddProduct = ({ refetch }: { refetch: Function }) => {
       refetch();
     }
   };
+
   return (
     <>
       {submit ? (
@@ -118,26 +125,26 @@ const AddProduct = ({ refetch }: { refetch: Function }) => {
           <div className="grid gap-5 grid-cols-3">
             <div>
               <Text mb="2px">category</Text>
-              <Selections firstValue="t-shirts" values={allCategories} assignValue={(e:string)=> setCategory(e)} />
+              <Selections firstValue={category} values={allCategories} assignValue={(e:string)=> setCategory(e)} />
             </div>
             <div>
-              <Text mb="2px">dress</Text>
-              <Selections firstValue="casual" values={allDress} assignValue={(e:string)=> setDress(e)} />
+              <Text mb="2px">dress style</Text>
+              <Selections firstValue={dress} values={allDress} assignValue={(e:string)=> setDress(e)} />
             </div>
 
             <div>
               <Text mb="2px">sub category</Text>
-              <Selections firstValue="men" values={allSubCateg} assignValue={(e:string)=> setSub_category(e)} />
+              <Selections firstValue={sub_category} values={allSubCateg} assignValue={(e:string)=> setSub_category(e)} />
             </div>
 
             <div>
-              <Text mb="2px">Colors</Text>
-              <Selections firstValue="black" values={allColors} assignValue={(e:string)=> setColors(p=> [...p,e])} />
+              <Text mb="2px">Colors</Text> 
+              <MultiSelections values={allColors} assignValue={(v:string[])=> setColors(v)} />
             </div>
 
             <div>
               <Text mb="2px">Sizes</Text>
-              <Selections firstValue="small" values={allSizes} assignValue={(e:string)=> setSizes(p=> [...p,e])} />
+              <MultiSelections values={allSizes} assignValue={(v:string[])=> setSizes(v)} />
             </div>
           </div>
 

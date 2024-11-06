@@ -13,14 +13,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider } from "@chakra-ui/react";
 
 import MainLayout from "./_components/MainLayout/MainLayout";
-import NotFound from "./_components/NotFound";
-import AdminLayout from "./Pages/admin/AdminLayout";
-import { homeRoutes } from "./_routes/HomeRoutes";
-import withSuspense from "./_components/WithSuspense";
+import VendorLayout from "./Pages/admin/VendorLayout";
 
-// pages
-// Lazy load components
-const Admin = lazy(() => import("./Pages/admin/Admin"));
+import { homeRoutes } from "./_routes/HomeRoutes";
+import NotFound from "./_components/NotFound";
+import withSuspense from "./_components/WithSuspense";
+// import ProductPage from ;
+
+
+const Vendor = lazy(() => import("./Pages/admin/VendorHome"));
 
 // import { useRegisterSW } from 'virtual:pwa-register/react'
 // import type { RegisterSWOptions } from 'vite-plugin-pwa/types'
@@ -36,13 +37,17 @@ const router = createBrowserRouter([
     children: homeRoutes
   },
   {
-    path: "/admin",
-    element: withSuspense(AdminLayout),
+    path: "/vendor",
+    element: withSuspense(VendorLayout),
     children: [
       {
         index: true,
-        element: withSuspense(Admin),
+        element: withSuspense(Vendor),
       },
+      // {
+      //   path: 'product/:id',
+      //   element: withSuspense(ProductPage),
+      // },
     ],
   },
   {

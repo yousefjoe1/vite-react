@@ -2,7 +2,7 @@ import { lazy } from "react";
 import withSuspense from "../_components/WithSuspense";
 // pages
 // Lazy load components
-const Admin = lazy(() => import("../Pages/admin/Admin"));
+const Admin = lazy(() => import("../Pages/admin/VendorHome"));
 const Home = lazy(() => import("../Pages/Home/Home"));
 const Cart = lazy(() => import("../Pages/Cart/Cart"));
 const Auth = lazy(() => import("../Pages/Auth/Auth"));

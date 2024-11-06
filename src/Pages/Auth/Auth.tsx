@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { MyContext } from "../../_context/conexts";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Inputs } from "../../d";
+import UserLogin from "./components/UserLogin";
+import UserRegister from "./components/UserRegister";
 
 const Auth = () => {
   const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
@@ -95,116 +97,22 @@ const Auth = () => {
         transition={{ duration: 0.5 }}
         className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-2xl"
       >
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {isForgotPassword
-              ? "Reset your password"
-              : isLogin
-              ? "Welcome back"
-              : "Create your account"}
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            {isForgotPassword
-              ? "Enter your email to receive reset instructions"
-              : isLogin
-              ? "Sign in to access your account"
-              : "Join us and start shopping"}
-          </p>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          {!isLogin && !isForgotPassword && (
-            <div>
-              <label htmlFor="name" className="sr-only">
-                Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                {...register("name", { required: true })}
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm transition duration-300 ease-in-out"
-                placeholder="Name"
-              />
-              {errors.name && (
-                <span className="text-red-500 text-xs mt-1">
-                  This field is required
-                </span>
-              )}
-            </div>
-          )}
-          <div>
-            <label htmlFor="email" className="sr-only">
-              Email address
-            </label>
-            <input
-              id="email"
-              {...register("email", { required: true })}
-              type="email"
-              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm transition duration-300 ease-in-out"
-              placeholder="Email address"
-            />
-            {errors.email && (
-              <p className="text-red-500 text-xs mt-1">
-                This field is required
-              </p>
-            )}
-          </div>
-          {!isForgotPassword && (
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                {...register("password", { required: true })}
-                type="password"
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm transition duration-300 ease-in-out"
-                placeholder="Password"
-              />
-              {errors.password && (
-                <p className="text-red-500 text-xs mt-1">
-                  This field is required
-                </p>
-              )}
-            </div>
-          )}
-
-          <div>
-            <motion.button
-              type="submit"
-              disabled={isSubmit}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition duration-300 ease-in-out"
-            >
-              {isSubmit ? (
-                <Spinner size="sm" color="white" />
-              ) : (
-                <span>
-                  {isForgotPassword
-                    ? "Reset Password"
-                    : isLogin
-                    ? "Sign in"
-                    : "Sign up"}
-                </span>
-              )}
-            </motion.button>
-          </div>
-        </form>
-
+        
+        {mode == "login" && <UserLogin />}
+        {mode == "register" && <UserRegister />}
         <div className="flex items-center justify-between">
           <div className="text-sm">
             <motion.button
-              onClick={() => toggleAuthMode(isLogin ? "register" : "login")}
+              onClick={() => toggleAuthMode(mode == 'login' ? "register" : "login")}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="font-medium text-gray-600 hover:text-gray-500 transition duration-300 ease-in-out"
             >
-              {isLogin
-                ? "Don't have an account? Sign up"
+              {isLogin ? "Don't have an account? Sign up"
                 : "Already have an account? Sign in"}
             </motion.button>
           </div>
-          {/* {isLogin && (
+          {mode == 'login' && (
             <div className="text-sm">
               <motion.button
                 onClick={() => toggleAuthMode("forgot-password")}
@@ -215,7 +123,7 @@ const Auth = () => {
                 Forgot your password?
               </motion.button>
             </div>
-          )} */}
+          )}
         </div>
 
         {/* {isForgotPassword && (

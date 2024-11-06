@@ -3,7 +3,7 @@ import MySpinner from "../../_components/MainLayout/MySpinner";
 import UpdateProduct from "./components/UpdateProduct";
 import AddProduct from "./components/AddProduct";
 
-const Admin = () => {
+const VendorHome = () => {
   const { data, isLoading, isError, refetch } = useFetch(
     `products`,
     "pr-admin"
@@ -66,4 +66,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default VendorHome;
