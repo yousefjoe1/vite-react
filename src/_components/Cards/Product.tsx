@@ -5,9 +5,16 @@ import { ProductItem } from "../../d";
 const Product = ({ prod }: { prod: ProductItem }) => {
   return (
     <>
-      <Link onClick={()=> document.body.scrollIntoView()} to={`/product/${prod._id}`} className="lg:max-w-[295px]">
+      <Link
+        onClick={() => document.body.scrollIntoView()}
+        to={`/product/${prod._id}`}
+        className="lg:max-w-[295px]"
+      >
         <div className="block h-64 overflow-hidden">
           <img
+            width={200}
+            height={300}
+            loading="lazy"
             src={prod.images[0]}
             alt={prod.name}
             className="w-full h-full lg:object-cover object-contain rounded-3xl"

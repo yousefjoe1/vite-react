@@ -53,7 +53,11 @@ const ProductPage = () => {
   });
 
   const product: Product = {
-    colors: ["olive", "green", "navy"],
+    colors: ["olive",  "navy" , "black",
+      "gray",
+      "white",
+      "green",
+      "blue",],
     sizes: sizes,
     faqs:faqs ,
   };

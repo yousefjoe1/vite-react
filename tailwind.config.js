@@ -4,7 +4,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        'white-100': '#F2F0F1'
+        'white-100': '#F2F0F1',
+        'white-200': '#F0F0F0'
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],

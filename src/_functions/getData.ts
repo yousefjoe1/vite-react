@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const baseUrl = import.meta.env.VITE_REACT_APP_URL;
-// Property 'env' does not exist on type 'ImportMeta'
 export const getData = async (apiRoute:string) => {
   try {
       let res = await axios.get(`${baseUrl}/api/${apiRoute}`)

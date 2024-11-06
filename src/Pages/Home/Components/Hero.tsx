@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const Hero = () => {
   return (
     <>
-      <section className="bg-white-100 font-inter">
+      <section className="bg-white-100 min-h-screen font-inter">
         <div className="container mx-auto">
           <div className="flex flex-col lg:flex-row">
             <div className="lg:w-1/2 px-4 py-12 lg:pr-12">
@@ -53,9 +53,9 @@ const Hero = () => {
             </div>
             <div className="lg:w-1/2 flex items-center">
               <img
-                width={"auto"}
-                height={"auto"}
-                loading="lazy"
+                width={500}
+                height={400}
+                // loading="lazy"
                 src={Model}
                 alt="Stylish couple wearing fashionable clothes"
                 className="w-full h-auto object-cover"

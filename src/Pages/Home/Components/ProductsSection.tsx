@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const ProductsSection = ({ title,link }: { title: string,link:string }) => {
   const { data, isLoading, isError } = useFetch(
-    `products?count=4`,
+    `products?count=4`,// Todo : add the products type ex: new-arrivals
     "p-by-count",
     true
   );
@@ -28,6 +28,9 @@ const ProductsSection = ({ title,link }: { title: string,link:string }) => {
 
       <div className="flex justify-center mt-10">
         <Button
+        title="view more button"
+        className="hover:bg-white-200"
+        _hover={{color: 'dodgerblue'}}
           as={Link}
           to={`/${link}`}
           mx={"auto"}

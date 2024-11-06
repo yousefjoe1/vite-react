@@ -1,4 +1,5 @@
 import { FaTwitter, FaFacebook, FaInstagram, FaGithub } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const footerLinks = [
@@ -62,18 +63,18 @@ const Footer = () => {
               to wear. From women to men.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="hover:text-gray-600">
+              <Link to={`/`} className="hover:text-gray-600">
                 <FaTwitter className="text-2xl" />
-              </a>
-              <a href="#" className="hover:text-gray-600">
+              </Link>
+              <Link to={`/`} className="hover:text-gray-600">
                 <FaFacebook className="text-2xl" />
-              </a>
-              <a href="#" className="hover:text-gray-600">
+              </Link>
+              <Link to={`/`} className="hover:text-gray-600">
                 <FaInstagram className="text-2xl" />
-              </a>
-              <a href="#" className="hover:text-gray-600">
+              </Link>
+              <Link to={`/`} className="hover:text-gray-600">
                 <FaGithub className="text-2xl" />
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -84,9 +85,9 @@ const Footer = () => {
               <ul className="space-y-2">
                 {category.items.map((item, idx) => (
                   <li key={idx}>
-                    <a href="#" className="hover:underline">
+                    <Link to={`/`} className="hover:underline">
                       {item}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -99,6 +100,9 @@ const Footer = () => {
           <p>Shop.co © 2000-2023, All Rights Reserved</p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <img
+            loading="lazy"
+            width={8}
+            height={8}
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Frame%2053-BbkG2V1mXjtMcrW0xUyMuD6xto2EKt.png"
               alt="Payment methods"
               className="h-8"
