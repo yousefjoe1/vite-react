@@ -17,7 +17,7 @@ import VendorLayout from "./Pages/admin/VendorLayout";
 
 import { homeRoutes } from "./_routes/HomeRoutes";
 import NotFound from "./_components/NotFound";
-import withSuspense from "./_components/WithSuspense";
+import withSuspense from "./_components/withSuspense";
 // import ProductPage from ;
 
 

@@ -1,5 +1,6 @@
 import { lazy } from "react";
-import withSuspense from "../_components/WithSuspense";
+import withSuspense from "../_components/withSuspense";
+
 // pages
 // Lazy load components
 const Admin = lazy(() => import("../Pages/admin/VendorHome"));
@@ -13,11 +14,16 @@ const OrdersPage = lazy(() => import("../Pages/OrdersPage/OrdersPage"));
 const Checkout = lazy(() => import("../Pages/Checkout/Checkout"));
 const UserOrders = lazy(() => import("../Pages/UserOrder/UserOrders"));
 const ProductPage = lazy(() => import("../Pages/ProductPage/ProductPage"));
+const ShopAll = lazy(() => import("../Pages/ShopAll/ShopAll"));
 
 export const homeRoutes = [
       {
         index: true,
         element: withSuspense(Home),
+      },
+      {
+        path: "shop",
+        element: withSuspense(ShopAll),
       },
       {
         path: "cart",

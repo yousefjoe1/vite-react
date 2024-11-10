@@ -7,6 +7,7 @@ import { MyContext } from "../../../_context/conexts";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Inputs } from "../../../d";
 import useMsg from "../../../_hooks/useMsg";
+import { baseUrl } from "../../../_functions/getData";
 
 const UserLogin = () => {
   const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
@@ -23,7 +24,7 @@ const UserLogin = () => {
   let navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    let url = "https://e-commerce-depi-node.vercel.app/api/users/login";
+    let url = `${baseUrl}/api/users/login`;
     let userdata = {
       email: data.email,
       password: data.password,
@@ -32,11 +33,19 @@ const UserLogin = () => {
     setIsSubmit(true);
 
     let resp = await axios.post(url, userdata);
+
+    console.log(resp,'login data');
+    
     if (resp.data.code == 400) {
       msg(resp.data.msg, "error");
     } else {
-      localStorage.setItem("userToken", resp.data.token);
-      navigate("/");
+      if(resp.data.data.role == 'vendor'){
+        localStorage.setItem("vendorToken", resp.data.token);
+        navigate("/vendor");
+      }else {
+        localStorage.setItem("userToken", resp.data.token);
+        navigate("/");
+      }
       msg(resp.data.msg);
     }
     setContextValue(!contextValue);

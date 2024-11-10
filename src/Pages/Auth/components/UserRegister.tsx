@@ -7,10 +7,16 @@ import { MyContext } from "../../../_context/conexts";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Inputs } from "../../../d";
 import useMsg from "../../../_hooks/useMsg";
+import { baseUrl } from "../../../_functions/getData";
+import { Checkbox } from "antd";
+import type { CheckboxProps } from "antd";
 const UserRegister = () => {
   const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
   const { contextValue, setContextValue } = context;
   const [isSubmit, setIsSubmit] = useState(false);
+
+  const [isVendor, setIsVendor] = useState(false);
+
   const { msg } = useMsg();
   const {
     register,
@@ -21,24 +27,33 @@ const UserRegister = () => {
   let navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    let url = "https://e-commerce-depi-node.vercel.app/api/users/register";
+    let url = `${baseUrl}/api/users/register`;
     let userdata = {
+      username: data.name,
       email: data.email,
       password: data.password,
+      role: isVendor ? "vendor" : "user",
     };
-
     setIsSubmit(true);
-
     let resp = await axios.post(url, userdata);
     if (resp.data.code == 400) {
       msg(resp.data.msg, "error");
     } else {
-      localStorage.setItem("userToken", resp.data.token);
-      navigate("/");
+      if (resp.data.data.role == "vendor") {
+        localStorage.setItem("vendorToken", resp.data.token);
+        navigate("/vendor");
+      } else {
+        localStorage.setItem("userToken", resp.data.token);
+        navigate("/");
+      }
       msg(resp.data.msg);
     }
     setContextValue(!contextValue);
     setIsSubmit(false);
+  };
+
+  const onChange: CheckboxProps["onChange"] = (e) => {
+    setIsVendor(e.target.checked);
   };
 
   return (
@@ -80,6 +95,26 @@ const UserRegister = () => {
           )}
         </div>
 
+        {isVendor && (
+          <div>
+            <label htmlFor="phone" className="sr-only">
+              Phone
+            </label>
+            <input
+              id="phone"
+              {...register("phone", { required: true })}
+              type="phone"
+              className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm transition duration-300 ease-in-out"
+              placeholder="Phone"
+            />
+            {errors.phone && (
+              <p className="text-red-500 text-xs mt-1">
+                This field is required
+              </p>
+            )}
+          </div>
+        )}
+
         <div>
           <label htmlFor="password" className="sr-only">
             Password
@@ -95,6 +130,7 @@ const UserRegister = () => {
             <p className="text-red-500 text-xs mt-1">This field is required</p>
           )}
         </div>
+        <Checkbox onChange={onChange}>Register as a Vendor</Checkbox>
 
         <div>
           <motion.button

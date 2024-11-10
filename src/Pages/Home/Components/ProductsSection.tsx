@@ -5,10 +5,10 @@ import MySpinner from "../../../_components/MainLayout/MySpinner";
 import { ProductItem } from "../../../d";
 import { Link } from "react-router-dom";
 
-const ProductsSection = ({ title,link }: { title: string,link:string }) => {
+const ProductsSection = ({ title,link,api = 'products' }: { title: string,link:string,api?: string }) => {
   const { data, isLoading, isError } = useFetch(
-    `products?count=4`,// Todo : add the products type ex: new-arrivals
-    "p-by-count",
+    `${api}`,// Todo : add the products type ex: new-arrivals
+    `prodcuts-${api}-${title}`,
     true
   );
 

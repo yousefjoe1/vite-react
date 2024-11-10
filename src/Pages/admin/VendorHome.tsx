@@ -2,11 +2,12 @@ import useFetch from "../../_hooks/useFetch";
 import MySpinner from "../../_components/MainLayout/MySpinner";
 import UpdateProduct from "./components/UpdateProduct";
 import AddProduct from "./components/AddProduct";
+import { ProductInfo } from "../../d";
 
 const VendorHome = () => {
   const { data, isLoading, isError, refetch } = useFetch(
-    `products`,
-    "pr-admin"
+    `products/vendor-products`,
+    "pr-vendor",true,'vendorToken'
   );
 
   if (isLoading || isError) {
@@ -17,12 +18,15 @@ const VendorHome = () => {
     );
   }
 
+  console.log(data,'vendor products');
+  
+
   return (
     <div className="p-5 container mx-auto">
       <AddProduct refetch={refetch} />
 
       <div className="grid grid-cols-1 gap-10">
-        {data?.data?.map((el) => (
+        {data?.data?.map((el:ProductInfo) => (
           <div key={el._id} className="bg-white-200 rounded-2xl shadow-lg p-4">
             <div className="imgs flex justify-center gap-5">
               <img
@@ -52,10 +56,10 @@ const VendorHome = () => {
             </div>
 
             <div className="name">name: {el.name} </div>
-            <div className="name">price: {el.price} </div>
-            <div className="name">category: {el.category} </div>
-            <div className="name">dress: {el.dress} </div>
-            <div className="name">rate: {el.rate} </div>
+            <div className="price">price: {el.price} </div>
+            <div className="category">category: {el.category} </div>
+            <div className="dress">dress: {el.dress} </div>
+            <div className="rate">rate: {el.rate} </div>
 
             {/* update */}
             <UpdateProduct product={el} refetch={refetch} />

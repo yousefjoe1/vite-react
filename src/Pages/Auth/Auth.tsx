@@ -1,91 +1,22 @@
-import { useState, useEffect, useContext, ChangeEvent, FormEvent } from "react";
-import { Spinner, useToast } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+
 import { motion } from "framer-motion";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { MyContext } from "../../_context/conexts";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Inputs } from "../../d";
+
 import UserLogin from "./components/UserLogin";
 import UserRegister from "./components/UserRegister";
 
 const Auth = () => {
-  const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
-  const { contextValue, setContextValue } = context;
   const searchParams = new URLSearchParams(window.location.search);
   const mode = searchParams.get("mode");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>();
-
-  let navigate = useNavigate();
-  let toast = useToast();
-  let msg = (
-    msg = "",
-    status: "error" | "success" | "info" | "warning" | "loading" = "success",
-    timev = 3000
-  ) => {
-    toast({ title: msg, status: status, duration: timev });
-  };
   const [isLogin, setIsLogin] = useState(true);
-  const [isForgotPassword, setIsForgotPassword] = useState(false);
-
-  const [isSubmit, setIsSubmit] = useState(false);
 
   useEffect(() => {
-    setIsLogin(mode !== "register");
-    setIsForgotPassword(mode === "forgot-password");
+    setIsLogin(mode !== "register");;
   }, [mode]);
-
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    if (isLogin) {
-      let url = "https://e-commerce-depi-node.vercel.app/api/users/login";
-      let userdata = {
-        email: data.email,
-        password: data.password,
-      };
-
-      setIsSubmit(true);
-
-      let resp = await axios.post(url, userdata);
-      if (resp.data.code == 400) {
-        msg(resp.data.msg, "error");
-      } else {
-        localStorage.setItem("userToken", resp.data.token);
-        navigate("/");
-        msg(resp.data.msg);
-      }
-      setContextValue(!contextValue);
-      setIsSubmit(false);
-
-      return;
-    } else {
-      let url = "https://e-commerce-depi-node.vercel.app/api/users/register";
-      let userdata = {
-        username: data.name,
-        email: data.email,
-        password: data.password,
-      };
-
-      setIsSubmit(true);
-      let resp = await axios.post(url, userdata);
-      if (resp.data.code == 400) {
-        msg(resp.data.msg, "error");
-      } else {
-        localStorage.setItem("userToken", resp.data.token);
-        navigate("/");
-        msg(resp.data.msg);
-      }
-      setIsSubmit(false);
-    }
-  };
 
   const toggleAuthMode = (mode: string) => {
     setIsLogin(mode === "login");
-    setIsForgotPassword(mode === "forgot-password");
     window.history.pushState({}, "", `/auth?mode=${mode}`);
   };
 

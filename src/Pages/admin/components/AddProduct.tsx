@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 
 import { Button, Input, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
@@ -37,7 +37,7 @@ const AddProduct = ({ refetch }: { refetch: Function }) => {
   const [category, setCategory] = useState("t-shirts");
   const [sub_category, setSub_category] = useState("men");
   const [dress, setDress] = useState("casual");
-  const [colors, setColors] = useState<string[]>(['']);
+  const [colors, setColors] = useState<string[]>([]);
   const [sizes, setSizes] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
 
@@ -50,16 +50,17 @@ const AddProduct = ({ refetch }: { refetch: Function }) => {
     setImages(newImages);
   };
 
-  const addProduct = async () => {
+  const addProduct = async (e:FormEvent) => {
+    e.preventDefault()
     setsubmit((p) => true);
     let h = {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMzQ1Njc4OSIsImVtYWlsIjoiYWRtaW4xMjN5b3Vzc2VmQGdtYWlsLmNvbSIsImlhdCI6MTcyNzgxMTIzN30.SuRjNdjjGmjPKLq_4bdwOHouPw59xzFAqLnBy8wu2WM`,
+        Authorization: `Bearer ${localStorage.getItem('vendorToken')}`,
       },
     };
     let d = {
       name: name,
-      price: price,
+      price: price == '0' ? 5 : price,
       details: details,
       images: images,
       discount: discount,
@@ -76,16 +77,16 @@ const AddProduct = ({ refetch }: { refetch: Function }) => {
       msg({ title: "wrong", status: "error", duration: 3000 });
     } else {
       setsubmit((p) => false);
-      msg({ title: "good job", status: "success", duration: 3000 });
+      msg({ title: "Product added.", status: "success", duration: 3000 });
       refetch();
     }
   };
 
   return (
     <>
-      {submit ? (
+      {/* {submit ? (
         <MySpinner />
-      ) : (
+      ) : ( */}
         <form onSubmit={addProduct} className="w-[700px] mx-auto border-2 shadow-sm rounded-2xl p-7 mb-5">
           <div className="grid gap-4 grid-cols-3">
             <div>
@@ -161,25 +162,25 @@ const AddProduct = ({ refetch }: { refetch: Function }) => {
           <div className="flex flex-col gap-5">
             <Input
               type="text"
-              value={images[0]}
+              // value={images[0]}
               onChange={(e) => handleImageChange(0, e)}
               required
             />
             <Input
               type="text"
-              value={images[1]}
+              // value={images[1]}
               onChange={(e) => handleImageChange(1, e)}
               required
             />
             <Input
               type="text"
-              value={images[2]}
+              // value={images[2]}
               onChange={(e) => handleImageChange(2, e)}
               required
             />
           </div>
 
-          <Input as={Button}
+          <Input disabled={submit} as={Button}
             colorScheme="blue"
             bg={'blue'}
             mt={5}
@@ -188,9 +189,10 @@ const AddProduct = ({ refetch }: { refetch: Function }) => {
             type="submit"
           >
             submit
+            {submit && <MySpinner s="sm" />}
             </Input>
         </form>
-      )}
+      {/* )} */}
     </>
   );
 };
