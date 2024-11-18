@@ -1,6 +1,7 @@
 import Product from "../../_components/Cards/Product";
 import ContainerUp from "../../_components/ContainerUp";
 import MySpinner from "../../_components/MainLayout/MySpinner";
+import ProductsSkeleton from "../../_components/ProductsSkeleton";
 import useFetch from "../../_hooks/useFetch";
 import { ProductItem } from "../../d";
 
@@ -16,7 +17,7 @@ const ShopAll = () => {
       <h3 className="text-center font-bold lg:text-2xl">All Products</h3>
 
       {isLoading ? (
-        <MySpinner />
+        <ProductsSkeleton />
       ) : (
         <>
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-20">

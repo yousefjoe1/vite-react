@@ -1,4 +1,4 @@
-import { lazy, StrictMode, Suspense } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MyContextProvider from "./_context/conexts";
@@ -12,16 +12,18 @@ import { PrimeReactProvider } from "primereact/api";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ChakraProvider } from "@chakra-ui/react";
 
-import MainLayout from "./_components/MainLayout/MainLayout";
-import VendorLayout from "./Pages/admin/VendorLayout";
+import VendorLayout from "./Pages/Vendor/VendorLayout";
 
 import { homeRoutes } from "./_routes/HomeRoutes";
 import NotFound from "./_components/NotFound";
 import withSuspense from "./_components/withSuspense";
+import MainLayout from "./_layouts/MainLayout/MainLayout";
+import VendorHome from "./Pages/Vendor/VendorHome";
+import { adminRoutes } from "./_routes/AdminRoutes";
+import AdminLayout from "./_layouts/AdminLayout/AdminLayout";
 // import ProductPage from ;
 
-
-const Vendor = lazy(() => import("./Pages/admin/VendorHome"));
+// const Vendor = lazy(() => import("./Pages/vendor/VendorLayo"));
 
 // import { useRegisterSW } from 'virtual:pwa-register/react'
 // import type { RegisterSWOptions } from 'vite-plugin-pwa/types'
@@ -34,7 +36,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
-    children: homeRoutes
+    children: homeRoutes,
   },
   {
     path: "/vendor",
@@ -42,13 +44,14 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: withSuspense(Vendor),
+        element: withSuspense(VendorHome),
       },
-      // {
-      //   path: 'product/:id',
-      //   element: withSuspense(ProductPage),
-      // },
     ],
+  },
+  {
+    path: "/admin-dach",
+    element: <AdminLayout />,
+    children: adminRoutes,
   },
   {
     path: "*",
@@ -60,15 +63,15 @@ const rootElement = document.getElementById("root");
 if (rootElement) {
   createRoot(rootElement).render(
     <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <ChakraProvider>
-          <MyContextProvider>
+      <MyContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <ChakraProvider>
             <PrimeReactProvider>
               <RouterProvider router={router} />
             </PrimeReactProvider>
-          </MyContextProvider>
-        </ChakraProvider>
-      </QueryClientProvider>
+          </ChakraProvider>
+        </QueryClientProvider>
+      </MyContextProvider>
     </StrictMode>
   );
 } else {

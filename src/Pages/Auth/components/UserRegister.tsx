@@ -130,7 +130,7 @@ const UserRegister = () => {
             <p className="text-red-500 text-xs mt-1">This field is required</p>
           )}
         </div>
-        <Checkbox onChange={onChange}>Register as a Vendor</Checkbox>
+        <Checkbox className="text-xl text-red-400"  onChange={onChange}>Register as a Vendor</Checkbox>
 
         <div>
           <motion.button

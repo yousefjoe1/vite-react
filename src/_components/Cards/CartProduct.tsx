@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import axios from "axios";
-import MySpinner from "../MainLayout/MySpinner";
 
 import { FiTrash2 } from "react-icons/fi";
 import { useToast } from "@chakra-ui/react";
@@ -8,6 +7,7 @@ import { useToast } from "@chakra-ui/react";
 import { baseUrl } from "../../_functions/getData";
 import { MyContext } from "../../_context/conexts";
 import { CartItem, ProductItem } from "../../d";
+import MySpinner from "../MySpinner";
 
 
 const CartProduct = ({ product, item,handleItem }:{product:ProductItem,item:CartItem,handleItem:Function}) => {  

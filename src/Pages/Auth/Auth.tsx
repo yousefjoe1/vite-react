@@ -4,10 +4,13 @@ import { motion } from "framer-motion";
 
 import UserLogin from "./components/UserLogin";
 import UserRegister from "./components/UserRegister";
+import ContainerUp from "../../_components/ContainerUp";
 
 const Auth = () => {
   const searchParams = new URLSearchParams(window.location.search);
+  console.log("🚀 ~ Auth ~ searchParams:", searchParams)
   const mode = searchParams.get("mode");
+  console.log("🚀 ~ Auth ~ mode:", mode)
 
   const [isLogin, setIsLogin] = useState(true);
 
@@ -16,12 +19,12 @@ const Auth = () => {
   }, [mode]);
 
   const toggleAuthMode = (mode: string) => {
-    setIsLogin(mode === "login");
+    // setIsLogin(mode === "login");
     window.history.pushState({}, "", `/auth?mode=${mode}`);
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <ContainerUp className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -43,7 +46,7 @@ const Auth = () => {
                 : "Already have an account? Sign in"}
             </motion.button>
           </div>
-          {mode == 'login' && (
+          {/* {mode == 'login' && (
             <div className="text-sm">
               <motion.button
                 onClick={() => toggleAuthMode("forgot-password")}
@@ -54,23 +57,10 @@ const Auth = () => {
                 Forgot your password?
               </motion.button>
             </div>
-          )}
+          )} */}
         </div>
-
-        {/* {isForgotPassword && (
-          <div className="text-sm text-center">
-            <motion.button
-              onClick={() => toggleAuthMode("login")}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="font-medium text-gray-600 hover:text-gray-500 transition duration-300 ease-in-out"
-            >
-              Back to login
-            </motion.button>
-          </div>
-        )} */}
       </motion.div>
-    </section>
+    </ContainerUp>
   );
 };
 

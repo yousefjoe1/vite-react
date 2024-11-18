@@ -1,0 +1,7 @@
+let {msg} = useMsg()
+
+if(res.data.code == 400){
+    msg(res.data.msg, "error");
+}else{
+    msg(res.data.msg);
+}

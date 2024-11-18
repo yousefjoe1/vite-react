@@ -164,19 +164,19 @@ const AddProduct = ({ refetch }: { refetch: Function }) => {
               type="text"
               // value={images[0]}
               onChange={(e) => handleImageChange(0, e)}
-              // required
+              required
             />
             <Input
               type="text"
               // value={images[1]}
               onChange={(e) => handleImageChange(1, e)}
-              // required
+              required
             />
             <Input
               type="text"
               // value={images[2]}
               onChange={(e) => handleImageChange(2, e)}
-              // required
+              required
             />
           </div>
 

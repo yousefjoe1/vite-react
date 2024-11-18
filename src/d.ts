@@ -23,6 +23,7 @@ export interface ProductInfo {
   colors: string[];
   sizes: string[];
   images: string[];
+  show: boolean;
 }
 
 export type Inputs = {

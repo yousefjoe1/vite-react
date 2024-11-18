@@ -12,7 +12,6 @@ import { MyContext } from "../../_context/conexts";
 import useFetch from "../../_hooks/useFetch";
 import { Link, useParams } from "react-router-dom";
 
-import MySpinner from "../../_components/MainLayout/MySpinner";
 import { useToast } from "@chakra-ui/react";
 
 import axios from "axios";
@@ -26,6 +25,7 @@ import { initialReviews } from "./productDetailsData";
 import { faqs, sizes } from "../CategoriesPage/categoriesData";
 import { ReviewData } from "../../d";
 import ProductsSection from "../Home/Components/ProductsSection";
+import MySpinner from "../../_components/MySpinner";
 
 interface Product {
   colors: string[]; // Array of color strings
@@ -105,14 +105,6 @@ const ProductPage = () => {
     setShowReviewForm(true);
   };
 
-  const handleLatestFilter = () => {
-    console.log("Latest filter clicked");
-  };
-
-  const handleFilterClick = () => {
-    console.log("Filter clicked");
-  };
-
   const handleReviewSubmit = (e:FormEvent) => {
     e.preventDefault();
     const newReviewObject = {
@@ -186,7 +178,7 @@ const ProductPage = () => {
         <div className="bg-black text-white p-2 flex justify-between items-center text-xs sm:text-sm">
           <div className="flex-grow text-center">
             Sign up and get 20% off to your first order.{" "}
-            <span className="underline cursor-pointer">Sign Up Now</span>
+            <Link to="/auth?mode=register"  className="underline cursor-pointer">Sign Up Now</Link>
           </div>
           <FiX
             className="cursor-pointer"
@@ -339,7 +331,7 @@ const ProductPage = () => {
                 </h2>
                 <div className="flex space-x-2">
                   <button
-                    onClick={handleLatestFilter}
+                    // onClick={handleLatestFilter}
                     className="bg-gray-200 text-gray-800 px-4 py-2 rounded-full hover:bg-gray-300 transition duration-300"
                   >
                     Latest
@@ -351,7 +343,7 @@ const ProductPage = () => {
                     Write a Review
                   </button>
                   <button
-                    onClick={handleFilterClick}
+                    // onClick={handleFilterClick}
                     className="bg-gray-200 text-gray-800 px-3 py-2 rounded-full hover:bg-gray-300 transition duration-300"
                   >
                     <FiFilter />
@@ -492,7 +484,7 @@ const ProductPage = () => {
           <h2 className="text-2xl font-bold mb-8 text-center">
             You might also like
           </h2>
-          <ProductsSection title="" link="all-products" />
+          <ProductsSection title="" link="similar-products?t-shirts" api="products?count=4"/>
         </div>
       </main>
     </ContainerUp>

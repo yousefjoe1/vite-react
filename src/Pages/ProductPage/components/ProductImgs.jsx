@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MySpinner from "../../../_components/MainLayout/MySpinner";
+import MySpinner from "../../../_components/MySpinner";
 
 const ProductImgs = ({imgs = []}) => {
   

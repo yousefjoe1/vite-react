@@ -4,10 +4,11 @@ import { Button } from "@chakra-ui/react";
 import MySpinner from "../../../_components/MainLayout/MySpinner";
 import { ProductItem } from "../../../d";
 import { Link } from "react-router-dom";
+import ProductsSkeleton from "../../../_components/ProductsSkeleton";
 
 const ProductsSection = ({ title,link,api = 'products' }: { title: string,link:string,api?: string }) => {
   const { data, isLoading, isError } = useFetch(
-    `${api}`,// Todo : add the products type ex: new-arrivals
+    `${api}`,
     `prodcuts-${api}-${title}`,
     true
   );
@@ -17,7 +18,7 @@ const ProductsSection = ({ title,link,api = 'products' }: { title: string,link:s
       <h3 className="font-bold text-center text-4xl mb-5">{title}</h3>
 
       {isLoading ? (
-        <MySpinner />
+        <ProductsSkeleton />
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {data?.data?.map((product: ProductItem) => (

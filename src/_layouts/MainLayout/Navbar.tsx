@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Search, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import useFetch from "../../_hooks/useFetch";
-import MySpinner from "./MySpinner";
+import MySpinner from "../../_components/MySpinner";
 import { MyContext } from "../../_context/conexts";
 import LeftSection from "./NavBar/LeftSection";
 import Searching from "./NavBar/Searching";
@@ -18,6 +18,9 @@ const Navbar: React.FC = () => {
     contextValue,
     "userToken"
   );
+  
+  console.log("🚀 ~ data:", data)
+  
 
   return (
     <>
@@ -55,7 +58,10 @@ const Navbar: React.FC = () => {
                   {isLoading || isRefetching ? (
                     <MySpinner s="sm" />
                   ) : (
-                    <>{isError ? 0 : <>{data?.data?.length}</>}</>
+                    <>
+                    {data.code == 400 && 0}
+                    {isError ? 0 : <>{data?.data?.length}
+                    </>}</>
                   )}
                 </span>
               </Link>

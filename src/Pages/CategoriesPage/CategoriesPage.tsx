@@ -14,7 +14,6 @@ import { ChevronRightIcon } from "lucide-react";
 import { MdFilterList } from "react-icons/md";
 
 import useFetch from "../../_hooks/useFetch";
-import MySpinner from "../../_components/MainLayout/MySpinner";
 
 import Sizes from "./components/Sizes";
 import PriceRange from "./components/PriceRange";
@@ -27,6 +26,7 @@ import Product from "../../_components/Cards/Product";
 import ContainerUp from "../../_components/ContainerUp";
 
 import { ProductItem } from "../../d";
+import MySpinner from "../../_components/MySpinner";
 
 const CategoriesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -1,28 +1,45 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import useFetch from "../../_hooks/useFetch";
-import MySpinner from "../../_components/MainLayout/MySpinner";
 import ContainerUp from "../../_components/ContainerUp";
 import CartAndOrder from "./components/CartAndOrder";
 import { MyContext } from "../../_context/conexts";
+import MySpinner from "../../_components/MySpinner";
+import { Link } from "react-router-dom";
+import { ProductsCartObject } from "../../d";
+
+interface Cart {
+  code: number;
+  msg: string;
+}
+
+interface Data {
+  data: ProductsCartObject;
+  isLoading: boolean;
+  isError: boolean;
+  isRefetching: boolean;
+}
 
 const Cart = () => {
   const context = useContext(MyContext)!; // The `!` asserts that context is not undefined
-  const { contextValue } = context;;
+  const { contextValue } = context;
 
-  const { data, isLoading, isError, isRefetching } = useFetch(
+  const {data,isError, isLoading,isRefetching} : Data  = useFetch(
     `cart`,
     "user-cart",
     contextValue,
     "userToken"
   );
+  console.log(data, "data", isError);
+
+  
 
   return (
     <ContainerUp className="min-h-screen bg-white py-8">
       <div className="container mx-auto px-4">
         <div className="text-sm breadcrumbs mb-4">
-          <a href="/" className="hover:underline">
+          <Link to={"/"} className="hover:underline">
             Home
-          </a>{" "}
+          </Link>{" "}
           &gt;
           <span>Cart</span>
         </div>
@@ -37,18 +54,21 @@ const Cart = () => {
               <MySpinner />
             ) : (
               <>
-              {data?.data?.length  == 0 ? 
-              <img src="https://mir-s3-cdn-cf.behance.net/projects/404/95974e121862329.Y3JvcCw5MjIsNzIxLDAsMTM5.png" alt="image" />
-                :
-              <CartAndOrder
-                products={data}
-                status={{
-                  isLoading: isLoading,
-                  isRefetching: isRefetching,
-                  isError: isError,
-                }}
-              />
-            }
+                {data?.data?.length == 0 ? (
+                  <img
+                    src="https://mir-s3-cdn-cf.behance.net/projects/404/95974e121862329.Y3JvcCw5MjIsNzIxLDAsMTM5.png"
+                    alt="image"
+                  />
+                ) : (
+                  <CartAndOrder
+                    products={data}
+                    status={{
+                      isLoading: isLoading,
+                      isRefetching: isRefetching,
+                      isError: isError,
+                    }}
+                  />
+                )}
               </>
             )}
           </>

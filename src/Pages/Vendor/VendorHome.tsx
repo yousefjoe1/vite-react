@@ -1,8 +1,8 @@
 import useFetch from "../../_hooks/useFetch";
-import MySpinner from "../../_components/MainLayout/MySpinner";
 import UpdateProduct from "./components/UpdateProduct";
 import AddProduct from "./components/AddProduct";
 import { ProductInfo } from "../../d";
+import MySpinner from "../../_components/MySpinner";
 
 const VendorHome = () => {
   const { data, isLoading, isError, refetch } = useFetch(
@@ -16,10 +16,7 @@ const VendorHome = () => {
         <MySpinner />
       </>
     );
-  }
-
-  console.log(data,'vendor products');
-  
+  }  
 
   return (
     <div className="p-5 container mx-auto">

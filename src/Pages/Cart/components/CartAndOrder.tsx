@@ -1,8 +1,8 @@
 import { useState } from "react";
-import MySpinner from "../../../_components/MainLayout/MySpinner";
 import CartProduct from "../../../_components/Cards/CartProduct";
 import { Link } from "react-router-dom";
 import { CartItem, ProductItem, ProductsCartObject, Status } from "../../../d";
+import MySpinner from "../../../_components/MySpinner";
 
 
 const CartAndOrder = ({
@@ -14,9 +14,12 @@ const CartAndOrder = ({
 }) => {
   const [cartData, setcartData] = useState<ProductsCartObject>(products);
   const { total, data } = cartData;
+  console.log("🚀 ~ data:", data)
+
+
 
   let subTotal = data
-    .map((it: CartItem) => it.product.discount)
+    ?.map((it: CartItem) => it.product.discount)
     .reduce((accumulator, current) => accumulator + current, 0);
 
   let finalPrice = total - (subTotal * total) / 100;

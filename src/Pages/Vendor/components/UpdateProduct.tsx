@@ -22,18 +22,15 @@ import MySpinner from "../../../_components/MySpinner";
 const UpdateProduct = ({
   product,
   refetch,
-  token ='vendorToken'
 }: {
   product: ProductInfo;
   refetch: Function;
-  token: string;
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSubmit, setIsSubmit] = useState(false);
 
   let {msg} = useMsg()
 
-  const [show, setShow] = useState(product.show);
   const [name, setName] = useState(product.name);
   const [details, setdetails] = useState(product.details);
   const [price, setPrice] = useState(product.price);
@@ -61,7 +58,7 @@ const UpdateProduct = ({
   const update = async () => {
     let h = {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem(token)}`,
+        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
       },
     };
     let d = {
@@ -76,12 +73,9 @@ const UpdateProduct = ({
       sizes: sizes,
       dress: dress,
       rate: rate,
-      show: show
     };
-
     setIsSubmit(true)
-    const url = token == 'vendorToken' ? `products/${product._id}` : `admin/products/${product._id}`
-    let res = await axios.patch(`${baseUrl}/api/${url}`, d, h);
+    let res = await axios.patch(`${baseUrl}/api/products/${product._id}`, d, h);
     setIsSubmit(false)
     if(res.data.code == 400){
       msg(res.data.msg, "error");
@@ -263,18 +257,6 @@ const UpdateProduct = ({
                   onChange={(e) => handleImageChange(2, e)}
                 />
               </div>
-
-              {
-                token == 'adminToken' && 
-                <Button
-                  mr={3}
-                  mt={3}
-                  onClick={()=> show == false ? setShow(true):setShow(false)}
-                >
-                  {show ? 'Hide': 'Show'}
-                </Button>
-              }
-
             </ModalBody>
 
             <ModalFooter>

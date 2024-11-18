@@ -3,7 +3,6 @@ import withSuspense from "../_components/withSuspense";
 
 // pages
 // Lazy load components
-const Admin = lazy(() => import("../Pages/admin/VendorHome"));
 const Home = lazy(() => import("../Pages/Home/Home"));
 const Cart = lazy(() => import("../Pages/Cart/Cart"));
 const Auth = lazy(() => import("../Pages/Auth/Auth"));
@@ -19,7 +18,7 @@ const ShopAll = lazy(() => import("../Pages/ShopAll/ShopAll"));
 export const homeRoutes = [
       {
         index: true,
-        element: withSuspense(Home),
+        element: <Home />,
       },
       {
         path: "shop",
