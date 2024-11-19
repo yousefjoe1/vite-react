@@ -14,13 +14,13 @@ const ProductImgs = ({imgs = []}) => {
   
   return (
     <>
-      <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0 flex">
-        <div className="w-1/5 mr-4">
-          <div className="flex flex-col space-y-2">
+      <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0 flex lg:flex-row flex-col lg:items-start items-center">
+        <div className="lg:w-1/5 mr-4">
+          <div className="flex lg:flex-col flex-row gap-x-3 mb-2 space-y-2">
             {imgs.map((img, index) => (
               <div
                 key={index}
-                className={`w-full aspect-square cursor-pointer overflow-hidden rounded-lg ${
+                className={`w-full aspect-square lg:mx-0 mx-auto cursor-pointer overflow-hidden rounded-lg ${
                   index === mainImage
                     ? "ring-2 ring-black"
                     : "ring-1 ring-gray-200"
@@ -30,7 +30,7 @@ const ProductImgs = ({imgs = []}) => {
                 <img
                   src={img}
                   alt={`Thumbnail ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover "
                 />
               </div>
             ))}

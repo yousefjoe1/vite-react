@@ -37,7 +37,6 @@ const ProductPage = () => {
   const { id } = useParams();
   const { data, isLoading, isError } = useFetch(`products/${id}`,`product-${id}`,true);
   const context = useContext(MyContext)!;
-  console.log("🚀 ~ ProductPage ~ data:", data)
   const { contextValue , setContextValue} = context;;
 
   const [showBanner, setShowBanner] = useState(true);
