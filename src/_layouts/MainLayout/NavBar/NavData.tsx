@@ -37,17 +37,17 @@ export const logedItems = [
   ];
   
  export const notLogedItems = [
-    {
-      label: (
-        <Link
-          to={"/auth?mode=login"}
-          className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:text-indigo-600"
-        >
-          Login
-        </Link>
-      ),
-      key: "0",
-    },
+    // {
+    //   label: (
+    //     <Link
+    //       to={"/auth?mode=login"}
+    //       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:text-indigo-600"
+    //     >
+    //       Login
+    //     </Link>
+    //   ),
+    //   key: "0",
+    // },
     {
       label: (
         <Link

@@ -40,7 +40,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/vendor",
-    element: withSuspense(VendorLayout),
+    element: <VendorLayout />,
     children: [
       {
         index: true,

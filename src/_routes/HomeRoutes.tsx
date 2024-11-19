@@ -3,7 +3,8 @@ import withSuspense from "../_components/withSuspense";
 
 // pages
 // Lazy load components
-const Home = lazy(() => import("../Pages/Home/Home"));
+import Home from '../Pages/Home/Home'
+// const Home = lazy(() => import("../Pages/Home/Home"));
 const Cart = lazy(() => import("../Pages/Cart/Cart"));
 const Auth = lazy(() => import("../Pages/Auth/Auth"));
 const CategoriesPage = lazy(

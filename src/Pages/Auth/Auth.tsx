@@ -8,9 +8,7 @@ import ContainerUp from "../../_components/ContainerUp";
 
 const Auth = () => {
   const searchParams = new URLSearchParams(window.location.search);
-  console.log("🚀 ~ Auth ~ searchParams:", searchParams)
   const mode = searchParams.get("mode");
-  console.log("🚀 ~ Auth ~ mode:", mode)
 
   const [isLogin, setIsLogin] = useState(true);
 
@@ -19,8 +17,9 @@ const Auth = () => {
   }, [mode]);
 
   const toggleAuthMode = (mode: string) => {
-    // setIsLogin(mode === "login");
-    window.history.pushState({}, "", `/auth?mode=${mode}`);
+    setIsLogin(!isLogin);
+    // window.history.pushState({}, "", `/auth?mode=${mode}`);
+
   };
 
   return (
@@ -32,8 +31,8 @@ const Auth = () => {
         className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-2xl"
       >
         
-        {mode == "login" && <UserLogin />}
-        {mode == "register" && <UserRegister />}
+        {isLogin && <UserLogin />}
+        {!isLogin && <UserRegister />}
         <div className="flex items-center justify-between">
           <div className="text-sm">
             <motion.button
