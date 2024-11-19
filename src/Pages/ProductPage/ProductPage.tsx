@@ -37,6 +37,7 @@ const ProductPage = () => {
   const { id } = useParams();
   const { data, isLoading, isError } = useFetch(`products/${id}`,`product-${id}`,true);
   const context = useContext(MyContext)!;
+  console.log("🚀 ~ ProductPage ~ data:", data)
   const { contextValue , setContextValue} = context;;
 
   const [showBanner, setShowBanner] = useState(true);
@@ -233,7 +234,7 @@ const ProductPage = () => {
             <div className="mb-8 pb-8 border-b border-gray-200">
               <h3 className="font-semibold mb-4">Select Colors</h3>
               <div className="flex space-x-4">
-                {product.colors.map((color) => (
+                {data?.data?.colors.map((color:string) => (
                   <button
                     key={color}
                     className={`w-10 h-10 rounded-full ${
@@ -248,7 +249,7 @@ const ProductPage = () => {
             <div className="mb-8 pb-8 border-b border-gray-200">
               <h3 className="font-semibold mb-4">Choose Size</h3>
               <div className="flex flex-wrap gap-4">
-                {product.sizes.map((size) => (
+                {data?.data?.sizes.map((size:string) => (
                   <button
                     key={size}
                     className={`px-6 py-3 rounded-full ${

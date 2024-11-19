@@ -3,8 +3,7 @@ import React, { FormEvent, useState } from "react";
 import { Button, Input, Text, useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { baseUrl } from "../../../_functions/getData";
-import Selections from "./Selections";
-import MultiSelections from "./MultiSelections";
+
 import MySpinner from "../../../_components/MySpinner";
 import {
   allCategories,
@@ -13,6 +12,8 @@ import {
   allColors,
   allSizes,
 } from "../../../_constants/AddProductsData";
+import Selections from "../../../_components/Selections";
+import MultiSelections from "../../../_components/MultiSelections";
 
 const AddProduct = ({ refetch }: { refetch: Function }) => {
   let msg = useToast();
