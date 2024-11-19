@@ -60,7 +60,9 @@ const CategoriesPage = () => {
     newSearchParams.set("dress", "casual");
     document.body.scrollIntoView({ behavior: "smooth" });
     setSearchParams(newSearchParams);
-    refetch();
+    setTimeout(() => {
+      refetch();
+    }, 100);
   };
 
   return (

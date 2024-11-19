@@ -25,15 +25,14 @@ const UpdateProduct = ({
   product: ProductInfo;
   refetch: Function;
 }) => {
+  console.log("🚀 ~ product:", product)
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -46,20 +45,11 @@ const UpdateProduct = ({
   const [details, setdetails] = useState(product.details);
   const [price, setPrice] = useState(product.price);
   const [discount, setDiscount] = useState<string | number>(product.discount);
-  const [rate, setRate] = useState(product.rate);
   const [category, setCategory] = useState(product.category);
   const [sub_category, setSub_category] = useState(product.sub_category);
   const [dress, setDress] = useState(product.dress);
-  const [colors, setColors] = useState([
-    product.colors[0],
-    product.colors[1],
-    product.colors[2],
-  ]);
-  const [sizes, setSizes] = useState([
-    product.sizes[0],
-    product.sizes[1],
-    product.sizes[2],
-  ]);
+  const [colors, setColors] = useState<string[]>(product.colors);
+  const [sizes, setSizes] = useState<string[]>(product.sizes);
   const [images, setImages] = useState([
     product.images[0],
     product.images[1],
@@ -83,7 +73,7 @@ const UpdateProduct = ({
       colors: colors,
       sizes: sizes,
       dress: dress,
-      rate: rate,
+      // rate: rate,
     };
     setIsSubmit(true);
     let res = await axios.patch(`${baseUrl}/api/products/${product._id}`, d, h);
@@ -106,20 +96,22 @@ const UpdateProduct = ({
   // Update `colors` and `sizes` state arrays using spread syntax
 
   const handleColorChange = (
-    index: number,
-    event: React.ChangeEvent<HTMLInputElement>
+    value: string[]
   ) => {
-    const newColors = [...colors];
-    newColors[index] = event.target.value;
+
+    const newColors = [
+      ...colors, 
+      ...value.filter(color => !colors.includes(color))
+    ];
     setColors(newColors);
   };
 
-  const handleSizeChange = (
-    index: number,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newSizes = [...sizes];
-    newSizes[index] = event.target.value;
+  const handleSizeChange = (value: string[] ) => {
+
+    const newSizes = [
+      ...sizes, 
+      ...value.filter(size => !sizes.includes(size))
+    ];
     setSizes(newSizes);
   };
 
@@ -132,19 +124,19 @@ const UpdateProduct = ({
     setImages(newImages);
   };
 
+
+  
+
   return (
     <div>
       <>
-        <Button type="primary" onClick={showModal}>
-          Open Modal
+        <Button className="mt-4" type="primary" onClick={showModal}>
+          Update
         </Button>
-        <Modal
+        <Modal width={'70%'}
         footer={[
           <Button
-          // _hover={''}
-          // variant={`outline`}
             className={`${isSubmit ?`bg-green-200/45`: `bg-green-500 text-white`}`}
-            // mr={3}
             disabled={isSubmit}
             onClick={update}
           >
@@ -154,12 +146,11 @@ const UpdateProduct = ({
         ]}
           title="Basic Modal"
           open={isModalOpen}
-          // onOk={handleOk}
           onCancel={handleCancel}
         >
-          <div className="grid lg:grid-cols-4 grid-cols-2 gap-5">
+          <div className="grid lg:grid-cols-3 grid-cols-2 gap-5">
             <div>
-              <Text mb="2px">name</Text>
+              <Text mb="2px">Name</Text>
               <Input
                 mb={3}
                 type="text"
@@ -169,7 +160,7 @@ const UpdateProduct = ({
             </div>
 
             <div>
-              <Text mb="2px">price</Text>
+              <Text mb="2px">Price</Text>
               <Input
                 mb={3}
                 type="number"
@@ -179,17 +170,7 @@ const UpdateProduct = ({
             </div>
 
             <div>
-              <Text mb="2px">Rate</Text>
-              <Input
-                mb={3}
-                type="number"
-                value={rate}
-                onChange={(e) => setRate(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <Text mb="2px">discount</Text>
+              <Text mb="2px">Discount</Text>
               <Input
                 mb={3}
                 type="number"
@@ -201,7 +182,7 @@ const UpdateProduct = ({
 
           <div className="grid gap-5 grid-cols-3 relative">
             <div>
-              <Text mb="2px">category</Text>
+              <Text mb="2px">Category</Text>
               <Selections
                 firstValue={category}
                 values={allCategories}
@@ -209,7 +190,7 @@ const UpdateProduct = ({
               />
             </div>
             <div>
-              <Text mb="2px">dress style</Text>
+              <Text mb="2px">Dress style</Text>
               <Selections
                 firstValue={dress}
                 values={allDress}
@@ -218,7 +199,7 @@ const UpdateProduct = ({
             </div>
 
             <div>
-              <Text mb="2px">sub category</Text>
+              <Text mb="2px">Sub category</Text>
               <Selections
                 firstValue={sub_category}
                 values={allSubCateg}
@@ -230,7 +211,7 @@ const UpdateProduct = ({
               <Text mb="2px">Colors</Text>
               <MultiSelections
                 values={allColors}
-                assignValue={(v: string[]) => setColors(v)}
+                assignValue={(v: string[]) => handleColorChange(v)}
               />
             </div>
 
@@ -238,31 +219,12 @@ const UpdateProduct = ({
               <Text mb="2px">Sizes</Text>
               <MultiSelections
                 values={allSizes}
-                assignValue={(v: string[]) => setSizes(v)}
+                assignValue={(v: string[]) => handleSizeChange(v)}
               />
             </div>
           </div>
-        </Modal>
-        {/* <Button color={"green"} bg={"silver"} onClick={onOpen}>
-          update
-        </Button> */}
-        {/* 
-        <Modal isOpen={isOpen} onClose={onClose} size={"3xl"}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Update</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody> */}
-
-        {/* <Text mb="2px">details</Text>
-              <Input
-                mb={3}
-                type="text"
-                value={details}
-                onChange={(e) => setdetails(e.target.value)}
-              />
-
-              <Text my="2px">images</Text>
+          <Text mt={3} mb="2px">Images</Text>
+              <Text>Base Image</Text>
               <div className="flex flex-col gap-5">
                 <Input
                   type="text"
@@ -279,27 +241,15 @@ const UpdateProduct = ({
                   value={images[2]}
                   onChange={(e) => handleImageChange(2, e)}
                 />
-              </div> */}
-        {/* </ModalBody> */}
-
-        {/* <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={onClose}>
-                Close
-              </Button>
-              <Button
-              _hover={''}
-              variant={`outline`}
-                className={`${isSubmit ?`bg-green-200/45`: `bg-green-500 text-white`}`}
-                mr={3}
-                disabled={isSubmit}
-                onClick={update}
-              >
-                update
-                {isSubmit && <MySpinner s="sm" />}
-              </Button>
-            </ModalFooter> */}
-        {/* </ModalContent>
-        </Modal> */}
+              </div>
+                 <Text mt={3} mb="2px">Details</Text>
+              <Input
+                mb={3}
+                type="text"
+                value={details}
+                onChange={(e) => setdetails(e.target.value)}
+              />
+        </Modal>
       </>
     </div>
   );

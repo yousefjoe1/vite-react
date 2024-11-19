@@ -55,8 +55,11 @@ const VendorHome = () => {
             <div className="name">name: {el.name} </div>
             <div className="price">price: {el.price} </div>
             <div className="category">category: {el.category} </div>
-            <div className="dress">dress: {el.dress} </div>
-            <div className="rate">rate: {el.rate} </div>
+            <div className="sub-category">sub category: {el.sub_category} </div>
+            <div className="dress">dress style: {el.dress} </div>
+            <div className="colors">colors: {el.colors.map((c,i)=> <span key={i}>{c}  </span>)} </div>
+            <div className="sizes">sizes: {el.sizes.map((s,i)=> <span key={i}>{s}  </span>)} </div>
+            <div className="details">details: {el.details} </div>
 
             {/* update */}
             <UpdateProduct product={el} refetch={refetch} />
