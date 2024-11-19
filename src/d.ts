@@ -48,6 +48,9 @@ export interface Status {
 export interface ProductsCartObject {
   data: CartItem[];
   total: number;
+  length: number;
+  code: number;
+  msg: string;
 }
 
 export interface ReviewData {

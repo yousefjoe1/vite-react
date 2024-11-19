@@ -17,6 +17,7 @@ interface Data {
   isLoading: boolean;
   isError: boolean;
   isRefetching: boolean;
+  error: Error | null
 }
 
 const Cart = () => {
@@ -29,7 +30,6 @@ const Cart = () => {
     contextValue,
     "userToken"
   );
-  console.log(data, "data", isError);
 
   
 
@@ -54,7 +54,7 @@ const Cart = () => {
               <MySpinner />
             ) : (
               <>
-                {data?.data?.length == 0 ? (
+                {data?.data?.length == 0 || data.code == 400 ? (
                   <img
                     src="https://mir-s3-cdn-cf.behance.net/projects/404/95974e121862329.Y3JvcCw5MjIsNzIxLDAsMTM5.png"
                     alt="image"
