@@ -1,8 +1,8 @@
 import useFetch from "../../_hooks/useFetch";
-import UpdateProduct from "./components/UpdateProduct";
 import AddProduct from "./components/AddProduct";
 import { ProductInfo } from "../../d";
 import MySpinner from "../../_components/MySpinner";
+import UpdateProduct from "../../_components/Products/UpdateProduct";
 
 const VendorHome = () => {
   const { data, isLoading, isError, refetch } = useFetch(
@@ -62,7 +62,7 @@ const VendorHome = () => {
             <div className="details">details: {el.details} </div>
 
             {/* update */}
-            <UpdateProduct product={el} refetch={refetch} />
+            <UpdateProduct token="vendorToken" product={el} refetch={refetch} />
           </div>
         ))}
       </div>

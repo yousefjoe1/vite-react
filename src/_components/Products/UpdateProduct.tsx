@@ -4,26 +4,26 @@ import { Button, Modal } from "antd";
 
 import { Input, Text } from "@chakra-ui/react";
 import axios from "axios";
-import { baseUrl } from "../../../_functions/getData";
-import { ProductInfo } from "../../../d";
-import useMsg from "../../../_hooks/useMsg";
-import MySpinner from "../../../_components/MySpinner";
-import Selections from "./Selections";
-import {
-  allCategories,
-  allDress,
+import { ProductInfo } from "../../d";
+import useMsg from "../../_hooks/useMsg";
+import { baseUrl } from "../../_functions/getData";
+import MySpinner from "../MySpinner";
+import Selections from "../Selections";
+import { allCategories ,  allDress,
   allSubCateg,
   allColors,
-  allSizes,
-} from "../../../_constants/AddProductsData";
-import MultiSelections from "./MultiSelections";
+  allSizes,} from "../../_constants/AddProductsData";
+import MultiSelections from "../MultiSelections";
+
 
 const UpdateProduct = ({
   product,
   refetch,
+  token = "vendorToken",
 }: {
   product: ProductInfo;
   refetch: Function;
+  token: string;
 }) => {
   console.log("🚀 ~ product:", product)
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,14 +32,13 @@ const UpdateProduct = ({
     setIsModalOpen(true);
   };
 
-
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
   const [isSubmit, setIsSubmit] = useState(false);
 
   let { msg } = useMsg();
+  const [show, setShow] = useState(product.show);
 
   const [name, setName] = useState(product.name);
   const [details, setdetails] = useState(product.details);
@@ -59,7 +58,7 @@ const UpdateProduct = ({
   const update = async () => {
     let h = {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("vendorToken")}`,
+        Authorization: `Bearer ${localStorage.getItem(token)}`,
       },
     };
     let d = {
@@ -73,10 +72,15 @@ const UpdateProduct = ({
       colors: colors,
       sizes: sizes,
       dress: dress,
-      // rate: rate,
+      show: show,
     };
+
     setIsSubmit(true);
-    let res = await axios.patch(`${baseUrl}/api/products/${product._id}`, d, h);
+    const url =
+      token == "vendorToken"
+        ? `products/${product._id}`
+        : `admin/products/${product._id}`;
+    let res = await axios.patch(`${baseUrl}/api/${url}`, d, h);
     setIsSubmit(false);
     if (res.data.code == 400) {
       msg(res.data.msg, "error");
@@ -249,6 +253,16 @@ const UpdateProduct = ({
                 value={details}
                 onChange={(e) => setdetails(e.target.value)}
               />
+              
+              {token == "adminToken" && (
+                <Button
+                  onClick={() =>
+                    show == false ? setShow(true) : setShow(false)
+                  }
+                >
+                  {show ? "Hide" : "Show"}
+                </Button>
+              )}
         </Modal>
       </>
     </div>
