@@ -1,23 +1,22 @@
 import { useState } from "react";
 
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  useDisclosure,
-  Input,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Modal } from "antd";
+
+import { Input, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { baseUrl } from "../../../_functions/getData";
 import { ProductInfo } from "../../../d";
 import useMsg from "../../../_hooks/useMsg";
 import MySpinner from "../../../_components/MySpinner";
+import Selections from "./Selections";
+import {
+  allCategories,
+  allDress,
+  allSubCateg,
+  allColors,
+  allSizes,
+} from "../../../_constants/AddProductsData";
+import MultiSelections from "./MultiSelections";
 
 const UpdateProduct = ({
   product,
@@ -26,10 +25,22 @@ const UpdateProduct = ({
   product: ProductInfo;
   refetch: Function;
 }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const [isSubmit, setIsSubmit] = useState(false);
 
-  let {msg} = useMsg()
+  let { msg } = useMsg();
 
   const [name, setName] = useState(product.name);
   const [details, setdetails] = useState(product.details);
@@ -74,12 +85,12 @@ const UpdateProduct = ({
       dress: dress,
       rate: rate,
     };
-    setIsSubmit(true)
+    setIsSubmit(true);
     let res = await axios.patch(`${baseUrl}/api/products/${product._id}`, d, h);
-    setIsSubmit(false)
-    if(res.data.code == 400){
+    setIsSubmit(false);
+    if (res.data.code == 400) {
       msg(res.data.msg, "error");
-    }else{
+    } else {
       msg(res.data.msg);
     }
     console.log(res);
@@ -124,16 +135,30 @@ const UpdateProduct = ({
   return (
     <div>
       <>
-        <Button color={"green"} bg={"silver"} onClick={onOpen}>
-          update
+        <Button type="primary" onClick={showModal}>
+          Open Modal
         </Button>
-
-        <Modal isOpen={isOpen} onClose={onClose} size={"3xl"}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Update</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
+        <Modal
+        footer={[
+          <Button
+          // _hover={''}
+          // variant={`outline`}
+            className={`${isSubmit ?`bg-green-200/45`: `bg-green-500 text-white`}`}
+            // mr={3}
+            disabled={isSubmit}
+            onClick={update}
+          >
+            update
+            {isSubmit && <MySpinner s="sm" />}
+          </Button>
+        ]}
+          title="Basic Modal"
+          open={isModalOpen}
+          // onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <div className="grid lg:grid-cols-4 grid-cols-2 gap-5">
+            <div>
               <Text mb="2px">name</Text>
               <Input
                 mb={3}
@@ -141,7 +166,9 @@ const UpdateProduct = ({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
+            </div>
 
+            <div>
               <Text mb="2px">price</Text>
               <Input
                 mb={3}
@@ -149,7 +176,9 @@ const UpdateProduct = ({
                 value={price}
                 onChange={(e) => handlePriceChange(e.target.value)}
               />
+            </div>
 
+            <div>
               <Text mb="2px">Rate</Text>
               <Input
                 mb={3}
@@ -157,7 +186,9 @@ const UpdateProduct = ({
                 value={rate}
                 onChange={(e) => setRate(e.target.value)}
               />
+            </div>
 
+            <div>
               <Text mb="2px">discount</Text>
               <Input
                 mb={3}
@@ -165,79 +196,71 @@ const UpdateProduct = ({
                 value={discount}
                 onChange={(e) => setDiscount(e.target.value)}
               />
+            </div>
+          </div>
 
+          <div className="grid gap-5 grid-cols-3 relative">
+            <div>
               <Text mb="2px">category</Text>
-              <Input
-                mb={3}
-                type="text"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+              <Selections
+                firstValue={category}
+                values={allCategories}
+                assignValue={(e: string) => setCategory(e)}
               />
-
-              <Text mb="2px">dress</Text>
-              <Input
-                mb={3}
-                type="text"
-                value={dress}
-                onChange={(e) => setDress(e.target.value)}
+            </div>
+            <div>
+              <Text mb="2px">dress style</Text>
+              <Selections
+                firstValue={dress}
+                values={allDress}
+                assignValue={(e: string) => setDress(e)}
               />
+            </div>
 
+            <div>
               <Text mb="2px">sub category</Text>
-              <Input
-                mb={3}
-                type="text"
-                value={sub_category}
-                onChange={(e) => setSub_category(e.target.value)}
+              <Selections
+                firstValue={sub_category}
+                values={allSubCateg}
+                assignValue={(e: string) => setSub_category(e)}
               />
+            </div>
 
-              <Text mb="2px">details</Text>
+            <div>
+              <Text mb="2px">Colors</Text>
+              <MultiSelections
+                values={allColors}
+                assignValue={(v: string[]) => setColors(v)}
+              />
+            </div>
+
+            <div>
+              <Text mb="2px">Sizes</Text>
+              <MultiSelections
+                values={allSizes}
+                assignValue={(v: string[]) => setSizes(v)}
+              />
+            </div>
+          </div>
+        </Modal>
+        {/* <Button color={"green"} bg={"silver"} onClick={onOpen}>
+          update
+        </Button> */}
+        {/* 
+        <Modal isOpen={isOpen} onClose={onClose} size={"3xl"}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Update</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody> */}
+
+        {/* <Text mb="2px">details</Text>
               <Input
                 mb={3}
                 type="text"
                 value={details}
                 onChange={(e) => setdetails(e.target.value)}
               />
-
-              <Text mb="2px">colors</Text>
-              <div className="flex justify-between gap-5">
-                <Input
-                  type="text"
-                  value={colors[0]}
-                  onChange={(e) => handleColorChange(0, e)}
-                />
-                <Input
-                  type="text"
-                  value={colors[1]}
-                  onChange={(e) => handleColorChange(1, e)}
-                />
-                <Input
-                  type="text"
-                  value={colors[2]}
-                  onChange={(e) => handleColorChange(2, e)}
-                />
-              </div>
-
-              <Text my="2px">sizes</Text>
-              <div className="flex justify-between gap-5">
-                <Input
-                  disabled
-                  type="text"
-                  value={sizes[0]}
-                  onChange={(e) => {}}
-                />
-                <Input
-                  disabled
-                  type="text"
-                  value={sizes[1]}
-                  onChange={(e) => {}}
-                />
-                <Input
-                  disabled
-                  type="text"
-                  value={sizes[2]}
-                  onChange={(e) => {}}
-                />
-              </div>
 
               <Text my="2px">images</Text>
               <div className="flex flex-col gap-5">
@@ -256,10 +279,10 @@ const UpdateProduct = ({
                   value={images[2]}
                   onChange={(e) => handleImageChange(2, e)}
                 />
-              </div>
-            </ModalBody>
+              </div> */}
+        {/* </ModalBody> */}
 
-            <ModalFooter>
+        {/* <ModalFooter>
               <Button colorScheme="blue" mr={3} onClick={onClose}>
                 Close
               </Button>
@@ -267,7 +290,6 @@ const UpdateProduct = ({
               _hover={''}
               variant={`outline`}
                 className={`${isSubmit ?`bg-green-200/45`: `bg-green-500 text-white`}`}
-                // colorScheme="green"
                 mr={3}
                 disabled={isSubmit}
                 onClick={update}
@@ -275,9 +297,9 @@ const UpdateProduct = ({
                 update
                 {isSubmit && <MySpinner s="sm" />}
               </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+            </ModalFooter> */}
+        {/* </ModalContent>
+        </Modal> */}
       </>
     </div>
   );

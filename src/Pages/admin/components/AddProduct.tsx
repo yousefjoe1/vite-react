@@ -6,25 +6,7 @@ import { baseUrl } from "../../../_functions/getData";
 import Selections from "./Selections";
 import MultiSelections from "./MultiSelections";
 import MySpinner from "../../../_components/MySpinner";
-
-let allDress = ["casual", "formal", "party", "gym"];
-let allSubCateg = ["men", "women", "shoes", "accessories"];
-let allCategories = ["t-shirts", "shorts", "shirts", "hoodie", "jeans"];
-const allColors = [
-  { label: 'Black', value: 'black' },
-  { label: 'Gray', value: 'gray' },
-  { label: 'White', value: 'white' },
-  { label: 'Green', value: 'green' },
-  { label: 'Blue', value: 'blue' },
-  { label: 'Olive', value: 'olive' },
-  { label: 'Navy', value: 'navy' },
-]
-const allSizes = [
-  { label: 'Small', value: 'small' },
-  { label: 'Medium', value: 'medium' },
-  { label: 'Large', value: 'large' },
-  { label: 'X-Large', value: 'x-large' },
-];
+import { allCategories, allColors, allDress, allSizes, allSubCateg } from "../../../_constants/AddProductsData";
 
 const AddProduct = ({ refetch }: { refetch: Function }) => {
   let msg = useToast();

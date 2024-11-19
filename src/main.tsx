@@ -21,15 +21,9 @@ import MainLayout from "./_layouts/MainLayout/MainLayout";
 import VendorHome from "./Pages/Vendor/VendorHome";
 import { adminRoutes } from "./_routes/AdminRoutes";
 import AdminLayout from "./_layouts/AdminLayout/AdminLayout";
-// import ProductPage from ;
 
-// const Vendor = lazy(() => import("./Pages/vendor/VendorLayo"));
-
-// import { useRegisterSW } from 'virtual:pwa-register/react'
-// import type { RegisterSWOptions } from 'vite-plugin-pwa/types'
-//   export type { RegisterSWOptions }
-// import { registerSW  } from 'virtual:pwa-register'
-// useRegisterSW({ immediate: true })
+import { registerSW  } from 'virtual:pwa-register'
+registerSW({ immediate: true })
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([

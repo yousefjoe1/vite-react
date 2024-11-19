@@ -22,7 +22,7 @@ import MySpinner from "../../../_components/MySpinner";
 const UpdateProduct = ({
   product,
   refetch,
-  token ='vendorToken'
+  token = "vendorToken",
 }: {
   product: ProductInfo;
   refetch: Function;
@@ -31,7 +31,7 @@ const UpdateProduct = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isSubmit, setIsSubmit] = useState(false);
 
-  let {msg} = useMsg()
+  let { msg } = useMsg();
 
   const [show, setShow] = useState(product.show);
   const [name, setName] = useState(product.name);
@@ -76,16 +76,19 @@ const UpdateProduct = ({
       sizes: sizes,
       dress: dress,
       rate: rate,
-      show: show
+      show: show,
     };
 
-    setIsSubmit(true)
-    const url = token == 'vendorToken' ? `products/${product._id}` : `admin/products/${product._id}`
+    setIsSubmit(true);
+    const url =
+      token == "vendorToken"
+        ? `products/${product._id}`
+        : `admin/products/${product._id}`;
     let res = await axios.patch(`${baseUrl}/api/${url}`, d, h);
-    setIsSubmit(false)
-    if(res.data.code == 400){
+    setIsSubmit(false);
+    if (res.data.code == 400) {
       msg(res.data.msg, "error");
-    }else{
+    } else {
       msg(res.data.msg);
     }
     console.log(res);
@@ -140,37 +143,47 @@ const UpdateProduct = ({
             <ModalHeader>Update</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <Text mb="2px">name</Text>
-              <Input
-                mb={3}
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <div className="grid grid-cols-4">
+                <div>
+                  <Text mb="2px">name</Text>
+                  <Input
+                    mb={3}
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
 
-              <Text mb="2px">price</Text>
-              <Input
-                mb={3}
-                type="number"
-                value={price}
-                onChange={(e) => handlePriceChange(e.target.value)}
-              />
+                <div>
+                  <Text mb="2px">price</Text>
+                  <Input
+                    mb={3}
+                    type="number"
+                    value={price}
+                    onChange={(e) => handlePriceChange(e.target.value)}
+                  />
+                </div>
 
-              <Text mb="2px">Rate</Text>
-              <Input
-                mb={3}
-                type="number"
-                value={rate}
-                onChange={(e) => setRate(e.target.value)}
-              />
+                <div>
+                  <Text mb="2px">Rate</Text>
+                  <Input
+                    mb={3}
+                    type="number"
+                    value={rate}
+                    onChange={(e) => setRate(e.target.value)}
+                  />
+                </div>
 
-              <Text mb="2px">discount</Text>
-              <Input
-                mb={3}
-                type="number"
-                value={discount}
-                onChange={(e) => setDiscount(e.target.value)}
-              />
+                <div>
+                  <Text mb="2px">discount</Text>
+                  <Input
+                    mb={3}
+                    type="number"
+                    value={discount}
+                    onChange={(e) => setDiscount(e.target.value)}
+                  />
+                </div>
+              </div>
 
               <Text mb="2px">category</Text>
               <Input
@@ -264,17 +277,17 @@ const UpdateProduct = ({
                 />
               </div>
 
-              {
-                token == 'adminToken' && 
+              {token == "adminToken" && (
                 <Button
                   mr={3}
                   mt={3}
-                  onClick={()=> show == false ? setShow(true):setShow(false)}
+                  onClick={() =>
+                    show == false ? setShow(true) : setShow(false)
+                  }
                 >
-                  {show ? 'Hide': 'Show'}
+                  {show ? "Hide" : "Show"}
                 </Button>
-              }
-
+              )}
             </ModalBody>
 
             <ModalFooter>
@@ -282,9 +295,11 @@ const UpdateProduct = ({
                 Close
               </Button>
               <Button
-              _hover={''}
-              variant={`outline`}
-                className={`${isSubmit ?`bg-green-200/45`: `bg-green-500 text-white`}`}
+                _hover={""}
+                variant={`outline`}
+                className={`${
+                  isSubmit ? `bg-green-200/45` : `bg-green-500 text-white`
+                }`}
                 // colorScheme="green"
                 mr={3}
                 disabled={isSubmit}
