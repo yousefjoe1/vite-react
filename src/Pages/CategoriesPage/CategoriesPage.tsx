@@ -27,6 +27,7 @@ import ContainerUp from "../../_components/ContainerUp";
 
 import { ProductItem } from "../../d";
 import MySpinner from "../../_components/MySpinner";
+import ProductsSkeleton from "../../_components/ProductsSkeleton";
 
 const CategoriesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -128,7 +129,7 @@ const CategoriesPage = () => {
         )}
 
         {isError || isLoading ? (
-          <MySpinner />
+          <ProductsSkeleton />
         ) : (
           <div className="products w-full">
             <h3 className="flex mb-10 gap-3 items-center lg:justify-between">
