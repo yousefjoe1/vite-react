@@ -26,6 +26,7 @@ import { faqs, sizes } from "../CategoriesPage/categoriesData";
 import { ReviewData } from "../../d";
 import ProductsSection from "../Home/Components/ProductsSection";
 import MySpinner from "../../_components/MySpinner";
+import { Skeleton } from "antd";
 
 interface Product {
   colors: string[]; // Array of color strings
@@ -206,7 +207,12 @@ const ProductPage = () => {
           </Link>
         </div>
         {isError || isLoading ? (
-          <MySpinner />
+          // <MySpinner />
+          <>
+<Skeleton avatar paragraph={{ rows: 4 }} />
+<Skeleton avatar paragraph={{ rows: 4 }} />
+<Skeleton avatar paragraph={{ rows: 4 }} />
+          </>
         ) : (
 
         <div className="flex flex-col lg:flex-row -mx-4">
