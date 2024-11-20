@@ -189,7 +189,7 @@ const ProductPage = () => {
       )}
 
       <main className="container mx-auto px-4 py-8">
-        <div className="text-sm breadcrumbs mb-4">
+        {/* <div className="text-sm breadcrumbs mb-4">
           <Link to={`/`} className="hover:underline">
             Home
           </Link>{" "}
@@ -205,7 +205,7 @@ const ProductPage = () => {
           <Link to="/shop/men/t-shirts" className="hover:underline">
             T-shirts
           </Link>
-        </div>
+        </div> */}
         {isError || isLoading ? (
           // <MySpinner />
           <>

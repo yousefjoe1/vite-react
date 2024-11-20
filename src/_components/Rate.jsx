@@ -20,9 +20,9 @@ const Rate = ({ rate, size = "md", className = "" }) => {
     >
       {Array.from({ length: 5 }).map((_, index) => {
         if (index + 1 <= rate) {
-          return <FaStar key={index} size={iconSize} />;
+          return <FaStar color="orange" key={index} size={iconSize} />;
         } else if (index + 1 - rate <= 0.5) {
-          return <FaStarHalfAlt key={index} size={iconSize}  />;
+          return <FaStarHalfAlt color="orange" key={index} size={iconSize}  />;
         } else {
           return <FaRegStar key={index} size={iconSize} />;
         }

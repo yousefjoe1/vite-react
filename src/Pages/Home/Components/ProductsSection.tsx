@@ -1,7 +1,6 @@
 import useFetch from "../../../_hooks/useFetch";
 import Product from "../../../_components/Cards/Product";
 import { Button } from "@chakra-ui/react";
-import MySpinner from "../../../_components/MainLayout/MySpinner";
 import { ProductItem } from "../../../d";
 import { Link } from "react-router-dom";
 import ProductsSkeleton from "../../../_components/ProductsSkeleton";
