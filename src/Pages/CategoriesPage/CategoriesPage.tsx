@@ -134,7 +134,7 @@ const CategoriesPage = () => {
           <div className="products w-full">
             <h3 className="flex mb-10 gap-3 items-center lg:justify-between">
               <span className="lg:text-2xl text-lg font-bold">{dress}</span>
-              <span className="text-sm">Showing 1-10 of 100 Products</span>
+              {/* <span className="text-sm">Showing 1-10 of 100 Products</span> */}
             </h3>
 
             {data?.data?.length == 0 ? (
