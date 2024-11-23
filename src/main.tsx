@@ -25,6 +25,9 @@ import AdminLayout from "./_layouts/AdminLayout/AdminLayout";
 import { registerSW  } from 'virtual:pwa-register'
 registerSW({ immediate: true })
 
+console.log('build');
+
+
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
